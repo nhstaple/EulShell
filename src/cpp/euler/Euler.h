@@ -20,8 +20,15 @@ public:
     virtual void name()=0;
     // Prints the description of the problem.
     virtual void description()=0;
+    // Prints the help for the problem.
+    virtual void help()=0;
+
+    Euler* operator*() { return this; }
+
     // Public interface to access. To be used in the Parser, ie (input interface) == this->interface ?
     EulerInterface interface;
+    // Commands used for the Parser.
+    std::vector<std::string> commands;
 };
 
 #endif

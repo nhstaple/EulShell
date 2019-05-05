@@ -31,6 +31,7 @@ using namespace std;
 e001::e001(EulerInterface e)
 {
     this->interface = e;
+    this->commands.push_back("help");
 }
 
 void e001::name()
@@ -44,6 +45,11 @@ void e001::description()
     cout << "*  If we list all the natural numbers below 10 that are \n";
     cout << "*   multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.\n";
     cout << "*   Find the sum of all the multiples of 3 or 5 below 1000.\n";
+}
+
+void e001::help()
+{
+    cout << "* No help available.\n\n";
 }
 
 void e001::run()

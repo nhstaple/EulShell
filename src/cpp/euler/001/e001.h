@@ -18,6 +18,7 @@ public:
     void run() override;
     virtual void name() override;
     virtual void description() override;
+    virtual void help() override;
 };
 
 #endif
