@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Typedata.h"
+#include "../Utility/Typedata.h"
 
 class DataItem {
 public:
@@ -18,6 +18,7 @@ public:
     void set (bool b) { type = type_name<decltype(b)>(); data = new bool(b); }
     void set(std::string str) { type = type_name<decltype(str)>(); data = new std::string(str); }
     void* get() { return data; }
+    void* get() const { return data; }
 
     std::string type;
 

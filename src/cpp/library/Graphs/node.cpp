@@ -1,5 +1,5 @@
 #include "node.h"
-#include "Typedata.h"
+#include "../Utility/Typedata.h"
 #include <iostream>
 
 using std::cout;
