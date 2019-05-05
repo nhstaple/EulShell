@@ -38,15 +38,24 @@
     0
 */
 
+/*
+ * Interface Atom Object
+ *
+ * The granular elemement of the Interface object. Includes 3 DataItems,
+ * data, min, and max.
+*/
 class InterfaceAtom {
 public:
+    friend class EulerInterface;
+
+    InterfaceAtom()                 {}
     InterfaceAtom(DataItem d)
         : data(d)                   {}
-    InterfaceAtom();
     InterfaceAtom(DataItem d, DataItem mi, DataItem ma)
         : data(d), min(mi), max(ma) {}
 
-    void operator=(const InterfaceAtom& a) { this->data = a.data; this->min = a.min; this->max; a.max; }
+    void operator=(const InterfaceAtom& a)  { this->data = a.data; this->min = a.min; this->max = a.max; }
+    void operator=(InterfaceAtom& a)        { this->data = a.data; this->min = a.min; this->max = a.max; }
 
     DataItem data;
     DataItem min;
@@ -57,17 +66,17 @@ class EulerInterface
 {
 public:
     EulerInterface(std::vector<InterfaceAtom> v);
-    EulerInterface() {}
+    EulerInterface()                            {                   }
 
     void set(std::vector<DataItem> v);
-    std::vector<DataItem> getValues() { return value; }
+    std::vector<DataItem> getValues()           { return value;     }
 
-    std::vector<InterfaceAtom> getInterface() { return interface; }
+    std::vector<InterfaceAtom> getInterface()   { return interface; }
 
     bool operator==(EulerInterface& w);
     void operator=(EulerInterface& w);
     void operator=(const EulerInterface& w);
-    EulerInterface* operator*() { return this; }
+    EulerInterface* operator*()                 { return this;      }
 
 private:
     std::vector<InterfaceAtom>  interface;

@@ -1,4 +1,6 @@
 #include "./e001.h"
+#include <iostream>
+using namespace std;
 
 /*
  * Sample code:
@@ -25,9 +27,6 @@
     * ...
     * -> <solution>
 */
-
-#include <iostream>
-using namespace std;
 
 e001::e001(EulerInterface e)
 {
