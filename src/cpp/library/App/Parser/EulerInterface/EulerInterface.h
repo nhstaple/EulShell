@@ -1,7 +1,7 @@
 #ifndef EULERINTERFACE_H
 #define EULERINTERFACE_H
 
-#include "../../../Graphs/node.h"
+#include "../../../Graphs/Node.h"
 #include "../../../Utility/Typedata.h"
 
 #include <vector>
@@ -27,10 +27,9 @@
     for(InterfaceAtom boop : face) {
         data.push_back(boop.data);
     }
-    ei1.set(data);
-
     face.push_back(a1);
-    EulerInterface ei3(face);
+    EulerInterface ei3();
+    ei3.set(data);
 
     cout << (ei1 == ei2) << endl;
     cout << (ei1 == ei3) << endl;
@@ -41,11 +40,14 @@
 
 class InterfaceAtom {
 public:
-    InterfaceAtom(DataItem d) : data(d) {}
+    InterfaceAtom(DataItem d)
+        : data(d)                   {}
     InterfaceAtom();
-    InterfaceAtom(DataItem d, DataItem mi, DataItem ma) : data(d), min(mi), max(ma) {}
+    InterfaceAtom(DataItem d, DataItem mi, DataItem ma)
+        : data(d), min(mi), max(ma) {}
 
     void operator=(const InterfaceAtom& a) { this->data = a.data; this->min = a.min; this->max; a.max; }
+
     DataItem data;
     DataItem min;
     DataItem max;
@@ -58,12 +60,18 @@ public:
     EulerInterface() {}
 
     void set(std::vector<DataItem> v);
+    std::vector<DataItem> getValues() { return value; }
+
+    std::vector<InterfaceAtom> getInterface() { return interface; }
 
     bool operator==(EulerInterface& w);
+    void operator=(EulerInterface& w);
+    void operator=(const EulerInterface& w);
+    EulerInterface* operator*() { return this; }
 
 private:
-    std::vector<InterfaceAtom> interface;
-    std::vector<DataItem> value;
+    std::vector<InterfaceAtom>  interface;
+    std::vector<DataItem>       value;
 };
 
 #endif // EULERINTERFACE_H

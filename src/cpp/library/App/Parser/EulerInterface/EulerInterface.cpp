@@ -8,6 +8,7 @@ EulerInterface::EulerInterface(std::vector<InterfaceAtom> v)
 {
     for(InterfaceAtom e : v) {
         this->interface.push_back(e);
+        // this->value.push_back(e.data);
     }
 }
 
@@ -31,7 +32,7 @@ bool EulerInterface::operator==(EulerInterface& w) {
 
     // Check if the types are correct.
     for(int i = 0; i < this->interface.size(); i++) {
-        if(this->interface[i].data.type != w.interface[i].data.type) {
+        if(this->interface[i].data.getType() != w.interface[i].data.getType()) {
             return false;
         }
     }
@@ -41,33 +42,33 @@ bool EulerInterface::operator==(EulerInterface& w) {
         // Loop over all of the contents.
         for(int i = 0; i < this->value.size(); i++) {
             // Check each type and it's bounds against
-            if(this->value[i].type == "int") {
+            if(this->value[i].getType() == "int") {
                 int data = *static_cast<int*>(this->value[i].get());
-                if(this->interface[i].min.type != "null" && this->interface[i].max.type != "null") {
+                if(this->interface[i].min.getType() != "null" && this->interface[i].max.getType() != "null") {
                     int min = *static_cast<int*>(w.interface[i].min.get());
                     int max = *static_cast<int*>(w.interface[i].max.get());
                     if(data > max || data < min)
                         return false;
                 }
-            } else if(this->value[i].type == "float") {
+            } else if(this->value[i].getType() == "float") {
                 float data = *static_cast<float*>(this->value[i].get());
-                if(this->interface[i].min.type != "null" && this->interface[i].max.type != "null") {
+                if(this->interface[i].min.getType() != "null" && this->interface[i].max.getType() != "null") {
                     float min = *static_cast<float*>(w.interface[i].min.get());
                     float max = *static_cast<float*>(w.interface[i].max.get());
                     if(data > max || data < min)
                         return false;
                 }
-            } else if(this->value[i].type == "bool") {
+            } else if(this->value[i].getType() == "bool") {
                 bool data = *static_cast<bool*>(this->value[i].get());
-                if(this->interface[i].min.type != "null" && this->interface[i].max.type != "null") {
+                if(this->interface[i].min.getType() != "null" && this->interface[i].max.getType() != "null") {
                     bool min = *static_cast<bool*>(w.interface[i].min.get());
                     bool max = *static_cast<bool*>(w.interface[i].max.get());
                     if(data > max || data < min)
                         return false;
                 }
-            } else if(this->value[i].type == "std::string") {
+            } else if(this->value[i].getType() == "std::string") {
                 int data = (*static_cast<string*>(this->value[i].get())).length();
-                if(this->interface[i].min.type != "null" && this->interface[i].max.type != "null") {
+                if(this->interface[i].min.getType() != "null" && this->interface[i].max.getType() != "null") {
                     int min = (*static_cast<string*>(w.interface[i].min.get())).length();
                     int max = (*static_cast<string*>(w.interface[i].max.get())).length();
                     if(data > max || data < min)
@@ -77,4 +78,22 @@ bool EulerInterface::operator==(EulerInterface& w) {
         }
     }
     return true;
+}
+
+void EulerInterface::operator=(EulerInterface &w)
+{
+    this->interface.clear();
+    this->value = w.value;
+    for(InterfaceAtom a : w.interface) {
+        this->interface.push_back(a);
+    }
+}
+
+void EulerInterface::operator=(const EulerInterface &w)
+{
+    this->interface.clear();
+    this->value = w.value;
+    for(InterfaceAtom a : w.interface) {
+        this->interface.push_back(a);
+    }
 }
