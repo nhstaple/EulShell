@@ -22,17 +22,11 @@ public:
 
     std::string type;
 
-    void operator = (const DataItem &D ) {
-        this->data = D.data;
-        this->type = D.type;
-    }
+    void operator = (const DataItem &D );
 
-    void operator = (DataItem &D ) {
-        this->data = D.data;
-        this->type = D.type;
-    }
+    void operator = (DataItem &D );
 
-private:
+// private:
     void* data = nullptr;
 };
 

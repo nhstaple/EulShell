@@ -45,8 +45,7 @@ public:
     InterfaceAtom();
     InterfaceAtom(DataItem d, DataItem mi, DataItem ma) : data(d), min(mi), max(ma) {}
 
-    void operator=(const InterfaceAtom& a) { this->data = a.data; this->min = a.min; this->max; a.max;
-                                           }
+    void operator=(const InterfaceAtom& a) { this->data = a.data; this->min = a.min; this->max; a.max; }
     DataItem data;
     DataItem min;
     DataItem max;
