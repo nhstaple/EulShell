@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef _EULER_H_
 #define _EULER_H_
 
@@ -13,9 +11,16 @@
  *
 */
 
+#include <iostream>
+#include <string>
+#include <vector>
+
+using std::string;
+using std::vector;
+
 class Euler {
 public:
-    Euler() {}
+    Euler() { }
     // Performs the calcuation.
     void run(EulerInterface &i) {}
     // Prints the name of the problem.
@@ -30,7 +35,7 @@ public:
     // Public interface to access. To be used in the Parser, ie (input interface) == this->interface ?
     EulerInterface interface;
     // Commands used for the Parser.
-    std::vector<std::string> commands;
+    vector<string> commands;
 };
 
 #endif

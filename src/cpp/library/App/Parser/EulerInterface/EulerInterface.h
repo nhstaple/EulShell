@@ -1,7 +1,5 @@
-#pragma once
 // library/App/Parser/EulerInterface/EulerInterface.h
-#ifndef _EULERINTERFACE_H
-#define _EULERINTERFACE_H
+#pragma once
 
 #include "../../../Graphs/Node.h"
 #include "../../../Utility/Typedata.h"
@@ -57,6 +55,3 @@ private:
     vector<InterfaceAtom>  interface;
 };
 
-// typedef EulerInterface Input;
-
-#endif // EULERINTERFACE_H

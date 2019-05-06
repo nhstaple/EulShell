@@ -97,7 +97,7 @@ void e001::help()
     cout << "\n*\n";
 }
 
-void e001::run(Input &input)
+void e001::run(EulerInterface &input)
 {
     // Print meta data.
     name();

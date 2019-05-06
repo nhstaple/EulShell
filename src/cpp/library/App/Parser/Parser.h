@@ -1,32 +1,12 @@
-#pragma once
 #ifndef _PARSER_H_
 #define _PARSER_H_
 
 #include "../../../euler/Euler.h"
 #include "../AppObject.h"
+#include "./ParserObject.h"
 #include <vector>
 #include <array>
 #include <map>
-
-#define NUM_VALID_COMMANDS 9
-
-class Command {
-public:
-    Command() {}
-    Command(std::string str) : cmd(str) {}
-    std::string cmd;
-    std::string description;
-    std::vector<std::string> alts;
-};
-
-class ParsedCommand {
-public:
-    ParsedCommand() {}
-
-    std::string command;
-    Euler* problem = nullptr;
-    EulerInterface input;
-};
 
 class Parser {
 public:

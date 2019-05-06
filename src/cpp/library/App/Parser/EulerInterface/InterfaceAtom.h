@@ -10,7 +10,7 @@
 */
 
 #include "../../../Graphs/DataItem.h"
-#include "../../../../euler/Euler.h"
+// #include "../../../../euler/Euler.h"
 
 class InterfaceAtom {
 public:
@@ -24,9 +24,9 @@ public:
     void operator=(const InterfaceAtom& a)  { this->data = a.data; this->min = a.min; this->max = a.max; }
     void operator=(InterfaceAtom& a)        { this->data = a.data; this->min = a.min; this->max = a.max; }
 
-    friend class EulerInterface;
+    // friend class EulerInterface;
     // friend void  Euler::run(Input &i);
-protected:
+// protected:
     DataItem data;
     DataItem min;
     DataItem max;
