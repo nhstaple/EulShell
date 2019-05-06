@@ -1,8 +1,6 @@
 #ifndef _EULER_H_
 #define _EULER_H_
-
-#include "../library/App/Parser/EulerInterface/EulerInterface.h"
-
+// euler/Euler.h
 /*
  * Euler Abstract Class
  *
@@ -10,6 +8,7 @@
  * all Euler Problems as a command with the interface being it's input method.
  *
 */
+#include "../library/App/Parser/EulerInterface/EulerInterface.h"
 
 #include <iostream>
 #include <string>

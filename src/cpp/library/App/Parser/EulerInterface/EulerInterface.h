@@ -1,14 +1,8 @@
-// library/App/Parser/EulerInterface/EulerInterface.h
-#pragma once
-
-#include "../../../Graphs/Node.h"
-#include "../../../Utility/Typedata.h"
-#include "./InterfaceAtom.h"
-
-#include <vector>
-#include <iostream>
+#ifndef _EULER_INTERFACE_H_
+#define _EULER_INTERFACE_H_
 
 /*
+ * library/App/Parser/EulerInterface/EulerInterface.h
  * Euler Interface Object
  *
  * An interface in this context is used to link between the parser
@@ -29,6 +23,13 @@
  * If this value is within the min and max of the euler problem's interface then the solution is executed with those parameters.
  * Otherwise the default values of the euler problem's interface are used.
 */
+#include "../../../Graphs/Node.h"
+#include "../../../Utility/Typedata.h"
+#include "./InterfaceAtom.h"
+
+#include <vector>
+#include <iostream>
+
 using std::string;
 using std::vector;
 using std::cout;
@@ -56,3 +57,4 @@ private:
     vector<InterfaceAtom>  interface;
 };
 
+#endif

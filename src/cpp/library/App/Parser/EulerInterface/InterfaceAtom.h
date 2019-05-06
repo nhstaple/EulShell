@@ -1,8 +1,8 @@
-#pragma once
-// library/App/Parser/EulerInterface/InterfaceAtom.h
 #ifndef _INTERFACE_ATOM_H_
 #define _INTERFACE_ATOM_H_
+
 /*
+ * library/App/Parser/EulerInterface/InterfaceAtom.h
  * Interface Atom Object
  *
  * The granular elemement of the Interface object.

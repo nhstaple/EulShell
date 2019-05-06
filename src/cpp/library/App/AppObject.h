@@ -1,4 +1,3 @@
-#pragma once
 #ifndef APPOBJECT_H
 #define APPOBJECT_H
 

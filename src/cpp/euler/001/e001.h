@@ -1,6 +1,8 @@
 #ifndef _E_001_H_
 #define _E_001_H_
+
 /*
+ * euler/001/e001.h
  * Euler #1 - Multiples 3 and 5
  *
  * Interface:
