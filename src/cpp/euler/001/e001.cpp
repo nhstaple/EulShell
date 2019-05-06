@@ -2,36 +2,9 @@
 #include <iostream>
 using namespace std;
 
-/*
- * Sample code:
-    InterfaceAtom a1(3), a2(5), a3(10), a4(1000);
-    vector<InterfaceAtom> face;
-    vector<DataItem> newData;
-
-    face.push_back(a1);
-    face.push_back(a2);
-    face.push_back(a3);
-    newData.push_back(a1.data);
-    newData.push_back(a2.data);
-    newData.push_back(a4.data);
-
-    EulerInterface ei1(face);
-    e001 euler1(ei1);
-    euler1.run();
-    euler1.interface.set(newData);
-    euler1.run();
- * Expected output:
-    * ...
-    * -> 23
-
-    * ...
-    * -> <solution>
-*/
-
 e001::e001(EulerInterface e)
 {
     this->interface = e;
-    this->commands.push_back("help");
 }
 
 void e001::name()
@@ -97,7 +70,7 @@ void e001::help()
     cout << "\n*\n";
 }
 
-void e001::run(EulerInterface &input)
+void e001::run(Input &input)
 {
     // Print meta data.
     name();
@@ -115,7 +88,7 @@ void e001::run(EulerInterface &input)
 // ***
 
     // The user has provided valid data.
-    if(this->interface == input) {
+    if(this->interface == input && ENABLE) {
         // Set vars based off interface. See the header for me details.
         auto intrfc = input.getInterfaceCopy();
         int *ptr = intrfc[0].data.getInt();
@@ -132,8 +105,10 @@ void e001::run(EulerInterface &input)
 
     } else {
         // Else use the default input.
-        if(input.getInterfaceCopy().size() > 0)
-            cout << "> Error: bad input, using default values.\n";
+        if(input.getInterfaceCopy().size() > 0) {
+            cout << "> Error: bad input.\n";
+            input.print();
+        }
         auto intrfc = this->interface.getInterfaceCopy();
         int *ptr = intrfc[0].data.getInt();
         const1 = *ptr;

@@ -10,7 +10,6 @@
 */
 
 #include "../../../Graphs/DataItem.h"
-// #include "../../../../euler/Euler.h"
 
 class InterfaceAtom {
 public:

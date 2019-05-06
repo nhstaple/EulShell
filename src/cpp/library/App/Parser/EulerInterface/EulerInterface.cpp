@@ -21,6 +21,15 @@ void EulerInterface::set(std::vector<DataItem> &v)
     }
 }
 
+// The Interface's data is set on a function call.
+void EulerInterface::set(std::vector<InterfaceAtom> &v)
+{
+    this->interface.clear();
+    for(InterfaceAtom &a : v) {
+        this->interface.push_back(a);
+    }
+}
+
 // This will check the this Interface's size with the comparison. If they aren't equal, then
 // the interfaces aren't equal. False.
 // If the types of each InterfaceAtom arent's equal- false.
@@ -102,8 +111,9 @@ void EulerInterface::operator=(const EulerInterface &w)
 
 void EulerInterface::print()
 {
+    int i = 0;
     for(InterfaceAtom a : interface) {
-        cout << a.data.getType() << " -> ";
+        cout << ".  " << i << " " << a.data.getType() << " -> ";
         void *ptr = nullptr;
         if(ptr = a.data.getInt()) {
             cout << *static_cast<int*>(ptr) << endl;
@@ -115,5 +125,6 @@ void EulerInterface::print()
             cout << *static_cast<string*>(ptr) << endl;
         }
         if(ptr) { free(ptr); }
+        i++;
     }
 }

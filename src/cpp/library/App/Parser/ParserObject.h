@@ -3,6 +3,8 @@
 
 #include "./EulerInterface/EulerInterface.h"
 
+class Euler;
+
 class ParserObject
 {
 public:

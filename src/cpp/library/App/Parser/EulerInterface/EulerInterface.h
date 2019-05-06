@@ -40,6 +40,7 @@ public:
     EulerInterface(vector<InterfaceAtom> v);
     // Sets the interface.
     void set(vector<DataItem> &v);
+    void set(vector<InterfaceAtom> &v);
     // Returns a copy of the interface's list.
     std::vector<InterfaceAtom> getInterfaceCopy() { return interface; }
     // Overloaded operators.

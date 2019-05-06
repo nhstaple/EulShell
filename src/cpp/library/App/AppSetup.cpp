@@ -5,9 +5,6 @@
 
 using namespace std;
 
-// Used for initilizing interfaces.
-vector<InterfaceAtom> face;
-
 void App::Setup()
 {
     Setup001();
@@ -17,10 +14,10 @@ void App::Setup()
 // euler/001/e001.h
 void App::Setup001()
 {
-    face.clear();
-    face.push_back(InterfaceAtom(3, 0, 10));
-    face.push_back(InterfaceAtom(5, 0, 10));
-    face.push_back(InterfaceAtom(10, 10, 999));
-    e001* euler1 = new e001(EulerInterface(face));
+    this->dataList.clear();
+    this->dataList.push_back(InterfaceAtom(3, 0, 10));
+    this->dataList.push_back(InterfaceAtom(5, 0, 10));
+    this->dataList.push_back(InterfaceAtom(10, 10, 999));
+    e001* euler1 = new e001(EulerInterface(dataList));
     eulerDictionary["e001"] = euler1;
 }

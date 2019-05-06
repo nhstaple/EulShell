@@ -24,7 +24,10 @@ private:
 
     /** Euler Stuff **/
     std::map<std::string, Euler*> eulerDictionary;
+
     void Setup();
+    // Used for initilizing interfaces.
+    vector<InterfaceAtom> dataList;
     void Setup001();
 };
 
