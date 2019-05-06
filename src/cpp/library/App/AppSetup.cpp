@@ -18,9 +18,9 @@ void App::Setup()
 void App::Setup001()
 {
     face.clear();
-    face.push_back(InterfaceAtom(3));
-    face.push_back(InterfaceAtom(5));
-    face.push_back(InterfaceAtom(10));
+    face.push_back(InterfaceAtom(3, 0, 10));
+    face.push_back(InterfaceAtom(5, 0, 10));
+    face.push_back(InterfaceAtom(10, 10, 999));
     e001* euler1 = new e001(EulerInterface(face));
-    eulerDictionary["001"] = euler1;
+    eulerDictionary["e001"] = euler1;
 }

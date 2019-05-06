@@ -19,6 +19,9 @@
  *  d1 == d2   returns true if the data values are equal, or if both are null
  *  d1 = d2    copies d2 into d1
 */
+
+
+
 class DataItem {
 public:
     // Constructors.
@@ -26,7 +29,14 @@ public:
     DataItem(int i)             { set(i);   }
     DataItem(float f)           { set(f);   }
     DataItem(bool b)            { set(b);   }
-    DataItem(std::string str)   { set(str); }
+    DataItem(std::string str)
+    {
+        if(std::stoi(str))                  { set(std::stoi(str)); }
+        else if(std::stof(str))             { set(std::stof(str)); }
+        else if(str == "true" || str == "false" ||
+                  str == "t" || str == "f") { set(std::stof(str)); }
+        else                                { set(str);            }
+    }
 
     // set functions
     void set(int i)             { type = type_name<decltype(i)>();   data = new int(i);             }
@@ -37,6 +47,15 @@ public:
     void* get()                 { return data; }
     void* get() const           { return data; }
     std::string getType()       { return type; }
+
+    int*         getInt();
+    int*         getInt()    const;
+    float*       getFloat();
+    float*       getFloat()  const;
+    bool*        getBool();
+    bool*        getBool()   const;
+    std::string* getString();
+    std::string* getString() const;
 
     void operator=(const DataItem &D);
     void operator=(DataItem &D);

@@ -21,6 +21,78 @@
 #include <string>
 using std::string;
 
+int* DataItem::getInt()
+{
+    if(this->type == "int") {
+        int value = *static_cast<int*>(this->data);
+        return new int(value);
+    }
+    return nullptr;
+}
+
+float* DataItem::getFloat()
+{
+    if(this->type == "float") {
+        float value = *static_cast<float*>(this->data);
+        return new float(value);
+    }
+    return nullptr;
+}
+
+bool* DataItem::getBool()
+{
+    if(this->type == "bool") {
+        bool value = *static_cast<bool*>(this->data);
+        return new bool(value);
+    }
+    return nullptr;
+}
+
+string* DataItem::getString()
+{
+    if(this->type == "string") {
+        string value = *static_cast<string*>(this->data);
+        return new string(value);
+    }
+    return nullptr;
+}
+
+int* DataItem::getInt() const
+{
+    if(this->type == "int") {
+        int value = *static_cast<int*>(this->data);
+        return new int(value);
+    }
+    return nullptr;
+}
+
+float* DataItem::getFloat() const
+{
+    if(this->type == "float") {
+        float value = *static_cast<float*>(this->data);
+        return new float(value);
+    }
+    return nullptr;
+}
+
+bool* DataItem::getBool() const
+{
+    if(this->type == "bool") {
+        bool value = *static_cast<bool*>(this->data);
+        return new bool(value);
+    }
+    return nullptr;
+}
+
+string* DataItem::getString() const
+{
+    if(this->type == "string") {
+        string value = *static_cast<string*>(this->data);
+        return new string(value);
+    }
+    return nullptr;
+}
+
 void DataItem::operator=( DataItem &D )
 {
     this->type = D.type;
@@ -28,19 +100,17 @@ void DataItem::operator=( DataItem &D )
         free(this->data);
         this->data = nullptr;
     }
-    if(this->type == "int") {
-        int value = *static_cast<int*>(D.data);
-        this->data = new int(value);
-    } else if (this->type == "float") {
-        float value = *static_cast<float*>(D.data);
-        this->data = new float(value);
-    } else if (this->type == "bool") {
-        bool value = *static_cast<bool*>(D.data);
-        this->data = new bool(value);
-    } else if (this->type == "std::string") {
-        string value = *static_cast<string*>(D.data);
-        this->data = new string(value);
+    void *ptr = nullptr;
+    if((ptr = D.getInt())) {
+        this->data = ptr;
+    } else if ((ptr = D.getFloat())) {
+        this->data = ptr;
+    } else if ((ptr = D.getBool())) {
+        this->data = ptr;
+    } else if ((ptr = D.getString())) {
+        this->data = ptr;
     }
+    // Do not free ptr because getInt mallocs a copy.
 }
 
 void DataItem::operator=(const DataItem &D )
@@ -50,18 +120,15 @@ void DataItem::operator=(const DataItem &D )
         free(this->data);
         this->data = nullptr;
     }
-    if(this->type == "int") {
-        int value = *static_cast<int*>(D.data);
-        this->data = new int(value);
-    } else if (this->type == "float") {
-        float value = *static_cast<float*>(D.data);
-        this->data = new float(value);
-    } else if (this->type == "bool") {
-        bool value = *static_cast<bool*>(D.data);
-        this->data = new bool(value);
-    } else if (this->type == "std::string") {
-        string value = *static_cast<string*>(D.data);
-        this->data = new string(value);
+    void *ptr = nullptr;
+    if((ptr = D.getInt())) {
+        this->data = ptr;
+    } else if ((ptr = D.getFloat())) {
+        this->data = ptr;
+    } else if ((ptr = D.getBool())) {
+        this->data = ptr;
+    } else if ((ptr = D.getString())) {
+        this->data = ptr;
     }
 }
 

@@ -15,9 +15,13 @@
 class e001 : public Euler {
 public:
     e001(EulerInterface e);
-    void run() override;
+    // Runs the program and takes an EulerInterface as Input.
+    void run(EulerInterface &i);
+    // Prints the program name.
     virtual void name() override;
+    // Prints the program description.
     virtual void description() override;
+    // Prints the interface, info, or additional helpful information.
     virtual void help() override;
 };
 

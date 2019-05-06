@@ -49,50 +49,118 @@ void e001::description()
 
 void e001::help()
 {
-    cout << "* No help available.\n\n";
+    cout << "* Interface:\n";
+    int i = 0;
+    for(InterfaceAtom a : interface.getInterfaceCopy()) {
+        cout << "*\t" << i << ": ";
+        void* val = nullptr;
+        void* min = nullptr;
+        void* max = nullptr;
+
+        if(val = a.data.getInt()) {
+            cout << *static_cast<int*>(val);
+        } else if(val = a.data.getFloat()) {
+            cout << *static_cast<float*>(val);
+        } else if(val = a.data.getBool()) {
+            cout << *static_cast<bool*>(val);
+        } else if(val = a.data.getString()) {
+            cout << *static_cast<string*>(val);
+        }
+
+        if(val) { cout << ", "; }
+        if(min = a.min.getInt()) {
+            cout << *static_cast<int*>(min);
+        } else if(min = a.min.getFloat()) {
+            cout << *static_cast<float*>(min);
+        } else if(min = a.min.getBool()) {
+            cout << *static_cast<bool*>(min);
+        } else if(min = a.min.getString()) {
+            cout << *static_cast<string*>(min);
+        }
+
+        if(min) { cout << ", "; }
+        if(max = a.max.getInt()) {
+            cout << ", " << *static_cast<int*>(max);
+        } else if(max = a.max.getFloat()) {
+            cout << ", " << *static_cast<float*>(max);
+        } else if(max = a.max.getBool()) {
+            cout << ", " << *static_cast<bool*>(max);
+        } else if(max = a.max.getString()) {
+            cout << ", " << *static_cast<string*>(max);
+        }
+
+        // Free the malloced memory.
+        if(val) { free(val); }
+        if(min) { free(min); }
+        if(max) { free(max); }
+    }
+    cout << "\n*\n";
 }
 
-void e001::run()
+void e001::run(Input &input)
 {
     // Print meta data.
     name();
     description();
 
     // Declare variables local to this instance here.
+    // The first number to multiply.
     int const1;
+    // The second number to multiply.
     int const2;
+    // The maximum value of the product to be summed.
     int cap = 0;
-    int total = 0;
-    // ***
+    // The total sum to be returned.
+    int sum = 0;
+// ***
 
-    // The user has provided data.
-    if(this->interface.getValues().size() != 0) {
-        // Set vars based off interface.
-        auto intrfc = this->interface.getValues();
-        const1 = *static_cast<int*>(intrfc[0].get());
-        const2 = *static_cast<int*>(intrfc[1].get());
-        cap = *static_cast<int*>(intrfc[2].get());
+    // The user has provided valid data.
+    if(this->interface == input) {
+        // Set vars based off interface. See the header for me details.
+        auto intrfc = input.getInterfaceCopy();
+        int *ptr = intrfc[0].data.getInt();
+        const1 = *ptr;
+        free(ptr);
+
+        ptr = intrfc[1].data.getInt();
+        const2 = *ptr;
+        free(ptr);
+
+        ptr = intrfc[2].data.getInt();
+        cap = *ptr;
+        free(ptr);
+
     } else {
         // Else use the default input.
-        auto intrfc = this->interface.getInterface();
-        const1 = *static_cast<int*>(intrfc[0].data.get());
-        const2 = *static_cast<int*>(intrfc[1].data.get());
-        cap = *static_cast<int*>(intrfc[2].data.get());
+        if(input.getInterfaceCopy().size() > 0)
+            cout << "> Error: bad input, using default values.\n";
+        auto intrfc = this->interface.getInterfaceCopy();
+        int *ptr = intrfc[0].data.getInt();
+        const1 = *ptr;
+        free(ptr);
+
+        ptr = intrfc[1].data.getInt();
+        const2 = *ptr;
+        free(ptr);
+
+        ptr = intrfc[2].data.getInt();
+        cap = *ptr;
+        free(ptr);
     }
 
     /** Program Start **/
-
     // Add constant 1.
     for(int i = 1; i*const1 < cap; i++)
-        total += i*const1;
+        sum += i*const1;
 
     // Add constant 2.
     for(int i = 1; i*const2 < cap; i++)
-        total += i*const2;
+        sum += i*const2;
 
     // Const1 and const2 overlap. Remove duplicates.
     for(int i = 1; i*const1*const2 < cap; i++)
-        total -= i*const1*const2;
+        sum -= i*const1*const2;
 
-    cout << "* -> " << total << "\n\n";
+    // Print the solution.
+    cout << "* -> " << sum << "\n\n";
 }

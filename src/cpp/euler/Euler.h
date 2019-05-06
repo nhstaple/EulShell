@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef _EULER_H_
 #define _EULER_H_
 
@@ -15,7 +17,7 @@ class Euler {
 public:
     Euler() {}
     // Performs the calcuation.
-    virtual void run()=0;
+    void run(EulerInterface &i) {}
     // Prints the name of the problem.
     virtual void name()=0;
     // Prints the description of the problem.
