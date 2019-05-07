@@ -21,7 +21,7 @@ Parser::Parser(AppObject* app)
     exit.alts.push_back("bye");
     exit.alts.push_back("q");
     exit.alts.push_back("quit");
-    //exit.description = "Terminates the application.";
+    exit.description = "Terminates the application.";
 
     Command e001("e001");
     e001.alts.push_back("001");
@@ -47,6 +47,7 @@ bool Parser::contains(string str){
 std::string Parser::simplifyCommand(std::string str)
 {
     if(!contains(str)) { return ""; }
+    // Check each command and it's alts for a match.
     for(Command cmd : cmds) {
         if(cmd.cmd == str)
             return cmd.cmd;
@@ -66,6 +67,7 @@ ParsedCommand Parser::parse(std::string rawInput)
     DataItem* data;
     vector<DataItem*> in;
     int i = 0;
+
     /** Tokenize. **/
     while (std::getline(iss, token, ' '))
     {
@@ -81,6 +83,7 @@ ParsedCommand Parser::parse(std::string rawInput)
         bool flag = contains(token);
         bool has_only_digits = (token.find_first_not_of( "0123456789." ) == string::npos);
         if(i == 0 && flag) {
+            // Simplify turns any alt command into it's meta value.
             token = simplifyCommand(token);
             res.command = token;
         } else if (i == 0 && !flag) {
@@ -89,7 +92,7 @@ ParsedCommand Parser::parse(std::string rawInput)
             res.problem = nullptr;
             return res;
         } else {
-            // Set the atom. Do some type checking.
+            // Set a new atom and push it to the input list.
             data = new DataItem(token);
             in.push_back(data);
         }
@@ -103,6 +106,7 @@ ParsedCommand Parser::parse(std::string rawInput)
             res.command != "exit" &&
             res.command != "help") {
         string problem = res.command;
+
         // Get the dictionary
         if(application)
         {
@@ -114,8 +118,11 @@ ParsedCommand Parser::parse(std::string rawInput)
             }
         }
     }
+
+    // Delete the allocated memory.
     for(DataItem* d : in) {
         delete d;
     }
+
     return res;
 }

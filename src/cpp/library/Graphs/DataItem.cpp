@@ -21,6 +21,18 @@
 #include <string>
 using std::string;
 
+bool freemem(void* ptr, string type)
+{
+    if(ptr){
+        if(type == "int")               { delete static_cast<int*>(ptr);    }
+        else if (type == "float")       { delete static_cast<float*>(ptr);  }
+        else if (type == "bool")        { delete static_cast<bool*>(ptr);   }
+        else if (type == "std::string") { delete static_cast<string*>(ptr); }
+        return true;
+    }
+    return false;
+}
+
 int* DataItem::getInt()
 {
     if(this->type == "int") {
@@ -97,7 +109,7 @@ void DataItem::operator=( DataItem &D )
 {
     this->type = D.type;
     if(this->data) {
-        free(this->data);
+        freemem(this->data, this->type);
         this->data = nullptr;
     }
     void *ptr = nullptr;
@@ -117,7 +129,7 @@ void DataItem::operator=(const DataItem &D )
 {
     this->type = D.type;
     if(this->data) {
-        free(this->data);
+        freemem(this->data, this->type);
         this->data = nullptr;
     }
     void *ptr = nullptr;

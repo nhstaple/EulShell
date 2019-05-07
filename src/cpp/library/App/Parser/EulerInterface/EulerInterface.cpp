@@ -85,6 +85,7 @@ bool EulerInterface::operator==(EulerInterface& w) {
             if(min) { y = *static_cast<int*>(min); } else { y = x; }
             if(max) { z = *static_cast<int*>(max); } else { z = x; }
             if(x > z || x < y) { return false; }
+
         } else if(a.data.getType() == "float") {
             val = w.getInterfaceCopy()[i].data.getFloat();
             min = a.min.getInt();
@@ -94,8 +95,10 @@ bool EulerInterface::operator==(EulerInterface& w) {
             if(min) { y = *static_cast<float*>(min); } else { y = x; }
             if(max) { z = *static_cast<float*>(max); } else { z = x; }
             if(x > z || x < y) { return false; }
+
         } else if(a.data.getType() == "bool") {
             // Empty
+
         } else if(a.data.getType() == "std::string") {
             val = w.getInterfaceCopy()[i].data.getInt();
             min = a.min.getString();
@@ -106,27 +109,11 @@ bool EulerInterface::operator==(EulerInterface& w) {
             if(max) { y = static_cast<int>(static_cast<string*>(max)->length()); } else { z = x; }
             if(x > z || x < y) { return false; }
         }
-        if(val) {
-            string type = w.getInterfaceCopy()[i].data.getType();
-            if(type == "int")               { delete static_cast<int*>(val);    }
-            else if (type == "float")       { delete static_cast<float*>(val);  }
-            else if (type == "bool")        { delete static_cast<bool*>(val);   }
-            else if (type == "std::string") { delete static_cast<string*>(val); }
-        }
-        if(min) {
-            string type = w.getInterfaceCopy()[i].data.getType();
-            if(type == "int")               { delete static_cast<int*>(min);    }
-            else if (type == "float")       { delete static_cast<float*>(min);  }
-            else if (type == "bool")        { delete static_cast<bool*>(min);   }
-            else if (type == "std::string") { delete static_cast<string*>(min); }
-        }
-        if(max) {
-            string type = w.getInterfaceCopy()[i].data.getType();
-            if(type == "int")               { delete static_cast<int*>(max);    }
-            else if (type == "float")       { delete static_cast<float*>(max);  }
-            else if (type == "bool")        { delete static_cast<bool*>(max);   }
-            else if (type == "std::string") { delete static_cast<string*>(max); }
-        }
+
+        // Free the alloced memory.
+        if(val) { freemem(val, w.getInterfaceCopy()[i].data.getType()); }
+        if(min) { freemem(min, a.min.getType());                        }
+        if(max) { freemem(max, a.max.getType());                        }
         i++;
     }
     return true;

@@ -63,16 +63,16 @@ void e001::help()
         }
 
         // Free the malloced memory.
-        if(val) { free(val); }
-        if(min) { free(min); }
-        if(max) { free(max); }
+        if(val) { freemem(val, a.data.getType()); }
+        if(min) { freemem(min, a.min.getType()); }
+        if(max) { freemem(max, a.max.getType()); }
         i++;
         cout << endl;
     }
     cout << "*\n";
 }
 
-void e001::run(Input *i)
+nanoseconds e001::run(Input *i)
 {
     vector<InterfaceAtom> data;
     vector<InterfaceAtom> copy = i->getInterfaceCopy();
@@ -80,26 +80,23 @@ void e001::run(Input *i)
         data.push_back(*a);
     }
     Input newInput(data);
-    run(newInput);
+    return run(newInput);
 }
 
-void e001::run(Input &input)
+nanoseconds e001::run(Input &input)
 {
-    // Print meta data.
-    name();
-    description();
     auto data = input.getInterfaceCopy();
     if(data.size() > 0) {
          string* cmd = data[0].data.getString();
          if(cmd && (*cmd == "help" || *cmd == "h")) {
              help();
              delete cmd;
-             return;
+             return nanoseconds(0);
          }
          if(cmd) { delete cmd; }
     }
 
-    // Declare variables local to this instance here.
+    /** Local variables. **/
     // The first number to multiply.
     int const1;
     // The second number to multiply.
@@ -108,9 +105,8 @@ void e001::run(Input &input)
     int cap = 0;
     // The total sum to be returned.
     int sum = 0;
-// ***
 
-    // The user has provided valid data.
+    /** Data validation. **/
     if(this->interface == input && ENABLE) {
         // Set vars based off interface. See the header for me details.
         int *ptr = data[0].data.getInt();
@@ -128,8 +124,13 @@ void e001::run(Input &input)
     } else {
         // Else use the default input.
         if(input.getInterfaceCopy().size() > 0) {
-            cout << "> Error: bad input.\n";
-            input.print();
+            string *cmd = input.getInterfaceCopy()[0].data.getString();
+            if(cmd && *cmd == "test") {
+                cout << "> Running test...\n";
+            } else {
+                cout << "> Error: bad input.\n";
+                input.print();
+            }
         }
         data = this->interface.getInterfaceCopy();
         int *ptr = data[0].data.getInt();
@@ -146,6 +147,8 @@ void e001::run(Input &input)
     }
 
     /** Program Start **/
+    t0 = high_resolution_clock::now();
+
     // Add constant 1.
     for(int i = 1; i*const1 < cap; i++)
         sum += i*const1;
@@ -158,6 +161,63 @@ void e001::run(Input &input)
     for(int i = 1; i*const1*const2 < cap; i++)
         sum -= i*const1*const2;
 
+    /** Program end. **/
+    t1 = high_resolution_clock::now();
     // Print the solution.
     cout << "*\n= " << sum << endl;
+    return duration_cast<nanoseconds>(t1 - t0);
+}
+
+void e001::exec(Input *in) {
+    vector<InterfaceAtom> data;
+    vector<InterfaceAtom> copy = in->getInterfaceCopy();
+    for(auto a = copy.begin(); a != copy.end(); a++) {
+        data.push_back(*a);
+    }
+    Input newInput(data);
+    data = newInput.getInterfaceCopy();
+
+    if(data.size() == 2) {
+        string *cmd = data[0].data.getString();
+        int *numExperiments = data[1].data.getInt();
+        // Parse and check for test.
+        if(cmd && numExperiments && *cmd == "test" && *numExperiments > 0) {
+            nanoseconds total;
+            for(int i = 0; i < *numExperiments; i++) {
+                nanoseconds thisTest = run(newInput);
+                total = nanoseconds(total.count() + thisTest.count());
+                cout << "* This run: " << thisTest.count() << " nanoseconds.\n";
+            }
+            nanoseconds average = duration_cast<nanoseconds>(total / *numExperiments);
+            cout << "* Average time: " << duration_cast<nanoseconds>(average).count() << " nanoseconds.\n";
+        }
+        if(cmd) { freemem(cmd, "std::string"); }
+        if(numExperiments) { freemem(numExperiments, "int"); }
+    } else {
+        run(newInput);
+    }
+}
+
+void e001::exec(Input &in) {
+    // Parse and check for test.
+    vector<InterfaceAtom> data = in.getInterfaceCopy();
+
+    if(data.size() == 2) {
+        string *cmd = data[0].data.getString();
+        int *numExperiments = data[1].data.getInt();
+        // Parse and check for test.
+        if(cmd && numExperiments && *cmd == "test" && *numExperiments > 0) {
+            nanoseconds total;
+            for(int i = 0; i < *numExperiments; i++) {
+                nanoseconds res = run(in);
+                total = nanoseconds(total.count() + res.count());
+            }
+            //nanoseconds average = duration_cast<nanoseconds>(total / *numExperiments);
+            //cout << "* Average time: " << average.count() << "nanoseconds.\n";
+        }
+        if(cmd) { freemem(cmd, "std::string"); }
+        if(numExperiments) { freemem(numExperiments, "int"); }
+    } else {
+        run(in);
+    }
 }

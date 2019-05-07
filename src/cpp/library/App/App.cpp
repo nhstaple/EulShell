@@ -49,7 +49,7 @@ void App::run()
         cin.getline(buf, MAX_CMD_LENGTH);
         cmd = parser->parse(string(buf));
         if(cmd.problem) {
-            cmd.problem->run(cmd.input);
+            cmd.problem->exec(cmd.input);
         } else if (cmd.command == "help"){
             help();
         }

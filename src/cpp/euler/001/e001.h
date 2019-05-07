@@ -16,11 +16,21 @@
 
 class e001 : public Euler {
 public:
+    /** Constructors. **/
     e001(EulerInterface e);
-    // Runs the program and takes an EulerInterface as Input.
-    void run(Input &input) override;
-    void run(Input* i) override;
-    void run() { this->Euler::run(); }
+
+    /** Exec functions. **/
+    // void exec() override;
+    //void ecec(Input* i) override;
+    /** Run functions. Performs the calculation. **/
+    nanoseconds run(Input &input) override;
+    nanoseconds run(Input* in) override;
+    nanoseconds run() { return run(interface); }
+
+    void exec(Input &i) override;
+    void exec(Input *in) override;
+
+    /** Meta print functions. **/
     // Prints the program name.
     virtual void name() override;
     // Prints the program description.
