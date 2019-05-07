@@ -37,7 +37,8 @@ using std::cout;
 class EulerInterface
 {
 public:
-    EulerInterface(){}
+    EulerInterface()  {}
+    ~EulerInterface() {}
     EulerInterface(vector<InterfaceAtom> v);
     // Sets the interface.
     void set(vector<DataItem> &v);

@@ -35,7 +35,7 @@ public:
     DataItem(string str)
     {
         bool has_only_digits = (str.find_first_not_of( "0123456789." ) == string::npos);
-        if(has_only_digits && std::stoi(str) ||
+        if((has_only_digits && std::stoi(str)) ||
            str == "0" || str == "1")          { set(stoi(str)); }
         else if(has_only_digits &&
                 std::stof(str))               { set(stof(str)); }

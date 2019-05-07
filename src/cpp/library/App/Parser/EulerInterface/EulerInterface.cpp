@@ -26,18 +26,18 @@ void EulerInterface::set(std::vector<DataItem*> &v)
     this->interface.clear();
     for(auto d : v) {
         void* ptr = nullptr;
-        if(ptr = d->getInt()) {
+        if((ptr = d->getInt())) {
             this->interface.push_back(InterfaceAtom(*static_cast<int*>(ptr)));
-            delete ptr;
-        } else if (ptr = d->getFloat()) {
+            delete static_cast<int*>(ptr);
+        } else if ((ptr = d->getFloat())) {
             this->interface.push_back(InterfaceAtom(*static_cast<float*>(ptr)));
-            delete ptr;
-        } else if (ptr = d->getBool()) {
+            delete static_cast<float*>(ptr);
+        } else if ((ptr = d->getBool())) {
             this->interface.push_back(InterfaceAtom(*static_cast<bool*>(ptr)));
-            delete ptr;
-        } else if (ptr = d->getString()) {
+            delete static_cast<bool*>(ptr);
+        } else if ((ptr = d->getString())) {
             this->interface.push_back(InterfaceAtom(*static_cast<string*>(ptr)));
-            delete ptr;
+            delete static_cast<string*>(ptr);
         }
     }
 }
@@ -62,7 +62,7 @@ bool EulerInterface::operator==(EulerInterface& w) {
         return false;
 
     // Check if the types are correct.
-    for(int i = 0; i < this->interface.size(); i++) {
+    for(unsigned int i = 0; i < this->interface.size(); i++) {
         if(this->interface[i].data.getType() != w.interface[i].data.getType()) {
             return false;
         }
@@ -71,7 +71,7 @@ bool EulerInterface::operator==(EulerInterface& w) {
     // Check if the value provided by w is within this inerface's range.
     // If it is then tru!
     // If not, oooh noooooo.
-    int i = 0;
+    unsigned int i = 0;
     for(InterfaceAtom a : this->interface) {
         void *val = nullptr;
         void *min = nullptr;
@@ -101,14 +101,32 @@ bool EulerInterface::operator==(EulerInterface& w) {
             min = a.min.getString();
             max = a.max.getString();
             int x = 0, y = 0, z = 0;
-            if(val) { x = static_cast<string*>(val)->length(); }
-            if(min) { y = static_cast<string*>(min)->length(); } else { y = x; }
-            if(max) { y = static_cast<string*>(max)->length(); } else { z = x; }
+            if(val) { x = static_cast<int>(static_cast<string*>(val)->length()); }
+            if(min) { y = static_cast<int>(static_cast<string*>(min)->length()); } else { y = x; }
+            if(max) { y = static_cast<int>(static_cast<string*>(max)->length()); } else { z = x; }
             if(x > z || x < y) { return false; }
         }
-        if(val) { free(val); }
-        if(min) { free(min); }
-        if(max) { free(max); }
+        if(val) {
+            string type = w.getInterfaceCopy()[i].data.getType();
+            if(type == "int")               { delete static_cast<int*>(val);    }
+            else if (type == "float")       { delete static_cast<float*>(val);  }
+            else if (type == "bool")        { delete static_cast<bool*>(val);   }
+            else if (type == "std::string") { delete static_cast<string*>(val); }
+        }
+        if(min) {
+            string type = w.getInterfaceCopy()[i].data.getType();
+            if(type == "int")               { delete static_cast<int*>(min);    }
+            else if (type == "float")       { delete static_cast<float*>(min);  }
+            else if (type == "bool")        { delete static_cast<bool*>(min);   }
+            else if (type == "std::string") { delete static_cast<string*>(min); }
+        }
+        if(max) {
+            string type = w.getInterfaceCopy()[i].data.getType();
+            if(type == "int")               { delete static_cast<int*>(max);    }
+            else if (type == "float")       { delete static_cast<float*>(max);  }
+            else if (type == "bool")        { delete static_cast<bool*>(max);   }
+            else if (type == "std::string") { delete static_cast<string*>(max); }
+        }
         i++;
     }
     return true;
@@ -136,13 +154,13 @@ void EulerInterface::print()
     for(InterfaceAtom a : interface) {
         cout << ".  " << i << " " << a.data.getType() << " -> ";
         void *ptr = nullptr;
-        if(ptr = a.data.getInt()) {
+        if((ptr = a.data.getInt())) {
             cout << *static_cast<int*>(ptr) << endl;
-        } else if(ptr = a.data.getFloat()) {
+        } else if((ptr = a.data.getFloat())) {
             cout << *static_cast<float*>(ptr) << endl;
-        } else if(ptr = a.data.getBool()) {
+        } else if((ptr = a.data.getBool())) {
             cout << *static_cast<bool*>(ptr) << endl;
-        } else if(ptr = a.data.getString()) {
+        } else if((ptr = a.data.getString())) {
             cout << *static_cast<string*>(ptr) << endl;
         }
         if(ptr) { free(ptr); }

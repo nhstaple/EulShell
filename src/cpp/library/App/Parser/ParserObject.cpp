@@ -5,7 +5,6 @@ void Command::printObject()
 {
     cout << "> \t * ";
     cout << this->cmd << "\t : ";
-    int i = 0;
     for(string alt : this->alts) {
         cout << alt;
         if(alt != this->alts.back()) { cout << ", "; }
@@ -20,6 +19,12 @@ void Command::printObject()
 ParsedCommand::ParsedCommand()
 {
     this->input = new EulerInterface;
+}
+
+ParsedCommand::~ParsedCommand()
+{
+    if(input)
+        delete input;
 }
 
 void ParsedCommand::printObject()

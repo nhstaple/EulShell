@@ -30,42 +30,42 @@ void e001::help()
         void* min = nullptr;
         void* max = nullptr;
 
-        if(val = a.data.getInt()) {
+        if((val = a.data.getInt())) {
             cout << *static_cast<int*>(val);
-        } else if(val = a.data.getFloat()) {
+        } else if((val = a.data.getFloat())) {
             cout << *static_cast<float*>(val);
-        } else if(val = a.data.getBool()) {
+        } else if((val = a.data.getBool())) {
             cout << *static_cast<bool*>(val);
-        } else if(val = a.data.getString()) {
+        } else if((val = a.data.getString())) {
             cout << *static_cast<string*>(val);
         }
 
         if(val) {
             cout << ", ";
-            if(min = a.min.getInt()) {
+            if((min = a.min.getInt())) {
                 cout << *static_cast<int*>(min);
-            } else if(min = a.min.getFloat()) {
+            } else if((min = a.min.getFloat())) {
                 cout << *static_cast<float*>(min);
-            } else if(min = a.min.getBool()) {
+            } else if((min = a.min.getBool())) {
                 cout << *static_cast<bool*>(min);
-            } else if(min = a.min.getString()) {
+            } else if((min = a.min.getString())) {
                 cout << *static_cast<string*>(min);
             }
-            if(max = a.max.getInt()) {
+            if((max = a.max.getInt())) {
                 cout << ", " << *static_cast<int*>(max);
-            } else if(max = a.max.getFloat()) {
+            } else if((max = a.max.getFloat())) {
                 cout << ", " << *static_cast<float*>(max);
-            } else if(max = a.max.getBool()) {
+            } else if((max = a.max.getBool())) {
                 cout << ", " << *static_cast<bool*>(max);
-            } else if(max = a.max.getString()) {
+            } else if((max = a.max.getString())) {
                 cout << ", " << *static_cast<string*>(max);
             }
         }
 
         // Free the malloced memory.
-        if(val) { delete val; }
-        if(min) { delete min; }
-        if(max) { delete max; }
+        if(val) { free(val); }
+        if(min) { free(min); }
+        if(max) { free(max); }
         i++;
         cout << endl;
     }

@@ -28,7 +28,7 @@ public:
 class ParsedCommand : public ParserObject {
 public:
     ParsedCommand();
-    ~ParsedCommand() { delete input; }
+    ~ParsedCommand();
     void printObject() override;
     void operator=(const ParsedCommand& cmd);
     string command;
