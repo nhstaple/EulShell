@@ -1,0 +1,176 @@
+/*
+Purple rgb(85,37,130)
+Gold   rgb(253,185,39)
+*/
+body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    width: 100vw; 
+    height: 100vh; 
+    background: rgb(91,43,130);
+    font-family: 'Varela Round', sans-serif;
+}
+
+#minSizeOverlay {
+    position: absolute;
+    z-index: 100;
+    display: none;
+    height: 90vh;
+    width: 90vw;
+    background: rgb(253,185,39);
+    color: black;
+    font-size: 2em;
+    padding: 5vh 5vw 5vh 5vw;
+}
+
+#mobilePfpWrapper {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: center;
+    padding-bottom: 2vh;
+}
+
+#mobileProfilePic, #profilePic {
+    border-radius: 50%;
+    width: 10vw;
+    flex: 0 1 auto;
+    align-self: center;
+}
+
+#mobileProfilePic {
+    display: none;
+}
+
+#about, #bottomHalf {
+    padding: 5vh 2vw 5vh 2vw;
+}
+
+#about {
+    color: black;
+}
+
+#bio {
+    display: flex;
+    flex: 1 1 auto;
+    width: 96vw;
+}
+
+#name, #company, #education {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+    padding-right: 2vw;
+}
+
+#name {
+    font-weight: bold;
+}
+
+#company {
+    /* border-right: 0.25vh;
+    border-left: 0.25vh;
+    border-style: solid; */
+    flex: 1 1 auto;
+    justify-content: center;
+}
+
+#infoWrapper {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+}
+
+#personalWrapper {
+    font-size: 1.90em;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    line-height: 150%;
+    border-style: solid;
+    border-width: 0 0 0.25vh 0;
+}
+
+#aboutWrapper {
+    padding-top: 10vh;
+    font-size: 1.25em;
+    padding-left: 5vw;
+    font-family: 'Raleway', sans-serif;
+    overflow-wrap: break-word;
+}
+
+#sidebar {
+    flex: 0 1 auto;
+    justify-content: center;
+    padding-right: 0.5vw;
+}
+
+.sideBarGroup {
+    border-style: solid;
+    border-width: 0 0.25vh 0 0;
+    flex-direction: column;
+    padding-right: 1vw;
+    line-height: 140%;
+    font-weight: 100;
+    font-family: 'Roboto Mono', monospace;
+    padding-top: 2vh;
+}
+
+.list {
+    list-style: inside;
+    overflow-wrap: break-word;
+}
+
+#profilePicWrapper {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+}
+
+.fa {
+    border-radius: 50%;
+    border-style: solid;
+    font-size: 3em;
+    border-width: 0.5vh;
+    padding: 1vh 1vh 1vh 1vh;
+    color: black;
+    text-decoration: none;
+    border-color: black;
+    display: flex;
+    flex: 0 0 auto;
+}
+
+#links, #mobileLinks {
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#mobileLinks {
+    display: none;
+    flex-direction: row;
+    padding-bottom: 1vh;
+    padding-top: 1vh;
+}
+
+.linkWrapper {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: center;
+}
+
+#bottomHalf {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    height: 50vh;
+    padding-top: 0;
+}
+
+#links, .list {
+    width: 15vw;
+}
