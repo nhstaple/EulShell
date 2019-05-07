@@ -16,13 +16,14 @@
 #include <string>
 #include "./DataItem.h"
 
+using std::vector;
+
 class Node {
 public:
     Node() {}
-    Node(DataItem d)            : data(d)                  {}
-    Node(DataItem d,
-         std::vector<Node*> n)  : data(d), neighbors(n)    {}
-    Node(std::vector<Node*> n)  : neighbors(n)             {}
+    Node(DataItem d)                   : data(d)                  {}
+    Node(DataItem d, vector<Node*> n)  : data(d), neighbors(n)    {}
+    Node(vector<Node*> n)              : neighbors(n)             {}
 
     // Sets the data item.
     void set(DataItem d) { data = d; }

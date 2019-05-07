@@ -12,13 +12,14 @@
 */
 
 #include "../Euler.h"
-#define ENABLE false
+#define ENABLE true
 
 class e001 : public Euler {
 public:
     e001(EulerInterface e);
     // Runs the program and takes an EulerInterface as Input.
     void run(Input &input) override;
+    void run(Input* i) override;
     void run() { this->Euler::run(); }
     // Prints the program name.
     virtual void name() override;

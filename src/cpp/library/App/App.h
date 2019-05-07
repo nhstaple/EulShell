@@ -20,7 +20,7 @@ public:
     friend class Parser;
 private:
     /** Parsing Stuff **/
-    Parser parser;
+    Parser* parser;
 
     /** Euler Stuff **/
     std::map<std::string, Euler*> eulerDictionary;

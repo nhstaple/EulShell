@@ -7,8 +7,9 @@
 
 using namespace std;
 
-Parser::Parser()
+Parser::Parser(AppObject* app)
 {
+    application = app;
     Command help("help");
     help.alts.push_back("halp");
     help.alts.push_back("h");
@@ -24,7 +25,7 @@ Parser::Parser()
 
     Command e001("e001");
     e001.alts.push_back("001");
-    e001.description = "Multiples of 3 and 5";
+    e001.description = "Multiples of 3 and 5.";
 
     cmds.push_back(help);
     cmds.push_back(exit);
@@ -62,8 +63,8 @@ ParsedCommand Parser::parse(std::string rawInput)
     istringstream iss(rawInput);
     std::string token;
     ParsedCommand res;
-    DataItem data;
-    vector<DataItem> in;
+    DataItem* data;
+    vector<DataItem*> in;
     int i = 0;
     /** Tokenize. **/
     while (std::getline(iss, token, ' '))
@@ -78,7 +79,7 @@ ParsedCommand Parser::parse(std::string rawInput)
 
         /** Do the parsing. **/
         bool flag = contains(token);
-
+        bool has_only_digits = (token.find_first_not_of( "0123456789." ) == string::npos);
         if(i == 0 && flag) {
             token = simplifyCommand(token);
             res.command = token;
@@ -87,18 +88,15 @@ ParsedCommand Parser::parse(std::string rawInput)
             res.command = "error";
             res.problem = nullptr;
             return res;
-        }else {
+        } else {
             // Set the atom. Do some type checking.
-            data = DataItem(token);
-            int *ptr = data.getInt();
-            if(ptr) { cout << *ptr << endl; free(ptr); }
+            data = new DataItem(token);
             in.push_back(data);
         }
         i++;
     }
 
-    res.input.set(in);
-    res.input.print();
+    res.input->set(in);
 
     // Check if command is valid then set the problem pointer.
     if(res.command.length() > 0 &&
@@ -106,13 +104,18 @@ ParsedCommand Parser::parse(std::string rawInput)
             res.command != "help") {
         string problem = res.command;
         // Get the dictionary
-        res.problem = static_cast<App*>(application)->eulerDictionary[res.command];
-        if(!res.problem) {
-            res.command = "error";
-            res.problem = nullptr;
-            res.input.reset();
+        if(application)
+        {
+            res.problem = static_cast<App*>(application)->eulerDictionary[problem];
+            if(!res.problem) {
+                res.command = "error";
+                res.problem = nullptr;
+                res.input->reset();
+            }
         }
     }
-
+    for(DataItem* d : in) {
+        delete d;
+    }
     return res;
 }

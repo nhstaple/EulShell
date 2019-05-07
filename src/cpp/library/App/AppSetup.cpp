@@ -15,8 +15,8 @@ void App::Setup()
 void App::Setup001()
 {
     this->dataList.clear();
-    this->dataList.push_back(InterfaceAtom(3, 0, 10));
-    this->dataList.push_back(InterfaceAtom(5, 0, 10));
+    this->dataList.push_back(InterfaceAtom(3, 1, 10));
+    this->dataList.push_back(InterfaceAtom(5, 1, 10));
     this->dataList.push_back(InterfaceAtom(10, 10, 999));
     e001* euler1 = new e001(EulerInterface(dataList));
     eulerDictionary["e001"] = euler1;

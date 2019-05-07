@@ -50,7 +50,7 @@ bool* DataItem::getBool()
 
 string* DataItem::getString()
 {
-    if(this->type == "string") {
+    if(this->type == "std::string") {
         string value = *static_cast<string*>(this->data);
         return new string(value);
     }

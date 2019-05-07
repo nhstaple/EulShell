@@ -1,33 +1,39 @@
 #ifndef PARSEROBJECT_H
 #define PARSEROBJECT_H
-
-#include "./EulerInterface/EulerInterface.h"
+#include <string>
+#include <vector>
+using std::string;
+using std::vector;
 
 class Euler;
+class EulerInterface;
 
 class ParserObject
 {
 public:
-    ParserObject();
+    ParserObject() {}
     virtual void printObject()=0;
 };
 
-class Command {
+class Command : public ParserObject {
 public:
     Command() {}
-    Command(std::string str) : cmd(str) {}
-    std::string cmd;
-    std::string description;
-    std::vector<std::string> alts;
+    Command(string str) : cmd(str) {}
+    void printObject() override;
+    string cmd;
+    string description;
+    vector<string> alts;
 };
 
-class ParsedCommand {
+class ParsedCommand : public ParserObject {
 public:
-    ParsedCommand() {}
-
-    std::string command;
+    ParsedCommand();
+    ~ParsedCommand() { delete input; }
+    void printObject() override;
+    void operator=(const ParsedCommand& cmd);
+    string command;
     Euler* problem = nullptr;
-    EulerInterface input;
+    EulerInterface* input;
 };
 
 #endif // PARSEROBJECT_H

@@ -15,14 +15,14 @@ void e001::name()
 
 void e001::description()
 {
-    cout << "*  If we list all the natural numbers below 10 that are \n";
-    cout << "*   multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.\n";
-    cout << "*   Find the sum of all the multiples of 3 or 5 below 1000.\n";
+    cout << "* If we list all the natural numbers below 10 that are multiples of\n";
+    cout << "*  3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.\n";
+    cout << "*  Find the sum of all the multiples of 3 or 5 below 1000.\n";
 }
 
 void e001::help()
 {
-    cout << "* Interface:\n";
+    cout << "*\n* Interface read as- \"<index> <default>, <min>, <max>\":\n";
     int i = 0;
     for(InterfaceAtom a : interface.getInterfaceCopy()) {
         cout << "*\t" << i << ": ";
@@ -40,34 +40,47 @@ void e001::help()
             cout << *static_cast<string*>(val);
         }
 
-        if(val) { cout << ", "; }
-        if(min = a.min.getInt()) {
-            cout << *static_cast<int*>(min);
-        } else if(min = a.min.getFloat()) {
-            cout << *static_cast<float*>(min);
-        } else if(min = a.min.getBool()) {
-            cout << *static_cast<bool*>(min);
-        } else if(min = a.min.getString()) {
-            cout << *static_cast<string*>(min);
-        }
-
-        if(min) { cout << ", "; }
-        if(max = a.max.getInt()) {
-            cout << ", " << *static_cast<int*>(max);
-        } else if(max = a.max.getFloat()) {
-            cout << ", " << *static_cast<float*>(max);
-        } else if(max = a.max.getBool()) {
-            cout << ", " << *static_cast<bool*>(max);
-        } else if(max = a.max.getString()) {
-            cout << ", " << *static_cast<string*>(max);
+        if(val) {
+            cout << ", ";
+            if(min = a.min.getInt()) {
+                cout << *static_cast<int*>(min);
+            } else if(min = a.min.getFloat()) {
+                cout << *static_cast<float*>(min);
+            } else if(min = a.min.getBool()) {
+                cout << *static_cast<bool*>(min);
+            } else if(min = a.min.getString()) {
+                cout << *static_cast<string*>(min);
+            }
+            if(max = a.max.getInt()) {
+                cout << ", " << *static_cast<int*>(max);
+            } else if(max = a.max.getFloat()) {
+                cout << ", " << *static_cast<float*>(max);
+            } else if(max = a.max.getBool()) {
+                cout << ", " << *static_cast<bool*>(max);
+            } else if(max = a.max.getString()) {
+                cout << ", " << *static_cast<string*>(max);
+            }
         }
 
         // Free the malloced memory.
-        if(val) { free(val); }
-        if(min) { free(min); }
-        if(max) { free(max); }
+        if(val) { delete val; }
+        if(min) { delete min; }
+        if(max) { delete max; }
+        i++;
+        cout << endl;
     }
-    cout << "\n*\n";
+    cout << "*\n";
+}
+
+void e001::run(Input *i)
+{
+    vector<InterfaceAtom> data;
+    vector<InterfaceAtom> copy = i->getInterfaceCopy();
+    for(auto a = copy.begin(); a != copy.end(); a++) {
+        data.push_back(*a);
+    }
+    Input newInput(data);
+    run(newInput);
 }
 
 void e001::run(Input &input)
@@ -75,6 +88,16 @@ void e001::run(Input &input)
     // Print meta data.
     name();
     description();
+    auto data = input.getInterfaceCopy();
+    if(data.size() > 0) {
+         string* cmd = data[0].data.getString();
+         if(cmd && (*cmd == "help" || *cmd == "h")) {
+             help();
+             delete cmd;
+             return;
+         }
+         if(cmd) { delete cmd; }
+    }
 
     // Declare variables local to this instance here.
     // The first number to multiply.
@@ -90,18 +113,17 @@ void e001::run(Input &input)
     // The user has provided valid data.
     if(this->interface == input && ENABLE) {
         // Set vars based off interface. See the header for me details.
-        auto intrfc = input.getInterfaceCopy();
-        int *ptr = intrfc[0].data.getInt();
+        int *ptr = data[0].data.getInt();
         const1 = *ptr;
-        free(ptr);
+        delete ptr;
 
-        ptr = intrfc[1].data.getInt();
+        ptr = data[1].data.getInt();
         const2 = *ptr;
-        free(ptr);
+        delete ptr;
 
-        ptr = intrfc[2].data.getInt();
+        ptr = data[2].data.getInt();
         cap = *ptr;
-        free(ptr);
+        delete ptr;
 
     } else {
         // Else use the default input.
@@ -109,18 +131,18 @@ void e001::run(Input &input)
             cout << "> Error: bad input.\n";
             input.print();
         }
-        auto intrfc = this->interface.getInterfaceCopy();
-        int *ptr = intrfc[0].data.getInt();
+        data = this->interface.getInterfaceCopy();
+        int *ptr = data[0].data.getInt();
         const1 = *ptr;
-        free(ptr);
+        delete ptr;
 
-        ptr = intrfc[1].data.getInt();
+        ptr = data[1].data.getInt();
         const2 = *ptr;
-        free(ptr);
+        delete ptr;
 
-        ptr = intrfc[2].data.getInt();
+        ptr = data[2].data.getInt();
         cap = *ptr;
-        free(ptr);
+        delete ptr;
     }
 
     /** Program Start **/
@@ -137,5 +159,5 @@ void e001::run(Input &input)
         sum -= i*const1*const2;
 
     // Print the solution.
-    cout << "* -> " << sum << "\n\n";
+    cout << "*\n= " << sum << endl;
 }

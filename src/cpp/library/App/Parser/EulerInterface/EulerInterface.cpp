@@ -16,8 +16,29 @@ EulerInterface::EulerInterface(std::vector<InterfaceAtom> v)
 void EulerInterface::set(std::vector<DataItem> &v)
 {
     this->interface.clear();
-    for(DataItem &d : v) {
+    for(auto d : v) {
         this->interface.push_back(d);
+    }
+}
+
+void EulerInterface::set(std::vector<DataItem*> &v)
+{
+    this->interface.clear();
+    for(auto d : v) {
+        void* ptr = nullptr;
+        if(ptr = d->getInt()) {
+            this->interface.push_back(InterfaceAtom(*static_cast<int*>(ptr)));
+            delete ptr;
+        } else if (ptr = d->getFloat()) {
+            this->interface.push_back(InterfaceAtom(*static_cast<float*>(ptr)));
+            delete ptr;
+        } else if (ptr = d->getBool()) {
+            this->interface.push_back(InterfaceAtom(*static_cast<bool*>(ptr)));
+            delete ptr;
+        } else if (ptr = d->getString()) {
+            this->interface.push_back(InterfaceAtom(*static_cast<string*>(ptr)));
+            delete ptr;
+        }
     }
 }
 
@@ -56,18 +77,18 @@ bool EulerInterface::operator==(EulerInterface& w) {
         void *min = nullptr;
         void *max = nullptr;
         if(a.data.getType() == "int") {
-            val = a.data.getInt();
-            min = w.getInterfaceCopy()[i].min.getInt();
-            max = w.getInterfaceCopy()[i].max.getInt();
+            val = w.getInterfaceCopy()[i].data.getInt();
+            min = a.min.getInt();
+            max = a.max.getInt();
             int x = 0, y = 0, z = 0;
             if(val) { x = *static_cast<int*>(val); }
             if(min) { y = *static_cast<int*>(min); } else { y = x; }
             if(max) { z = *static_cast<int*>(max); } else { z = x; }
             if(x > z || x < y) { return false; }
         } else if(a.data.getType() == "float") {
-            val = a.data.getInt();
-            min = w.getInterfaceCopy()[i].min.getInt();
-            max = w.getInterfaceCopy()[i].max.getInt();
+            val = w.getInterfaceCopy()[i].data.getFloat();
+            min = a.min.getInt();
+            max = a.max.getInt();
             float x = 0.f, y = 0.f, z = 0.f;
             if(val) { x = *static_cast<float*>(val); }
             if(min) { y = *static_cast<float*>(min); } else { y = x; }
@@ -76,9 +97,9 @@ bool EulerInterface::operator==(EulerInterface& w) {
         } else if(a.data.getType() == "bool") {
             // Empty
         } else if(a.data.getType() == "std::string") {
-            val = a.data.getInt();
-            min = w.getInterfaceCopy()[i].min.getString();
-            max = w.getInterfaceCopy()[i].max.getString();
+            val = w.getInterfaceCopy()[i].data.getInt();
+            min = a.min.getString();
+            max = a.max.getString();
             int x = 0, y = 0, z = 0;
             if(val) { x = static_cast<string*>(val)->length(); }
             if(min) { y = static_cast<string*>(min)->length(); } else { y = x; }

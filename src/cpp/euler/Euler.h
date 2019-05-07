@@ -26,6 +26,7 @@ public:
     Euler() { }
     // Performs the calcuation.
     virtual void run(Input &i)=0;
+    virtual void run(Input* i)=0;
     void run() { run(interface); }
     // Prints the name of the problem.
     virtual void name()=0;
