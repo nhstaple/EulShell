@@ -4,7 +4,6 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-    src/cpp/euler/001/e001.cpp \
     src/cpp/library/App/Parser/EulerInterface/EulerInterface.cpp \
     src/cpp/library/App/Parser/Parser.cpp \
     src/cpp/library/App/App.cpp \
@@ -12,7 +11,11 @@ SOURCES += \
     src/cpp/library/Graphs/DataItem.cpp \
     src/cpp/main.cpp \
     src/cpp/library/Graphs/Node.cpp \
-    src/cpp/library/App/Parser/ParserObject.cpp
+    src/cpp/library/App/Parser/ParserObject.cpp \
+    src/cpp/library/App/Parser/ls.cpp \
+    src/cpp/library/App/Parser/pwd.cpp \
+    src/cpp/library/App/Parser/cd.cpp \
+    src/cpp/euler/e001/e001.cpp
 
 HEADERS += \
     src/cpp/euler/001/e001.h \
@@ -25,7 +28,8 @@ HEADERS += \
     src/cpp/library/App/AppObject.h \
     src/cpp/library/Utility/Typedata.h \
     src/cpp/library/Graphs/DataItem.h \
-    src/cpp/library/Graphs/Node.h
+    src/cpp/library/Graphs/Node.h \
+    src/cpp/library/App/Parser/Termcolor.h
 
 DISTFILES += \
     src/cpp/Makefile
