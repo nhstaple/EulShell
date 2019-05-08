@@ -10,10 +10,6 @@
 #include <unistd.h>
 using std::endl;
 
-extern short int cd(string path);
-extern short int ls(string dir);
-extern short int pwd();
-
 /** Do other platforms. **/
 //#else
 //#endif
@@ -23,6 +19,7 @@ using namespace std;
 Parser::Parser(AppObject* app)
 {
     application = app;
+    /** Setup util commands. **/
     Command help("help");
     help.alts.push_back("halp");
     help.alts.push_back("h");
@@ -36,10 +33,6 @@ Parser::Parser(AppObject* app)
     exit.alts.push_back("quit");
     exit.description = "Terminates the application.";
 
-    Command e001("e001");
-    e001.alts.push_back("001");
-    e001.description = "Multiples of 3 and 5.";
-
     Command cd("cd");
     cd.alts.push_back("changedir");
     cd.alts.push_back("change_directory");
@@ -48,23 +41,53 @@ Parser::Parser(AppObject* app)
     Command pwd("pwd");
     pwd.alts.push_back("printdir");
     pwd.alts.push_back("print_directory");
-    pwd.description = "Prints the working directory.\n";
+    pwd.description = "Prints the working directory.";
 
     Command ls("ls");
     ls.alts.push_back("list");
     ls.alts.push_back("show");
-    ls.description = "Prints all .js files and subdirectories.\n";
+    ls.description = "Prints all .js files and subdirectories.";
 
-    cmds.push_back(help);
-    cmds.push_back(exit);
-    cmds.push_back(e001);
-    cmds.push_back(pwd);
-    cmds.push_back(cd);
-    cmds.push_back(ls);
+    Command read("read");
+    read.alts.push_back("cat");
+    read.alts.push_back("open");
+    read.description = "Displays the content of the file.";
+
+    utilCmds.push_back(help);
+    utilCmds.push_back(exit);
+    utilCmds.push_back(pwd);
+    utilCmds.push_back(cd);
+    utilCmds.push_back(ls);
+    utilCmds.push_back(read);
+
+    /** Setup Euler commands. **/
+    Command e001("e001");
+    e001.alts.push_back("001");
+    e001.description = "Multiples of 3 and 5.";
+
+    eulerCmds.push_back(e001);
 }
 
-bool Parser::contains(string str){
-    for(Command cmd : cmds) {
+bool Parser::contains(string &str){
+    return isUtil(str) || isEulerCmd(str);
+}
+
+bool Parser::isUtil(string &str)
+{
+    for(Command cmd : utilCmds) {
+        if(cmd.cmd == str)
+            return true;
+        for(string alt : cmd.alts) {
+            if(alt == str)
+                return true;
+        }
+    }
+    return false;
+}
+
+bool Parser::isEulerCmd(string &str)
+{
+    for(Command cmd : eulerCmds) {
         if(cmd.cmd == str)
             return true;
         for(string alt : cmd.alts) {
@@ -79,7 +102,15 @@ std::string Parser::simplifyCommand(std::string str)
 {
     if(!contains(str)) { return ""; }
     // Check each command and it's alts for a match.
-    for(Command cmd : cmds) {
+    for(Command cmd : utilCmds) {
+        if(cmd.cmd == str)
+            return cmd.cmd;
+        for(string alt : cmd.alts) {
+            if(alt == str)
+                return cmd.cmd;
+        }
+    }
+    for(Command cmd : eulerCmds) {
         if(cmd.cmd == str)
             return cmd.cmd;
         for(string alt : cmd.alts) {
@@ -90,13 +121,12 @@ std::string Parser::simplifyCommand(std::string str)
     return "";
 }
 
-ParsedCommand Parser::parse(std::string rawInput)
+vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
 {
+    vector<DataItem*> in;
+    DataItem* data;
     istringstream iss(rawInput);
     std::string token;
-    ParsedCommand res;
-    DataItem* data;
-    vector<DataItem*> in;
     int i = 0;
 
     /** Tokenize. **/
@@ -123,7 +153,7 @@ ParsedCommand Parser::parse(std::string rawInput)
             cout << "< Error: invalid command \"" + token + "\".\n";
             res.command = "error";
             res.problem = nullptr;
-            return res;
+            return vector<DataItem*>();
         } else {
             // Else set a new atom and push it to the input list.
             data = new DataItem(token);
@@ -131,11 +161,21 @@ ParsedCommand Parser::parse(std::string rawInput)
         }
         i++;
     }
+    return in;
+}
 
-    res.input->set(in);
+ParsedCommand Parser::parse(std::string rawInput)
+{
+    ParsedCommand res;
+    /** Tokenize the input. **/
+    vector<DataItem*> data = tokenize(rawInput, res);
+
+    // Set the input.
+    res.input->set(data);
 
     // Check if command is valid then set the problem pointer.
-    if(res.command.length() > 0 && res.command != "exit" && res.command != "help" && res.command != "pwd" && res.command != "cd" && res.command != "ls") {
+    if(res.command.length() > 0 &&
+            isEulerCmd(res.command)) {
         // Get the dictionary
         if(application)
         {
@@ -148,40 +188,10 @@ ParsedCommand Parser::parse(std::string rawInput)
         }
     }
 
-    /** Perform shell commands. **/
-#if (defined(__linux__) || (__unix__) || (__APPLE__))
-    if(res.command == "pwd") {
-        pwd();
-        res.command = "parsed";
-    } else if (res.command == "cd") {
-        string *path = res.input->getInterfaceCopy()[0].data.getString();
-        cd(*path);
-        res.command = "parsed";
-        delete path;
-    } else if(res.command == "ls") {
-        // The user supplied input.
-        if(res.input->getInterfaceCopy().size() > 0) {
-            string *dir = res.input->getInterfaceCopy()[0].data.getString();
-            ls(*dir);
-            res.command = "parsed";
-            delete dir;
-        } else {
-            // Print the current directory.
-            ls(".");
-            res.command = "parsed";
-        }
-    }
+    /** Clean up the alloced memory. **/
+    for(auto d : data)
+        if(d) { delete d; }
 
-#else
-    if(res.command == "pwd" || res.command == "cd" || res.command == "ls") {
-        cout << "< Erorr: your operating system is not supported!\n";
-        res.command = "parsed";
-    }
-#endif
-    // Delete the allocated memory.
-    for(DataItem* d : in) {
-        delete d;
-    }
     return res;
 }
 

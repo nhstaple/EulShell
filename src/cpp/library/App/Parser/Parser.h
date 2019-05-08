@@ -23,6 +23,13 @@
 using std::string;
 using std::vector;
 
+#include "./Termcolor.h"
+#define JAVASCRIPT termcolor::red
+#define C_CPP termcolor::green
+#define README termcolor::white
+#define FILE termcolor::yellow
+#define DIRECTORY termcolor::bold << termcolor::cyan
+
 class AppObject;
 
 class Parser {
@@ -33,15 +40,22 @@ public:
     void bindAppObject(AppObject* app) { application = app; }
     // Converts the raw input into a Parsed Command. See ParserObject.h.
     ParsedCommand parse(string rawInput);
-    // Returns true if cmds contains str.
-    bool contains(string str);
     // Simplifies a command. ie, reduce a command's alt to it's meta value.
     string simplifyCommand(string str);
-    // List of valid command.
-    vector<Command> cmds;
     friend class App;
 private:
+    // Tokenize the input.
+    vector<DataItem*> tokenize(string &rawInput, ParsedCommand &res);
+    // Check functions.
+    // void checkFunctions(ParsedCommand &cmd);
     AppObject* application;
+    // List of shell implemented commands.
+    vector<Command> utilCmds;
+    vector<Command> eulerCmds;
+    bool isUtil(string &str);
+    bool isEulerCmd(string &str);
+    // Returns true if cmds contains str.
+    bool contains(string &str);
 };
 
 #endif

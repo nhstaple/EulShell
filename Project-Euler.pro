@@ -12,10 +12,11 @@ SOURCES += \
     src/cpp/main.cpp \
     src/cpp/library/Graphs/Node.cpp \
     src/cpp/library/App/Parser/ParserObject.cpp \
-    src/cpp/library/App/Parser/ls.cpp \
-    src/cpp/library/App/Parser/pwd.cpp \
-    src/cpp/library/App/Parser/cd.cpp \
-    src/cpp/euler/e001/e001.cpp
+    src/cpp/euler/e001/e001.cpp \
+    src/cpp/library/App/cd.cpp \
+    src/cpp/library/App/ls.cpp \
+    src/cpp/library/App/pwd.cpp \
+    src/cpp/library/App/read.cpp
 
 HEADERS += \
     src/cpp/euler/001/e001.h \

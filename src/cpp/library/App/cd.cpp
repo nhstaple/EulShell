@@ -18,9 +18,6 @@ using namespace std;
 
 short int cd(string path)
 {
-    if(path == "001") {
-        cout << "boop\n";
-    }
     // If there was no input.
     if(path.size() == 0) {
         cout << "< Error: Please include a directory as an argument.\n";
@@ -48,7 +45,7 @@ short int cd(string path)
         if(chdir(path.c_str()) == 0) {
             return EXIT_SUCCESS;
         } else {
-            cout << "> Error: " << strerror(errno) << endl;
+            cout << "< Error: " << strerror(errno) << endl;
         }
     }
     return EXIT_FAILURE;

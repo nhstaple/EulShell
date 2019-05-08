@@ -13,13 +13,9 @@
 #include <ctype.h>
 #include <dirent.h>
 #include <iostream>
-#include "./Termcolor.h"
+#include "./Parser/Termcolor.h"
 
-#define JAVASCRIPT termcolor::red
-#define C_CPP termcolor::green
-#define README termcolor::white
-#define FILE termcolor::yellow
-#define DIRECTORY termcolor::bold << termcolor::cyan
+#include "./Parser/Parser.h"
 
 using namespace std;
 
@@ -30,13 +26,35 @@ int isDirectory(const char *path) {
    return S_ISDIR(statbuf.st_mode);
 }
 
+int isRegFile(const char *path) {
+   struct stat statbuf;
+   if (stat(path, &statbuf) != 0)
+       return 0;
+   return S_ISREG(statbuf.st_mode);
+}
+
 // https://www.geeksforgeeks.org/c-program-list-files-sub-directories-directory/
 short int ls(string dir)
 {
+    if(dir == "help") {
+        cout << "* ls - Color Map:\n";
+        cout << "* \t" << DIRECTORY << "Directory\n" << termcolor::reset;
+        cout << "* \t" << FILE << "File\n" << termcolor::reset;
+        cout << "* \t" << README << "Readme.md\n" << termcolor::reset;
+        cout << "* \t" << C_CPP << "Source.{c, cpp, h, hpp}\n" << termcolor::reset;
+        cout << "* \t" << JAVASCRIPT << "JavaScript.js\n" << termcolor::reset;
+        cout << "*\n";
+        return EXIT_SUCCESS;
+    }
     struct dirent *de;  // Pointer for directory entry
 
     // opendir() returns a pointer of DIR type.
-    DIR *dr = opendir(".");
+    DIR *dr;
+    if(dir.size() == 0) {
+         dr = opendir(".");
+    } else {
+        dr = opendir(dir.c_str());
+    }
 
     if (dr == NULL)  // opendir returns NULL if couldn't open directory
     {
@@ -58,10 +76,10 @@ short int ls(string dir)
             cout << README << filename << termcolor::reset << " ";
         }
         // Check it doesn't contain a period then print it.
-        else if(filename != "Makefile" &&(filename.find_first_of("." ) == string::npos)) {
-            if(isDirectory(filename.c_str())) {
+        else if((filename.find_first_of("." ) == string::npos)) {
+            if(filename != "Makefile" && isDirectory(filename.c_str())) {
                 cout << DIRECTORY << filename << termcolor::reset << " ";
-            } else {
+            } else if (isRegFile(filename.c_str())) {
                 cout << FILE << filename << termcolor::reset << " ";
             }
         }
