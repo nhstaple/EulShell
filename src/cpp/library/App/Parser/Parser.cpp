@@ -169,6 +169,9 @@ ParsedCommand Parser::parse(std::string rawInput)
         // The user supplied input.
         if(res.input->getInterfaceCopy().size() > 0) {
             string *dir = res.input->getInterfaceCopy()[0].data.getString();
+            if(contains(*dir)) {
+                *dir = simplifyCommand(*dir);
+            }
             ls(*dir);
             res.command = "parsed";
             delete dir;

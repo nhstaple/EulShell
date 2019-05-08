@@ -36,7 +36,7 @@ int isRegFile(const char *path) {
 // https://www.geeksforgeeks.org/c-program-list-files-sub-directories-directory/
 short int ls(string dir)
 {
-    if(dir == "help" || dir == "h" || dir == "halp") {
+    if(dir == "help") {
         cout << "* ls - Color Map:\n";
         cout << "* \t" << DIRECTORY << "Directory\n" << termcolor::reset;
         cout << "* \t" << FILE << "File\n" << termcolor::reset;
@@ -49,7 +49,12 @@ short int ls(string dir)
     struct dirent *de;  // Pointer for directory entry
 
     // opendir() returns a pointer of DIR type.
-    DIR *dr = opendir(".");
+    DIR *dr;
+    if(dir.size() == 0) {
+         dr = opendir(".");
+    } else {
+        dr = opendir(dir.c_str());
+    }
 
     if (dr == NULL)  // opendir returns NULL if couldn't open directory
     {
