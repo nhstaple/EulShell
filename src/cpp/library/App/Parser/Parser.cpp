@@ -154,8 +154,15 @@ ParsedCommand Parser::parse(std::string rawInput)
         pwd();
         res.command = "parsed";
     } else if (res.command == "cd") {
-        string *path = res.input->getInterfaceCopy()[0].data.getString();
-        cd(*path);
+        string *path = nullptr;
+        if(res.input->getInterfaceCopy().size() > 0) {
+            path = res.input->getInterfaceCopy()[0].data.getString();
+        } else {
+            path = new string("");
+        }
+
+        if(path) { cd(*path); }
+        else { cd("@"); }
         res.command = "parsed";
         delete path;
     } else if(res.command == "ls") {
