@@ -15,7 +15,20 @@
 #include <iostream>
 #include "./Termcolor.h"
 
+#define JAVASCRIPT termcolor::red
+#define C_CPP termcolor::green
+#define README termcolor::white
+#define FILE termcolor::yellow
+#define DIRECTORY termcolor::bold << termcolor::cyan
+
 using namespace std;
+
+int isDirectory(const char *path) {
+   struct stat statbuf;
+   if (stat(path, &statbuf) != 0)
+       return 0;
+   return S_ISDIR(statbuf.st_mode);
+}
 
 // https://www.geeksforgeeks.org/c-program-list-files-sub-directories-directory/
 short int ls(string dir)
@@ -37,16 +50,20 @@ short int ls(string dir)
         string filename(de->d_name);
         // If it's a .js, .cpp, .h, or .md file.
         if(filename.find(".js") != string::npos) {
-            cout << termcolor::red << filename << termcolor::reset << " ";
+            cout << JAVASCRIPT << filename << termcolor::reset << " ";
         } else if (filename.find(".cpp") != string::npos || filename.find(".c") != string::npos ||
                    filename.find(".h") != string::npos || filename.find(".hpp") != string::npos) {
-            cout << termcolor::green << filename << termcolor::reset << " ";
+            cout << C_CPP << filename << termcolor::reset << " ";
         } else if (filename.find(".md") != string::npos) {
-            cout << termcolor::cyan << filename << termcolor::reset << " ";
+            cout << README << filename << termcolor::reset << " ";
         }
         // Check it doesn't contain a period then print it.
-        else if(filename.find_first_of("." ) == string::npos) {
-            cout << termcolor::blue << filename << termcolor::reset << " ";
+        else if(filename != "Makefile" &&(filename.find_first_of("." ) == string::npos)) {
+            if(isDirectory(filename.c_str())) {
+                cout << DIRECTORY << filename << termcolor::reset << " ";
+            } else {
+                cout << FILE << filename << termcolor::reset << " ";
+            }
         }
     }
     cout << endl;
