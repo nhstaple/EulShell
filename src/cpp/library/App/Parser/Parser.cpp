@@ -141,8 +141,6 @@ vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
         }
 
         /** Structure the data into useful information. **/
-        // consts.
-        const bool has_only_digits = (token.find_first_not_of( "0123456789." ) == string::npos);
         // If the the first command is valid then simplify it and set the field in the data structure.
         if(i == 0 && contains(token)) {
             // Simplify turns any alt command into it's meta value.

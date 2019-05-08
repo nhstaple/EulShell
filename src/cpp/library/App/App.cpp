@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <chrono>
 
 extern short int cd(string path);
 extern short int ls(string dir);
@@ -9,6 +10,7 @@ extern short int pwd();
 extern short int read(ParsedCommand &cmd);
 
 using namespace std;
+using namespace std::chrono;
 
 App::App()
 {
@@ -64,7 +66,8 @@ void App::run()
         /** Perform shell commands. **/
         checkFunctions(cmd);
         if(cmd.problem) {
-            cmd.problem->exec(cmd.input);
+            nanoseconds time = cmd.problem->run(cmd.input);
+            cout << "* Time := " << time.count() << endl;
         } else if (cmd.command == "help"){
             help();
         } else if(cmd.command == "read") {

@@ -58,7 +58,7 @@ short int ls(string dir)
 
     if (dr == NULL)  // opendir returns NULL if couldn't open directory
     {
-        printf("Could not open current directory" );
+        printf("< Error: not open current directory\n");
         return 0;
     }
 

@@ -29,14 +29,14 @@ public:
     Euler() { }
 
     /** Run functions. Performs the calculation. **/
-protected:
     virtual nanoseconds run(Input &i)=0;
     virtual nanoseconds run(Input* in)=0;
     nanoseconds run() { return run(interface); }
-public:
-    virtual void exec(Input &i)=0;
-    virtual void exec(Input *in)=0;
-    void exec() { exec(interface); }
+
+    /** Used to time functions... **/
+    // virtual void exec(Input &i)=0;
+    // virtual void exec(Input *in)=0;
+    //void exec() { exec(interface); }
 
     /** Meta print functions. **/
     // Prints the name of the problem.
