@@ -13,9 +13,9 @@
 #include <ctype.h>
 #include <dirent.h>
 #include <iostream>
-#include "./Termcolor.h"
+#include "./Parser/Termcolor.h"
 
-#include "./Parser.h"
+#include "./Parser/Parser.h"
 
 using namespace std;
 
