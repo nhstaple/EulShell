@@ -166,7 +166,7 @@ nanoseconds e001::run(Input &input)
     /** Program end. **/
     t1 = high_resolution_clock::now();
     // Print the solution.
-    cout << "= " << sum << endl;
+    cout << "\n= " << sum << "\n\n";
     return duration_cast<nanoseconds>(t1 - t0);
 }
 

@@ -67,7 +67,7 @@ void App::run()
         checkFunctions(cmd);
         if(cmd.problem) {
             nanoseconds time = cmd.problem->run(cmd.input);
-            cout << "* Time := " << time.count() << endl;
+            cout << "* Time := " << time.count() << " nanoseconds.\n";
         } else if (cmd.command == "help"){
             help();
         } else if(cmd.command == "read") {
