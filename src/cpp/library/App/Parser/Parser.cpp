@@ -7,7 +7,20 @@
 
 /** Note: need to verify on a linux distro. **/
 #if defined(__linux__) || (__unix__) || (__APPLE__)
+#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <string.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <libgen.h>
+#include <ctype.h>
+
+using std::endl;
+short int cd(string path);
 
 /** Do other platforms. **/
 #else
@@ -35,19 +48,21 @@ Parser::Parser(AppObject* app)
     e001.alts.push_back("001");
     e001.description = "Multiples of 3 and 5.";
 
-    // Command cd("cd");
-    // cd.alts.push_back("changedir");
-    // cd.alts.push_back("change_directory");
-    // cd.description = "(*NIX operating systems only. Runs cd.";
+    Command cd("cd");
+    cd.alts.push_back("changedir");
+    cd.alts.push_back("change_directory");
+    cd.description = "(*NIX operating systems only. Runs cd.";
 
     Command pwd("pwd");
     pwd.alts.push_back("printdir");
     pwd.alts.push_back("print_directory");
+    pwd.description = "Prints the working directory.\n";
 
     cmds.push_back(help);
     cmds.push_back(exit);
     cmds.push_back(e001);
     cmds.push_back(pwd);
+    cmds.push_back(cd);
 }
 
 bool Parser::contains(string str){
@@ -107,7 +122,7 @@ ParsedCommand Parser::parse(std::string rawInput)
             res.command = token;
         } else if (i == 0) {
             // Else if the command is not valid.
-            cout << "Error: invalid command \"" + token + "\".\n";
+            cout << "< Error: invalid command \"" + token + "\".\n";
             res.command = "error";
             res.problem = nullptr;
             return res;
@@ -122,7 +137,7 @@ ParsedCommand Parser::parse(std::string rawInput)
     res.input->set(in);
 
     // Check if command is valid then set the problem pointer.
-    if(res.command.length() > 0 && res.command != "exit" && res.command != "help" && res.command != "pwd") {
+    if(res.command.length() > 0 && res.command != "exit" && res.command != "help" && res.command != "pwd" && res.command != "cd") {
         // Get the dictionary
         if(application)
         {
@@ -135,17 +150,11 @@ ParsedCommand Parser::parse(std::string rawInput)
         }
     }
 
-    // Delete the allocated memory.
-    for(DataItem* d : in) {
-        delete d;
-    }
-
     /** Perform shell commands. **/
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
     if(res.command == "pwd") {
-        pid_t id = fork();
         // If you're the child then exec!
-        if(id == 0) {
+        if(fork() == 0) {
             char *list[3] = { "pwd", "-P", nullptr };
             execvp("pwd", list);
             exit(-1);
@@ -156,12 +165,55 @@ ParsedCommand Parser::parse(std::string rawInput)
             wait(&status);
             res.command = "parsed";
         }
+    } else if (res.command == "cd") {
+        string *path = res.input->getInterfaceCopy()[0].data.getString();
+        cd(*path);
+        res.command = "parsed";
     }
 #else
-    if(res.command == "pwd") {
+    if(res.command == "pwd" || res.command == "cd") {
         cout << "< Erorr: your operating system is not supported!\n";
         res.command = "parsed";
     }
 #endif
+    // Delete the allocated memory.
+    for(DataItem* d : in) {
+        delete d;
+    }
     return res;
+}
+
+short int cd(string path)
+{
+    // If there was no input.
+    if(path.size() == 0) {
+        cout << "< Error: Please include a directory as an argument.\n";
+        return EXIT_FAILURE;
+    // If the path is the current directory.
+    } else if(strcmp(path.c_str(), ".") == 0) {
+        return EXIT_SUCCESS;
+    // If the path is the parent.
+    } else if(strcmp(path.c_str(), "..") == 0) {
+        char tmp[512];
+        getcwd(tmp, 512);
+        // Check if root.
+        if(strcmp(tmp, "/") == 0) {
+            cout << "@ root\n";
+            return EXIT_SUCCESS;
+        } else {
+            char *parent = dirname(tmp);
+            chdir(parent);
+            return EXIT_SUCCESS;
+        }
+    } else {
+        char tmp[512];
+        getcwd(tmp, 512);
+        // Check if root.
+        if(chdir(path.c_str()) == 0) {
+            return EXIT_SUCCESS;
+        } else {
+            cout << "> Error: " << strerror(errno) << endl;
+        }
+    }
+    return EXIT_FAILURE;
 }

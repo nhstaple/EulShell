@@ -37,8 +37,8 @@ public:
     DataItem(string str)
     {
         bool has_only_digits = (str.find_first_not_of( "0123456789." ) == string::npos);
-        if((has_only_digits && std::stoi(str)) || str == "0" || str == "1") { set(stoi(str)); }
-        else if(has_only_digits && std::stof(str))  { set(stof(str)); }
+        if((has_only_digits && str != "." && str != ".." && std::stoi(str)) || str == "0" || str == "1") { set(stoi(str)); }
+        else if(has_only_digits && str != "." && str != ".." && std::stof(str))  { set(stof(str)); }
         else if(str == "true"  || str == "t")       { set(true);      }
         else if(str == "false" || str == "f")       { set(false);     }
         else                                        { set(str);       }
