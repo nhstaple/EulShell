@@ -19,6 +19,7 @@ public:
 
     friend class Parser;
 private:
+    void checkFunctions(ParsedCommand &cmd);
     /** Parsing Stuff **/
     Parser* parser;
 

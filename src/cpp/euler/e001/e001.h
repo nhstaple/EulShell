@@ -27,8 +27,8 @@ public:
     nanoseconds run(Input* in) override;
     nanoseconds run() { return run(interface); }
 
-    void exec(Input &i) override;
-    void exec(Input *in) override;
+    // void exec(Input &i) override;
+    // void exec(Input *in) override;
 
     /** Meta print functions. **/
     // Prints the program name.

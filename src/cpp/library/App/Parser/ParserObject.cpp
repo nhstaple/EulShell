@@ -3,16 +3,16 @@
 
 void Command::printObject()
 {
-    cout << "> \t * ";
+    cout << "\n> \t * ";
     cout << this->cmd << "\t : ";
     for(string alt : this->alts) {
         cout << alt;
         if(alt != this->alts.back()) { cout << ", "; }
     }
     if(description.size()) {
-        cout << "\n> \t ->" + description + "\n>\n";
+        cout << "\n> \t -> " + description;
     } else {
-        cout << "\n>\n";
+        cout << "\n";
     }
 }
 
