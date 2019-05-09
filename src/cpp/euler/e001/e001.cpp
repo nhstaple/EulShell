@@ -85,6 +85,8 @@ nanoseconds e001::run(Input *i)
 
 nanoseconds e001::run(Input &input)
 {
+    name();
+    description();
     auto data = input.getInterfaceCopy();
     if(data.size() > 0) {
          string* cmd = data[0].data.getString();
@@ -164,10 +166,11 @@ nanoseconds e001::run(Input &input)
     /** Program end. **/
     t1 = high_resolution_clock::now();
     // Print the solution.
-    cout << "*\n= " << sum << endl;
+    cout << "\n= " << sum << "\n\n";
     return duration_cast<nanoseconds>(t1 - t0);
 }
 
+/*
 void e001::exec(Input *in) {
     vector<InterfaceAtom> data;
     vector<InterfaceAtom> copy = in->getInterfaceCopy();
@@ -221,3 +224,4 @@ void e001::exec(Input &in) {
         run(in);
     }
 }
+*/
