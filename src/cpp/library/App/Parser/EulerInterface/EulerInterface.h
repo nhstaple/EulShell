@@ -55,6 +55,7 @@ public:
     void reset() { interface.clear(); cout << "** WARNNING CLEARED AN EULER INTERFACE\n";}
     // Prints each atom of the interface and its value.
     void print();
+    void paramPrint();
 private:
     vector<InterfaceAtom>  interface;
 };

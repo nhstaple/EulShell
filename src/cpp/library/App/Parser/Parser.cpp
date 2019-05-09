@@ -19,6 +19,7 @@ using namespace std;
 Parser::Parser(AppObject* app)
 {
     application = app;
+    vector<InterfaceAtom> data;
     /** Setup util commands. **/
     Command help("help");
     help.alts.push_back("halp");
@@ -27,16 +28,19 @@ Parser::Parser(AppObject* app)
 
     Command exit("exit");
     exit.alts.push_back("e");
-    exit.alts.push_back("exit");
     exit.alts.push_back("bye");
     exit.alts.push_back("q");
     exit.alts.push_back("quit");
+    exit.alts.push_back("I'm making my own shell with black jack and hookers.");
     exit.description = "Terminates the application.";
 
     Command cd("cd");
     cd.alts.push_back("changedir");
     cd.alts.push_back("change_directory");
-    cd.description = "(*NIX operating systems only. Runs cd.";
+    cd.description = "*NIX operating systems only. Runs cd.";
+    data.push_back(InterfaceAtom(string("std::string"), string("directory"), bool(false)));
+    cd.params->set(data);
+    data.clear();
 
     Command pwd("pwd");
     pwd.alts.push_back("printdir");
@@ -46,12 +50,18 @@ Parser::Parser(AppObject* app)
     Command ls("ls");
     ls.alts.push_back("list");
     ls.alts.push_back("show");
-    ls.description = "Prints all .js files and subdirectories.";
+    ls.description = "Prints all valid files and subdirectories.";
+    data.push_back(InterfaceAtom(string("std::string"), string("directory"), bool(true)));
+    ls.params->set(data);
+    data.clear();
 
     Command read("read");
     read.alts.push_back("cat");
     read.alts.push_back("open");
     read.description = "Displays the content of the file.";
+    data.push_back(InterfaceAtom(string("std::string"), string("file"), bool(false)));
+    read.params->set(data);
+    data.clear();
 
     utilCmds.push_back(help);
     utilCmds.push_back(exit);
@@ -64,6 +74,12 @@ Parser::Parser(AppObject* app)
     Command e001("e001");
     e001.alts.push_back("001");
     e001.description = "Multiples of 3 and 5.";
+    data.push_back(InterfaceAtom(string("int"), string("const1"), bool(false)));
+    data.push_back(InterfaceAtom(string("int"), string("const2"), bool(false)));
+    data.push_back(InterfaceAtom(string("int"), string("max"), bool(false)));
+    data.push_back(InterfaceAtom(string("std::string"), string("help"), bool(true)));
+    e001.params->set(data);
+    data.clear();
 
     eulerCmds.push_back(e001);
 }
@@ -172,8 +188,7 @@ ParsedCommand Parser::parse(std::string rawInput)
     res.input->set(data);
 
     // Check if command is valid then set the problem pointer.
-    if(res.command.length() > 0 &&
-            isEulerCmd(res.command)) {
+    if(res.command.length() > 0 && isEulerCmd(res.command)) {
         // Get the dictionary
         if(application)
         {

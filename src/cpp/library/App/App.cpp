@@ -33,12 +33,12 @@ void App::printAppObject()
 void App::help()
 {
     cout << "> github/nhstaple/Project-Euler C++ Help\n";
-    cout << "> Available commands:";
+    cout << "> Available commands";
     for(Command cmd : parser->utilCmds) {
         cmd.printObject();
         cout << "\n>";
     }
-    cout << " Available solutions:";
+    cout << " Available solutions";
     for(Command cmd : parser->eulerCmds) {
         cmd.printObject();
         cout << "\n>";

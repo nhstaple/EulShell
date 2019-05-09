@@ -143,14 +143,79 @@ void EulerInterface::print()
         void *ptr = nullptr;
         if((ptr = a.data.getInt())) {
             cout << *static_cast<int*>(ptr) << endl;
+            if(ptr) { freemem(ptr, "int"); }
         } else if((ptr = a.data.getFloat())) {
             cout << *static_cast<float*>(ptr) << endl;
+            if(ptr) { freemem(ptr, "float"); }
         } else if((ptr = a.data.getBool())) {
             cout << *static_cast<bool*>(ptr) << endl;
+            if(ptr) { freemem(ptr, "bool"); }
         } else if((ptr = a.data.getString())) {
             cout << *static_cast<string*>(ptr) << endl;
+            if(ptr) { freemem(ptr, "std::string"); }
         }
-        if(ptr) { free(ptr); }
         i++;
+    }
+}
+
+void EulerInterface::paramPrint()
+{
+    int i = 0;
+    for(InterfaceAtom a : interface) {
+        cout << "\n> \t " << "  - ";
+        void *ptr = nullptr;
+        string *type = a.data.getString();
+        bool *optional = a.max.getBool();
+        bool printedValid = false;
+        if((ptr = a.min.getInt())) {
+            if((optional && type && *optional == false) || optional == nullptr) {
+                cout << i << " " << *type << " -> ";
+                cout << *static_cast<int*>(ptr);
+                printedValid = true;
+            } else {
+                cout << '?' << " " << *type << " -> ";
+                cout << *static_cast<int*>(ptr);
+            }
+            if(ptr) { freemem(ptr, "int"); }
+            if(optional) { freemem(optional, "bool"); }
+            if(type) { freemem(type, "std::string"); }
+        } else if((ptr = a.min.getFloat())) {
+            if((optional && type  && *optional == false) || optional == nullptr) {
+                cout << i << " " << *type << " -> ";
+                cout << *static_cast<float*>(ptr);
+                printedValid = true;
+            } else {
+                cout << '?' << " " << *type << " -> ";
+                cout << *static_cast<float*>(ptr);
+            }
+            if(ptr) { freemem(ptr, "float"); }
+            if(optional) { freemem(optional, "bool"); }
+            if(type) { freemem(type, "std::string"); }
+        } else if((ptr = a.min.getBool())) {
+            if((optional && type  && *optional == false) || optional == nullptr) {
+                cout << i << " " << *type << " -> ";
+                cout << *static_cast<bool*>(ptr);
+                printedValid = true;
+            } else {
+                cout << '?' << " " << *type << " -> ";
+                cout << *static_cast<bool*>(ptr);
+            }
+            if(ptr) { freemem(ptr, "bool"); }
+            if(optional) { freemem(optional, "bool"); }
+            if(type) { freemem(type, "std::string"); }
+        } else if((ptr = a.min.getString())) {
+            if((optional && type  && *optional == false) || optional == nullptr) {
+                cout << i << " " << *type << " -> ";
+                cout << *static_cast<string*>(ptr);
+                printedValid = true;
+            } else {
+                cout << '?' << " " << *type << " -> ";
+                cout << *static_cast<string*>(ptr);
+            }
+            if(ptr) { freemem(ptr, "std::string"); }
+            if(optional) { freemem(optional, "bool"); }
+            if(type) { freemem(type, "std::string"); }
+        }
+        if(printedValid) { i++; }
     }
 }

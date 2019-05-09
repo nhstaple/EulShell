@@ -5,7 +5,7 @@
  * Euler Abstract Class
  *
  * The base class for all Euler Problems. Ie, this will allow the shell to treat
- * all Euler Problems as a command with the interface being it's input method.
+ * all Euler Problems as a command with the interface being it's input.
  *
 */
 #include "../library/App/Parser/EulerInterface/EulerInterface.h"
@@ -36,7 +36,7 @@ public:
     /** Used to time functions... **/
     // virtual void exec(Input &i)=0;
     // virtual void exec(Input *in)=0;
-    //void exec() { exec(interface); }
+    // void exec() { exec(interface); }
 
     /** Meta print functions. **/
     // Prints the name of the problem.
@@ -53,6 +53,7 @@ public:
     // Public interface to access. To be used in the Parser, ie (input interface) == this->interface ?
     Input interface;
 
+    // Used to time solutions.
     high_resolution_clock::time_point t0, t1;
 };
 

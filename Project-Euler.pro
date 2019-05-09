@@ -30,7 +30,8 @@ HEADERS += \
     src/cpp/library/Utility/Typedata.h \
     src/cpp/library/Graphs/DataItem.h \
     src/cpp/library/Graphs/Node.h \
-    src/cpp/library/App/Parser/Termcolor.h
+    src/cpp/library/App/Parser/Termcolor.h \
+    src/cpp/euler/e001/e001.h
 
 DISTFILES += \
     src/cpp/Makefile

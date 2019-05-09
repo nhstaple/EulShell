@@ -35,8 +35,8 @@ short int read(ParsedCommand &cmd)
             }
         }
         if(fork() == 0) {
-            char *ptr = new char(filename.size());
-            for(int i = 0; i < filename.size(); i++)
+            char *ptr = new char[filename.size()];
+            for(unsigned int i = 0; i < filename.size(); i++)
                 ptr[i] = filename.c_str()[i];
 
             char *args[] = { "cat", ptr, nullptr };

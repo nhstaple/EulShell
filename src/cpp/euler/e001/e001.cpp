@@ -22,6 +22,9 @@ void e001::description()
 
 void e001::help()
 {
+    cout << "* Euler 001 - Help\n";
+    name();
+    description();
     cout << "*\n* Interface read as- \"<index> <default>, <min>, <max>\":\n";
     int i = 0;
     for(InterfaceAtom a : interface.getInterfaceCopy()) {
@@ -85,8 +88,6 @@ nanoseconds e001::run(Input *i)
 
 nanoseconds e001::run(Input &input)
 {
-    name();
-    description();
     auto data = input.getInterfaceCopy();
     if(data.size() > 0) {
          string* cmd = data[0].data.getString();
@@ -97,7 +98,7 @@ nanoseconds e001::run(Input &input)
          }
          if(cmd) { delete cmd; }
     }
-
+    name();
     /** Local variables. **/
     // The first number to multiply.
     int const1;
@@ -165,8 +166,9 @@ nanoseconds e001::run(Input &input)
 
     /** Program end. **/
     t1 = high_resolution_clock::now();
+
     // Print the solution.
-    cout << "\n= " << sum << "\n\n";
+    cout << "= " << sum << "\n";
     return duration_cast<nanoseconds>(t1 - t0);
 }
 
