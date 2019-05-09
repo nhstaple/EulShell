@@ -83,6 +83,7 @@ a, a:visited, a:valid {
 #roadMap {
     background-color: rgba(0, 0, 0, 0.5);
     padding-left: 0;
+    padding-bottom: 0;
 }
 
 .date {
@@ -147,7 +148,7 @@ a, a:visited, a:valid {
     display: inline;
 }
 
-.roadmapVersion {
+.roadmapVersion, .changelogVersion {
     background-color: rgba(255, 255, 255, 0.125);
     padding-left: 0.5vw;
     padding-right: 0.5vw;
@@ -158,6 +159,10 @@ a, a:visited, a:valid {
     padding-top: 0.25vh;
     padding-bottom: 0.25vh;
     font-size: 2.25em;
+}
+
+.roadmapVersion {
+    width: fit-content;
 }
 
 .list {
@@ -203,4 +208,8 @@ a, a:visited, a:valid {
 
 #roadmapTitle {
     padding-left: 5vw;
+}
+
+#firstversion {
+    padding-top: 2vh;
 }
