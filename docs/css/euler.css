@@ -57,9 +57,10 @@ body {
 #titleLink {
     text-decoration: none;
     font-weight: 800;
+    color: white;
 }
 
-.a, a:visited, a:valid {
+a, a:visited, a:valid {
     color: white;
 }
 
@@ -102,6 +103,7 @@ body {
 
 .link {
     display: contents;
+    color: white;
 }
 
 .date {
