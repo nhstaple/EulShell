@@ -60,8 +60,9 @@ body {
     color: white;
 }
 
-a, a:visited, a:valid {
+a, a:visited, a:valid, #titleLink, #repoLink {
     color: white;
+    text-decoration: underline;
 }
 
 #description {
