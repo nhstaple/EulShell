@@ -5,7 +5,7 @@ Gold   rgb(253,185,39)
 
 @media only screen and (max-width: 300px){
     #minSizeOverlay {
-            display: block;
+            display: absolute;
     }
 }
 
@@ -31,11 +31,20 @@ body {
     padding: 5vh 5vw 5vh 5vw;
 }
 
-#topHalf, #bottomHalf {
-    padding: 5vh 2vw 5vh 2vw;
+#topHalf {
+    padding: 5vh 5vw 5vh 5vw;
     font-weight: 100;
     color: white;
+    background-color: rgba(0, 0, 0, 0.25);
 }
+
+#bottomHalf, #roadMap, #bugs {
+    padding: 0 0 0 0;
+    font-weight: 100;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
 
 #title {
     display: flex;
@@ -50,32 +59,49 @@ body {
     font-weight: 800;
 }
 
-a:visited {
+.a, a:visited, a:valid {
     color: white;
 }
 
 #description {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: row;
-    flex-wrap: wrap;
+    word-wrap: break-word;
+    line-height: 175%;
 }
 
-#changelog {
-    padding-top: 3vh;
-    padding-left: 5vw;
+#changelog, #roadMap, #bugs {
+    padding-top: 5vh;
+    padding-left: 5vh;
+    padding-bottom: 5vh;
+    margin-bottom: 5vh;
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#roadMap {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#roadMap {
+    padding-bottom: 0;
+}
+
+.version {
+    font-size: 2.25em;
+}
+
+.date {
+    font-size: 1.5em;
 }
 
 .update {
-    padding-bottom: 2vh;
-    line-height: 110%;
-}
-
-.updateDetails {
-    line-height: 150%;
+    padding: 1vh 0vw 1vh 3vw;
+    background-color: rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5vh;
+    flex: 1 1 auto;
 }
 
 .link {
@@ -85,3 +111,74 @@ a:visited {
 .date {
     padding-bottom: 1vh;
 }
+
+.command {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: red;
+    font-weight: 800;
+    font-family: 'Roboto Mono', monospace;
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
+}
+
+.file {
+    background: black;
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: 'Roboto Mono', monospace;
+    display: inline;
+}
+
+.code {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 100;
+    color: black;
+    display: inline;
+}
+
+.roadmapVersion {
+    background-color: rgba(255, 255, 255, 0.125);
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 100;
+}
+
+.list {
+    list-style: disc;
+    line-height: 200%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex: 0 1 auto;
+    padding-right: 5vw;
+    padding-left: 5vw;
+}
+
+.updateWrapper {
+    display: flex;
+    flex-direction: row;
+    flex: 0 1 auto;
+}
+
+.updateTab {
+    width: 3vw;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex: 0 0 auto;
+    margin-bottom: 5vh;
+}
+
+.bottomtext {
+    font-size: 2em;
+    font-weight: 800;
+}
+
+#mostRecentUpdate {
+    padding-top: 2.5vh;
+}
+
