@@ -62,14 +62,14 @@ public:
     // If the pointers returned by these functions are not nullptrs,
     // then the pointer returned is a copy of the value stored in
     // this DataItem. Remember to free it after use.
-    int*         getInt();
-    int*         getInt()    const;
-    float*       getFloat();
-    float*       getFloat()  const;
-    bool*        getBool();
-    bool*        getBool()   const;
-    std::string* getString();
-    std::string* getString() const;
+    bool getInt(int &var);
+    bool getFloat(float &var);
+    bool getBool(bool &var);
+    bool getString(string &var);
+    bool getInt(int &var) const;
+    bool getFloat(float &var) const;
+    bool getBool(bool &var) const;
+    bool getString(string &var) const;
 
     /** Overloaded operators. **/
     void operator=(const DataItem &D);

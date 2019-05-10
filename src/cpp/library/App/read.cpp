@@ -14,12 +14,10 @@ using namespace std;
 short int read(ParsedCommand &cmd)
 {
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
-    string *file = nullptr;
     bool canView = false;
     string filename;
     if(cmd.input->getInterfaceCopy().size() > 0) {
-        file = cmd.input->getInterfaceCopy()[0].data.getString();
-        if(file) { filename = *file; }
+        cmd.input->getInterfaceCopy()[0].data.getString(filename);
 
         if(filename.find(".js") != string::npos) {
             canView = true;
@@ -51,7 +49,6 @@ short int read(ParsedCommand &cmd)
     } else {
         cout << "< Error: please enter a file.\n";
     }
-    if(file) { delete file; }
     return EXIT_SUCCESS;
 #else
     if(res.command == "pwd" || res.command == "cd" || res.command == "ls") {

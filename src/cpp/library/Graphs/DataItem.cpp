@@ -33,6 +33,7 @@ bool freemem(void* ptr, string type)
     return false;
 }
 
+/*
 int* DataItem::getInt()
 {
     if(this->type == "int") {
@@ -104,6 +105,79 @@ string* DataItem::getString() const
     }
     return nullptr;
 }
+*/
+
+bool DataItem::getInt(int &var)
+{
+    if(this->type == "int") {
+        var = *static_cast<int*>(this->data);
+        return true;
+    }
+    return false;;
+}
+
+bool DataItem::getFloat(float &var)
+{
+    if(this->type == "float") {
+        var = *static_cast<float*>(this->data);
+        return true;
+    }
+    return false;
+}
+
+bool DataItem::getBool(bool &var)
+{
+    if(this->type == "bool") {
+        var = *static_cast<bool*>(this->data);
+        return true;
+    }
+    return false;
+}
+
+bool DataItem::getString(string &var)
+{
+    if(this->type == "std::string") {
+        var = *static_cast<string*>(this->data);
+        return true;
+    }
+    return false;
+}
+
+bool DataItem::getInt(int &var) const
+{
+    if(this->type == "int") {
+        var = *static_cast<int*>(this->data);
+        return true;
+    }
+    return false;;
+}
+
+bool DataItem::getFloat(float &var) const
+{
+    if(this->type == "float") {
+        var = *static_cast<float*>(this->data);
+        return true;
+    }
+    return false;
+}
+
+bool DataItem::getBool(bool &var) const
+{
+    if(this->type == "bool") {
+        var = *static_cast<bool*>(this->data);
+        return true;
+    }
+    return false;
+}
+
+bool DataItem::getString(string &var) const
+{
+    if(this->type == "std::string") {
+        var = *static_cast<string*>(this->data);
+        return true;
+    }
+    return false;
+}
 
 void DataItem::operator=( DataItem &D )
 {
@@ -112,15 +186,18 @@ void DataItem::operator=( DataItem &D )
         freemem(this->data, this->type);
         this->data = nullptr;
     }
-    void *ptr = nullptr;
-    if((ptr = D.getInt())) {
-        this->data = ptr;
-    } else if ((ptr = D.getFloat())) {
-        this->data = ptr;
-    } else if ((ptr = D.getBool())) {
-        this->data = ptr;
-    } else if ((ptr = D.getString())) {
-        this->data = ptr;
+    int var1;
+    float var2;
+    bool var3;
+    string var4;
+    if(D.getInt(var1)) {
+        this->data = new int(var1);
+    } else if (D.getFloat(var2)) {
+        this->data = new float(var2);
+    } else if (D.getBool(var3)) {
+        this->data = new bool(var3);
+    } else if (D.getString(var4)) {
+        this->data = new string(var4);
     }
     // Do not free ptr because getInt mallocs a copy.
 }
@@ -132,15 +209,18 @@ void DataItem::operator=(const DataItem &D )
         freemem(this->data, this->type);
         this->data = nullptr;
     }
-    void *ptr = nullptr;
-    if((ptr = D.getInt())) {
-        this->data = ptr;
-    } else if ((ptr = D.getFloat())) {
-        this->data = ptr;
-    } else if ((ptr = D.getBool())) {
-        this->data = ptr;
-    } else if ((ptr = D.getString())) {
-        this->data = ptr;
+    int var1;
+    float var2;
+    bool var3;
+    string var4;
+    if(D.getInt(var1)) {
+        this->data = new int(var1);
+    } else if (D.getFloat(var2)) {
+        this->data = new float(var2);
+    } else if (D.getBool(var3)) {
+        this->data = new bool(var3);
+    } else if (D.getString(var4)) {
+        this->data = new string(var4);
     }
 }
 

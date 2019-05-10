@@ -29,46 +29,18 @@ void e001::help()
     int i = 0;
     for(InterfaceAtom a : interface.getInterfaceCopy()) {
         cout << "*\t" << i << ": ";
-        void* val = nullptr;
-        void* min = nullptr;
-        void* max = nullptr;
+        int value, min, max;
 
-        if((val = a.data.getInt())) {
-            cout << *static_cast<int*>(val);
-        } else if((val = a.data.getFloat())) {
-            cout << *static_cast<float*>(val);
-        } else if((val = a.data.getBool())) {
-            cout << *static_cast<bool*>(val);
-        } else if((val = a.data.getString())) {
-            cout << *static_cast<string*>(val);
+        if(a.data.getInt(value)) {
+            cout << value;
         }
 
-        if(val) {
-            cout << ", ";
-            if((min = a.min.getInt())) {
-                cout << *static_cast<int*>(min);
-            } else if((min = a.min.getFloat())) {
-                cout << *static_cast<float*>(min);
-            } else if((min = a.min.getBool())) {
-                cout << *static_cast<bool*>(min);
-            } else if((min = a.min.getString())) {
-                cout << *static_cast<string*>(min);
-            }
-            if((max = a.max.getInt())) {
-                cout << ", " << *static_cast<int*>(max);
-            } else if((max = a.max.getFloat())) {
-                cout << ", " << *static_cast<float*>(max);
-            } else if((max = a.max.getBool())) {
-                cout << ", " << *static_cast<bool*>(max);
-            } else if((max = a.max.getString())) {
-                cout << ", " << *static_cast<string*>(max);
-            }
+        if(a.min.getInt(min)) {
+            cout << ", " << min;
         }
-
-        // Free the malloced memory.
-        if(val) { freemem(val, a.data.getType()); }
-        if(min) { freemem(min, a.min.getType()); }
-        if(max) { freemem(max, a.max.getType()); }
+        if(a.max.getInt(max)) {
+            cout << ", " << max;
+        }
         i++;
         cout << endl;
     }
@@ -90,15 +62,14 @@ nanoseconds e001::run(Input &input)
 {
     auto data = input.getInterfaceCopy();
     if(data.size() > 0) {
-         string* cmd = data[0].data.getString();
-         if(cmd && (*cmd == "help" || *cmd == "h")) {
+         string cmd;
+         if(data[0].data.getString(cmd) && (cmd == "help" || cmd == "h")) {
              help();
-             delete cmd;
              return nanoseconds(0);
          }
-         if(cmd) { delete cmd; }
     }
     name();
+
     /** Local variables. **/
     // The first number to multiply.
     int const1;
@@ -112,41 +83,19 @@ nanoseconds e001::run(Input &input)
     /** Data validation. **/
     if(this->interface == input && ENABLE) {
         // Set vars based off interface. See the header for me details.
-        int *ptr = data[0].data.getInt();
-        const1 = *ptr;
-        delete ptr;
-
-        ptr = data[1].data.getInt();
-        const2 = *ptr;
-        delete ptr;
-
-        ptr = data[2].data.getInt();
-        cap = *ptr;
-        delete ptr;
-
+        data[0].data.getInt(const1);
+        data[1].data.getInt(const2);
+        data[2].data.getInt(cap);
     } else {
         // Else use the default input.
         if(input.getInterfaceCopy().size() > 0) {
-            string *cmd = input.getInterfaceCopy()[0].data.getString();
-            if(cmd && *cmd == "test") {
-                cout << "> Running test...\n";
-            } else {
-                cout << "> Error: bad input.\n";
-                input.print();
-            }
+            cout << "> Error: bad input.\n";
+            input.print();
         }
         data = this->interface.getInterfaceCopy();
-        int *ptr = data[0].data.getInt();
-        const1 = *ptr;
-        delete ptr;
-
-        ptr = data[1].data.getInt();
-        const2 = *ptr;
-        delete ptr;
-
-        ptr = data[2].data.getInt();
-        cap = *ptr;
-        delete ptr;
+        data[0].data.getInt(const1);
+        data[1].data.getInt(const2);
+        data[2].data.getInt(cap);
     }
 
     /** Program Start **/

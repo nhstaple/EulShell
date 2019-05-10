@@ -84,26 +84,23 @@ void App::checkFunctions(ParsedCommand &cmd)
         pwd();
         cmd.command = "parsed";
     } else if (cmd.command == "cd") {
-        string *path = nullptr;
+        string path = ".";
         if(cmd.input->getInterfaceCopy().size() > 0) {
-            path = cmd.input->getInterfaceCopy()[0].data.getString();
+            cmd.input->getInterfaceCopy()[0].data.getString(path);
         } else {
-            path = new string("");
+            path = ".";
         }
-        if(path) { cd(*path); }
-        else { cd("@"); }
+        cd(path);
         cmd.command = "parsed";
-        delete path;
     } else if(cmd.command == "ls") {
         // The user supplied input.
         if(cmd.input->getInterfaceCopy().size() > 0) {
-            string *dir = cmd.input->getInterfaceCopy()[0].data.getString();
-            if(parser && parser->contains(*dir)) {
-                *dir = parser->simplifyCommand(*dir);
+            string dir;
+            if(cmd.input->getInterfaceCopy()[0].data.getString(dir) && parser && parser->contains(dir)) {
+                dir = parser->simplifyCommand(dir);
             }
-            ls(*dir);
+            ls(dir);
             cmd.command = "parsed";
-            delete dir;
         } else {
             // Print the current directory.
             ls(".");
