@@ -1,3 +1,5 @@
+// euler/e001/e001.cpp
+
 #include "./e001.h"
 #include <iostream>
 using namespace std;
@@ -52,18 +54,6 @@ void e001::help()
     cout << "*\n";
 }
 
-// Converts the input to new data and runs the program.
-nanoseconds e001::run(Input *i)
-{
-    vector<InterfaceAtom> data;
-    vector<InterfaceAtom> copy = i->getInterfaceCopy();
-    for(auto a = copy.begin(); a != copy.end(); a++) {
-        data.push_back(*a);
-    }
-    Input newInput(data);
-    return run(newInput);
-}
-
 // The main program.
 nanoseconds e001::run(Input &input)
 {
@@ -105,7 +95,7 @@ nanoseconds e001::run(Input &input)
         data[2].data.getInt(cap);
     }
 
-    /** Program Start **/
+/** Program Start **/
     t0 = high_resolution_clock::now();
 
     // Add constant 1.
@@ -120,67 +110,11 @@ nanoseconds e001::run(Input &input)
     for(int i = 1; i*const1*const2 < cap; i++)
         sum -= i*const1*const2;
 
-    /** Program end. **/
+/** Program end. **/
     t1 = high_resolution_clock::now();
 
     // Print the solution.
     cout << "= " << sum << "\n";
+
     return duration_cast<nanoseconds>(t1 - t0);
 }
-
-/** Unused. **/
-/*
-void e001::exec(Input *in) {
-    vector<InterfaceAtom> data;
-    vector<InterfaceAtom> copy = in->getInterfaceCopy();
-    for(auto a = copy.begin(); a != copy.end(); a++) {
-        data.push_back(*a);
-    }
-    Input newInput(data);
-    data = newInput.getInterfaceCopy();
-
-    if(data.size() == 2) {
-        string *cmd = data[0].data.getString();
-        int *numExperiments = data[1].data.getInt();
-        // Parse and check for test.
-        if(cmd && numExperiments && *cmd == "test" && *numExperiments > 0) {
-            nanoseconds total;
-            for(int i = 0; i < *numExperiments; i++) {
-                nanoseconds thisTest = run(newInput);
-                total = nanoseconds(total.count() + thisTest.count());
-                cout << "* This run: " << thisTest.count() << " nanoseconds.\n";
-            }
-            nanoseconds average = duration_cast<nanoseconds>(total / *numExperiments);
-            cout << "* Average time: " << duration_cast<nanoseconds>(average).count() << " nanoseconds.\n";
-        }
-        if(cmd) { freemem(cmd, "std::string"); }
-        if(numExperiments) { freemem(numExperiments, "int"); }
-    } else {
-        run(newInput);
-    }
-}
-
-void e001::exec(Input &in) {
-    // Parse and check for test.
-    vector<InterfaceAtom> data = in.getInterfaceCopy();
-
-    if(data.size() == 2) {
-        string *cmd = data[0].data.getString();
-        int *numExperiments = data[1].data.getInt();
-        // Parse and check for test.
-        if(cmd && numExperiments && *cmd == "test" && *numExperiments > 0) {
-            nanoseconds total;
-            for(int i = 0; i < *numExperiments; i++) {
-                nanoseconds res = run(in);
-                total = nanoseconds(total.count() + res.count());
-            }
-            //nanoseconds average = duration_cast<nanoseconds>(total / *numExperiments);
-            //cout << "* Average time: " << average.count() << "nanoseconds.\n";
-        }
-        if(cmd) { freemem(cmd, "std::string"); }
-        if(numExperiments) { freemem(numExperiments, "int"); }
-    } else {
-        run(in);
-    }
-}
-*/

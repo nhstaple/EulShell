@@ -2,7 +2,7 @@
 
 #include "./Euler.h"
 
-/*
+// Converts the input to new data and runs the program.
 nanoseconds Euler::run(Input *in)
 {
     vector<InterfaceAtom> data;
@@ -13,4 +13,4 @@ nanoseconds Euler::run(Input *in)
     Input newInput(data);
     return this->run(newInput);
 }
-*/
+

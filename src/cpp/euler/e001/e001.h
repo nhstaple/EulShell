@@ -19,16 +19,8 @@ public:
 /** Constructors. **/
     e001(EulerInterface e);
 
-/** Exec functions. **/
-    // void exec() override;
-    // void exec(Input &i) override;
-    // void exec(Input *in) override;
-
 /** Run functions. Performs the calculation. **/
     nanoseconds run(Input &input) override;
-    nanoseconds run(Input* in) override;
-    nanoseconds run() { return run(interface); }
-
 
 /** Print functions. **/
     // Prints the program name.
