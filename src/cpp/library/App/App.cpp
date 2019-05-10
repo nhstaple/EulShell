@@ -9,7 +9,7 @@
 extern short int cd(string path);
 extern short int ls(string dir);
 extern short int pwd();
-extern short int read(ParsedCommand &cmd);
+extern short int read(string &filepath);
 
 using namespace std;
 using namespace std::chrono;
@@ -78,6 +78,7 @@ void App::run()
 
 void App::checkFunctions(ParsedCommand &cmd)
 {
+    // See Parser::Parser() for information about the input interface for these functions.
  /** pwd **/
     if(cmd.command == "pwd") {
         pwd();
@@ -86,10 +87,14 @@ void App::checkFunctions(ParsedCommand &cmd)
 
 /** cd **/
     else if (cmd.command == "cd") {
-        string path = ".";
-        if(cmd.input->getInterfaceCopy().size() > 0)
+        string path = "";
+        // Validated input to parameter type.
+        if(cmd.input->getInterfaceCopy().size() > 0) {
             cmd.input->getInterfaceCopy()[0].data.getString(path);
-        cd(path);
+            cd(path);
+        } else {
+            cout << "< Error: please provide a directory.\n";
+        }
         cmd.command = "parsed";
     }
 
@@ -98,9 +103,12 @@ void App::checkFunctions(ParsedCommand &cmd)
         // The user supplied input.
         if(cmd.input->getInterfaceCopy().size() > 0) {
             string dir;
-            if(cmd.input->getInterfaceCopy()[0].data.getString(dir) && parser && parser->contains(dir))
-                dir = parser->simplifyCommand(dir);
-            ls(dir);
+            // Validated input to parameter type.
+            if(cmd.input->getInterfaceCopy()[0].data.getString(dir)) {
+                ls(dir);
+            } else {
+                cout << "< Error: invalid input type. Try again with a string.\n";
+            }
             cmd.command = "parsed";
         } else {
             // Print the current directory.
@@ -117,7 +125,16 @@ void App::checkFunctions(ParsedCommand &cmd)
 
 /** read **/
     else if(cmd.command == "read") {
-        read(cmd);
-        cmd.command = "parsed";
+        // The user supplied input.
+        if(cmd.input->getInterfaceCopy().size() > 0) {
+            string filepath;
+            // Validated input to parameter type.
+            if(cmd.input->getInterfaceCopy()[0].data.getString(filepath)) {
+                read(filepath);
+                cmd.command = "parsed";
+            }
+        } else {
+            cout << "< Error: please provide a filename or path to a file!\n";
+        }
     }
 }

@@ -20,7 +20,7 @@
 
 .animated {
     animation-name: backgroundImg;
-    animation-duration: 10s;
+    animation-duration: 20s;
 }
 
 #img1, #img2, #img3, #img4, #img5 {
@@ -31,16 +31,16 @@
     opacity:0;
 }
 #img2 {
-    animation-delay:5s;
-}
-#img3 {
     animation-delay:10s;
 }
+#img3 {
+    animation-delay:20s;
+}
 #img4 {
-    animation-delay:15s;
+    animation-delay:30s;
 }
 #img5 {
-    animation-delay: 20s;
+    animation-delay: 40s;
 }
 
 @keyframes backgroundImg {

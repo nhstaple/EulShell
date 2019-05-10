@@ -56,10 +56,14 @@ body {
 
 #titleLink {
     font-weight: 800;
+<<<<<<< HEAD
+    color: rgb(253,185,39);
+=======
+>>>>>>> 9ee77dbd8e6f892ab8a9d1b844a9f4d2cb1de45b
 }
 
 a, a:visited, a:valid, #titleLink, #repoLink {
-    color: white;
+    color: rgb(253,185,39);
     text-decoration: underline;
 }
 
@@ -107,16 +111,19 @@ a, a:visited, a:valid, #titleLink, #repoLink {
 
 .link {
     display: contents;
-    color: white;
+    color: rgb(253,185,39);
 }
 
 .date {
     padding-bottom: 1vh;
 }
 
-.code, .file, .command {
+.code, .file, .command, .keyword {
     /* display: contents; */
     width: fit-content;
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
+    display: inline;
 }
 
 .command {
@@ -124,8 +131,6 @@ a, a:visited, a:valid, #titleLink, #repoLink {
     color: red;
     font-weight: 800;
     font-family: 'Roboto Mono', monospace;
-    padding-left: 0.25vw;
-    padding-right: 0.25vw;
 }
 
 .file {
@@ -133,18 +138,19 @@ a, a:visited, a:valid, #titleLink, #repoLink {
     padding-left: 0.25vw;
     padding-right: 0.25vw;
     background-color: rgba(0, 0, 0, 0.5);
-    font-family: 'Roboto Mono', monospace;
-    display: inline;
 }
 
 .code {
     background-color: rgba(255, 255, 255, 0.5);
-    padding-left: 0.25vw;
-    padding-right: 0.25vw;
     font-family: 'Roboto Mono', monospace;
     font-weight: 100;
     color: black;
-    display: inline;
+}
+
+.keyword {
+    color: rgb(253,185,39);
+    background-color: rgba(197, 125, 255, 0.5);
+    font-weight: 800;
 }
 
 .roadmapVersion, .changelogVersion {
