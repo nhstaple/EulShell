@@ -112,15 +112,17 @@ bool EulerInterface::operator==(EulerInterface& w) {
 void EulerInterface::operator=(EulerInterface &w)
 {
     this->interface.clear();
-    for(InterfaceAtom &a : w.interface)
+    for(InterfaceAtom &a : w.interface) {
         this->interface.push_back(a);
+    }
 }
 
 void EulerInterface::operator=(const EulerInterface &w)
 {
     this->interface.clear();
-    for(InterfaceAtom a : w.interface)
+    for(InterfaceAtom a : w.interface) {
         this->interface.push_back(a);
+    }
 }
 
 void EulerInterface::print()
@@ -145,6 +147,8 @@ void EulerInterface::print()
     }
 }
 
+// Prints the interface as a list of parameters.
+// If it's optional mark it with '?'s
 void EulerInterface::paramPrint()
 {
     int i = 0;
@@ -184,6 +188,7 @@ void EulerInterface::paramPrint()
             } else { cout << '?'; }
             cout << " " << type << " -> " << var4;
         }
-        if(printedValid) { i++; }
+        if(printedValid)
+            i++;
     }
 }

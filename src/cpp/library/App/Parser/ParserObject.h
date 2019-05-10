@@ -1,11 +1,13 @@
+// library/App/Parser/ParserObject.h
 #ifndef PARSEROBJECT_H
 #define PARSEROBJECT_H
-// library/App/Parser/ParserObject.h
+
 /*
- * Parser Object - Parser objects
+ * Parser Object
  *
  * These are objects used and created by the parser.
 */
+
 #include <string>
 #include <vector>
 using std::string;
@@ -18,33 +20,52 @@ class EulerInterface;
 class ParserObject
 {
 public:
+/** Constructors. **/
     ParserObject() {}
+    virtual ~ParserObject() {}
+/** Prints functions. **/
     virtual void printObject()=0;
 };
 
 // Command- hosts viable command data. Instantiated in Parser::Parser()
 class Command : public ParserObject {
 public:
+/** Constructors. **/
     Command();
     Command(string str);
-    ~Command();
+    ~Command() override;
+
+/** Prints functions. **/
     void printObject() override;
+
+/** Public variables. **/
+    // The actual command.
     string cmd;
+    // The text description of what it does.
     string description;
+    // The set of alternatives commands. Shorthands, subs, etc.
     vector<string> alts;
+    // The parameters accepted by tis command.
     EulerInterface *params;
 };
 
 // ParsedCommand - returned by the parser to App::App. The interface is used to exec programs.
-class ParsedCommand : public ParserObject {
+class ParsedCommand : public Command {
 public:
+/** Constructors. **/
     ParsedCommand();
-    ~ParsedCommand();
+    ~ParsedCommand() override;
+
+/** Prints functions. **/
     void printObject() override;
+
+/** Overloaded operators. **/
     void operator=(const ParsedCommand& cmd);
+
+/** Public variables. **/
     string command;
-    Euler *problem = nullptr;
+    Euler *problem;
     EulerInterface *input;
 };
 
-#endif // PARSEROBJECT_H
+#endif // _PARSEROBJECT_H

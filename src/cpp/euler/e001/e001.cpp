@@ -2,17 +2,21 @@
 #include <iostream>
 using namespace std;
 
+// Sets the internal interface.
+// It should have data, min, and max for Atom.
 e001::e001(EulerInterface e)
 {
     this->interface = e;
 }
 
+// Prints the name.
 void e001::name()
 {
     cout << "* Project Euler #1 - Multiples of 3 and 5\n";
     cout << "* https://projecteuler.net/problem=1\n*\n";
 }
 
+// Prints the description.
 void e001::description()
 {
     cout << "* If we list all the natural numbers below 10 that are multiples of\n";
@@ -20,6 +24,7 @@ void e001::description()
     cout << "*  Find the sum of all the multiples of 3 or 5 below 1000.\n";
 }
 
+// Prints the help info.
 void e001::help()
 {
     cout << "* Euler 001 - Help\n";
@@ -47,6 +52,7 @@ void e001::help()
     cout << "*\n";
 }
 
+// Converts the input to new data and runs the program.
 nanoseconds e001::run(Input *i)
 {
     vector<InterfaceAtom> data;
@@ -58,6 +64,7 @@ nanoseconds e001::run(Input *i)
     return run(newInput);
 }
 
+// The main program.
 nanoseconds e001::run(Input &input)
 {
     auto data = input.getInterfaceCopy();
@@ -121,6 +128,7 @@ nanoseconds e001::run(Input &input)
     return duration_cast<nanoseconds>(t1 - t0);
 }
 
+/** Unused. **/
 /*
 void e001::exec(Input *in) {
     vector<InterfaceAtom> data;

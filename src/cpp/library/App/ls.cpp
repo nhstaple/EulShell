@@ -1,5 +1,4 @@
 // library/App/ls.cpp
-
 /** Unix family of operating systems. **/
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
 #include <unistd.h>
@@ -35,9 +34,9 @@ int isRegFile(const char *path) {
 // Windows
 #if (defined(_WIN32) || defined(_WIN64))
 // TO DO
-#endif
+#endif // Windows
 
-#endif
+#endif // Unix
 
 #include <iostream>
 #include "./Parser/Termcolor.h"
@@ -105,6 +104,7 @@ short int ls(string dir)
 
 /** All other operating systems. Ie, Windows. **/
 #else
+
     cout << "< Erorr: your operating system is not supported!\n";
     res.command = "parsed";
 
@@ -112,8 +112,9 @@ short int ls(string dir)
 // Windows
 #if (defined(_WIN32) || defined(_WIN64))
 // TO DO
-#endif
+#endif // Windows
 
     return EXIT_FAILURE;
-#endif
+
+#endif // Unix
 }

@@ -1,8 +1,8 @@
+// library/App/Parser/EulerInterface/InterfaceAtom.h
 #ifndef _INTERFACE_ATOM_H_
 #define _INTERFACE_ATOM_H_
 
 /*
- * library/App/Parser/EulerInterface/InterfaceAtom.h
  * Interface Atom Object
  *
  * The granular elemement of the Interface object.
@@ -18,18 +18,23 @@
 
 class InterfaceAtom {
 public:
+/** Constructors. **/
     InterfaceAtom()                 {}
     InterfaceAtom(DataItem d)
         : data(d)                   {}
     InterfaceAtom(DataItem d, DataItem mi, DataItem ma)
         : data(d), min(mi), max(ma) {}
 
-    // Overloaded operators.
-    void operator=(const InterfaceAtom& a)  { this->data = a.data; this->min = a.min; this->max = a.max; }
-    void operator=(InterfaceAtom& a)        { this->data = a.data; this->min = a.min; this->max = a.max; }
+/** Overloaded operators. **/
+    void operator=(const InterfaceAtom& a)
+        { this->data = a.data; this->min = a.min; this->max = a.max; }
+    void operator=(InterfaceAtom& a)
+        { this->data = a.data; this->min = a.min; this->max = a.max; }
 
+/** Public data members. Experiment with being protected? **/
     DataItem data;
     DataItem min;
     DataItem max;
 };
-#endif
+
+#endif // _INTERFACE_ATOM_H_

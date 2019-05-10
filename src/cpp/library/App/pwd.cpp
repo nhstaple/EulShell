@@ -1,5 +1,4 @@
 // library/App/pwd.cpp
-
 /** Unix family of operating systems. **/
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
 #include <string>
@@ -20,8 +19,9 @@
 // Windows
 #if (defined(_WIN32) || defined(_WIN64))
 // TO DO
-#endif
-#endif
+#endif // Windows
+
+#endif // Unix
 
 #include <iostream>
 
@@ -49,6 +49,7 @@ short int pwd()
 
 /** All others, ie Windows. **/
 #else
+
     cout << "< Erorr: your operating system is not supported!\n";
     res.command = "parsed";
 
@@ -56,8 +57,9 @@ short int pwd()
 // Windows
 #if (defined(_WIN32) || defined(_WIN64))
 // TO DO
-#endif
+#endif // Windows
 
     return EXIT_FAILURE;
-#endif
+
+#endif // Unix
 }

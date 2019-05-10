@@ -5,15 +5,6 @@
 #include <iostream>
 #include <locale>
 
-/** Note: need to verify on a linux distro. **/
-// #if defined(__linux__) || (__unix__) || (__APPLE__)
-#include <unistd.h>
-using std::endl;
-
-/** Do other platforms. **/
-//#else
-//#endif
-
 using namespace std;
 
 Parser::Parser(AppObject* app)
@@ -84,37 +75,44 @@ Parser::Parser(AppObject* app)
     eulerCmds.push_back(e001);
 }
 
+// True if str is a util or euelr command.
 bool Parser::contains(string &str){
     return isUtil(str) || isEulerCmd(str);
 }
 
+// True if str is a util command and simplifies it.
 bool Parser::isUtil(string &str)
 {
     for(Command cmd : utilCmds) {
         if(cmd.cmd == str)
             return true;
         for(string alt : cmd.alts) {
-            if(alt == str)
+            if(alt == str) {
+                str = cmd.cmd;
                 return true;
+            }
         }
     }
     return false;
 }
 
+// True if str is an euler command and simplifies it.
 bool Parser::isEulerCmd(string &str)
 {
     for(Command cmd : eulerCmds) {
         if(cmd.cmd == str)
             return true;
         for(string alt : cmd.alts) {
-            if(alt == str)
+            if(alt == str) {
+                str = cmd.cmd;
                 return true;
+            }
         }
     }
     return false;
 }
 
-std::string Parser::simplifyCommand(std::string str)
+string Parser::simplifyCommand(string str)
 {
     if(!contains(str)) { return ""; }
     // Check each command and it's alts for a match.
@@ -145,7 +143,7 @@ vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
     std::string token;
     int i = 0;
 
-    /** Tokenize. **/
+/** Tokenize each iteration. **/
     while (std::getline(iss, token, ' '))
     {
         { // Convert the token to lower case for easy parsing.
@@ -156,11 +154,9 @@ vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
             token = lowerCase;
         }
 
-        /** Structure the data into useful information. **/
+/** Structure the data into useful information. **/
         // If the the first command is valid then simplify it and set the field in the data structure.
         if(i == 0 && contains(token)) {
-            // Simplify turns any alt command into it's meta value.
-            token = simplifyCommand(token);
             res.command = token;
         } else if (i == 0) {
             // Else if the command is not valid.
@@ -180,8 +176,9 @@ vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
 
 ParsedCommand Parser::parse(std::string rawInput)
 {
+    // Return value.
     ParsedCommand res;
-    /** Tokenize the input. **/
+/** Tokenize the input. **/
     vector<DataItem*> data = tokenize(rawInput, res);
 
     // Set the input.
@@ -201,9 +198,11 @@ ParsedCommand Parser::parse(std::string rawInput)
         }
     }
 
-    /** Clean up the alloced memory. **/
-    for(auto d : data)
-        if(d) { delete d; }
+/** Clean up the alloced memory. **/
+    for(auto d : data) {
+        if(d)
+            delete d;
+    }
 
     return res;
 }

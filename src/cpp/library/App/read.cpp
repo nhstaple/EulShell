@@ -1,7 +1,7 @@
 // library/App/read.cpp
-
 /** Unix family includes. **/
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
+
 #include <unistd.h>
 extern int isDirectory(const char *path);
 
@@ -10,8 +10,9 @@ extern int isDirectory(const char *path);
 // Windows
 #if (defined(_WIN32) || defined(_WIN64))
 // TO DO
-#endif
-#endif
+#endif // Windows
+
+#endif // Unix
 
 #include <iostream>
 #include <string>
@@ -46,8 +47,9 @@ short int read(ParsedCommand &cmd)
             char *ptr = new char[filename.size()];
             for(unsigned int i = 0; i < filename.size(); i++)
                 ptr[i] = filename.c_str()[i];
-
-            char *args[] = { "cat", ptr, nullptr };
+            // Declaring new memory per C++11 standards.
+            char cmd[] = "cat";
+            char *args[] = { cmd, ptr, nullptr };
             execvp(args[0], args);
             exit(-1);
         } else {
@@ -61,6 +63,7 @@ short int read(ParsedCommand &cmd)
 
 /** All other operating systems. **/
 #else
+
     cout << "< Erorr: your operating system is not supported!\n";
     res.command = "parsed";
 
@@ -68,8 +71,9 @@ short int read(ParsedCommand &cmd)
 // Windows
 #if (defined(_WIN32) || defined(_WIN64))
 // TO DO
-#endif
+#endif // Windows
 
     return EXIT_FAILURE;
-#endif
+
+#endif // Unix
 }

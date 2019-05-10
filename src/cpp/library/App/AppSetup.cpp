@@ -10,8 +10,7 @@ void App::Setup()
     Setup001();
 }
 
-/** Problem 1 **/
-// euler/001/e001.h
+/** Problem 1 => euler/001/e001.h **/
 void App::Setup001()
 {
     this->dataList.clear();

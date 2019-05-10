@@ -1,7 +1,8 @@
-#ifndef _TYPE_DATA_H_
-#define _TYPE_DATA_H_
+// library/Graph/Typedata.h
 // Code taken from here
 // https://stackoverflow.com/a/20170989
+#ifndef _TYPE_DATA_H_
+#define _TYPE_DATA_H_
 
 #include <type_traits>
 #include <typeinfo>
@@ -46,4 +47,4 @@ type_name()
     return r;
 }
 
-#endif
+#endif // _TYPE_DATA_H_

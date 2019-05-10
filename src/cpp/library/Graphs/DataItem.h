@@ -1,5 +1,7 @@
-#ifndef DATAITEM_H
-#define DATAITEM_H
+// library/Graph/DataItem.h
+#ifndef _DATAITEM_H
+#define _DATAITEM_H
+
 /*
  * Data Item Object
  *
@@ -19,6 +21,7 @@
 #include "../Utility/Typedata.h"
 #include <string>
 #include <vector>
+
 using std::string;
 using std::vector;
 using std::stoi;
@@ -30,7 +33,9 @@ bool freemem(void* ptr, string &type);
 
 class DataItem {
 public:
+/** Destructors. **/
     ~DataItem();
+
 /** Constructors. **/
     DataItem()           : data(nullptr), type("null") {}
     DataItem(int i)      : data(nullptr), type("null") { set(i); }
@@ -96,4 +101,4 @@ private:
     string type;
 };
 
-#endif // DATAITEM_H
+#endif // _DATAITEM_H

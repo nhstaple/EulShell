@@ -1,5 +1,4 @@
 // library/App/cd.cpp
-
 /** Unix family of operating systems. **/
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
 #include <unistd.h>
@@ -20,9 +19,9 @@
 // Windows
 #if (defined(_WIN32) || defined(_WIN64))
 // TO DO
-#endif
+#endif // Windows
 
-#endif
+#endif // Unix
 
 #include <string>
 #include <iostream>
@@ -67,6 +66,7 @@ short int cd(string path)
 
 /** All other operating systems. **/
 #else
+
     cout << "< Erorr: your operating system is not supported!\n";
     res.command = "parsed";
 
@@ -74,8 +74,9 @@ short int cd(string path)
 // Windows
 #if (defined(_WIN32) || defined(_WIN64))
 // TO DO
-#endif
+#endif // Windows
 
     return EXIT_FAILURE;
-#endif
+
+#endif // Unix
 }

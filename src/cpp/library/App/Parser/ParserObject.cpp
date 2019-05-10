@@ -32,12 +32,13 @@ Command::Command()
 Command::~Command()
 {
     //if(params)
-        //delete params;
+      //  delete params;
 }
 
 ParsedCommand::ParsedCommand()
 {
     this->input = new EulerInterface;
+    this->problem = nullptr;
 }
 
 ParsedCommand::~ParsedCommand()
