@@ -38,9 +38,10 @@ type_name()
         r += "&&";
 
     // Special case for std::string.
-    if(r == "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >")
-    {
+    if(r == "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >") {
         r = "std::string";
+    } else if (r == "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&") {
+        r = "std::string const&";
     }
     return r;
 }

@@ -76,7 +76,7 @@ bool EulerInterface::operator==(EulerInterface& w) {
         float float1;
         bool bool1;
         string string1;
-        if(a.data.getType() == "int") {
+        if(a.data.getType() == "int" || a.data.getType() == "int const&") {
             int min, max;
             int x = 0, y = 0, z = 0;
             if(w.getInterfaceCopy()[i].data.getInt(int1)) { x = int1; }
@@ -84,7 +84,7 @@ bool EulerInterface::operator==(EulerInterface& w) {
             if(a.max.getInt(max)) { z = max; } else { z = x; }
             if(x > z || x < y) { return false; }
 
-        } else if(a.data.getType() == "float") {
+        } else if(a.data.getType() == "float" || a.data.getType() == "float const&") {
             float min, max;
             float x = 0.f, y = 0.f, z = 0.f;
             if(w.getInterfaceCopy()[i].data.getFloat(float1)) { x = float1; }
@@ -92,12 +92,12 @@ bool EulerInterface::operator==(EulerInterface& w) {
             if(a.min.getFloat(max)) { z = max;} else { z = x; }
             if(x > z || x < y) { return false; }
 
-        } else if(a.data.getType() == "bool") {
+        } else if(a.data.getType() == "bool" || a.data.getType() == "bool const&") {
             // Empty
-
-        } else if(a.data.getType() == "std::string") {
+            bool1 = false;
+        } else if(a.data.getType() == "std::string" || a.data.getType() == "std::string const&") {
             string min, max;
-            int x = 0, y = 0, z = 0;
+            unsigned long x = 0, y = 0, z = 0;
             if(w.getInterfaceCopy()[i].data.getString(string1)) { x = string1.length(); }
             if(a.min.getString(min)) { y = min.length(); } else { y = x; }
             if(a.max.getString(max)) { y = max.length(); } else { z = x; }
@@ -112,17 +112,15 @@ bool EulerInterface::operator==(EulerInterface& w) {
 void EulerInterface::operator=(EulerInterface &w)
 {
     this->interface.clear();
-    for(InterfaceAtom &a : w.interface) {
+    for(InterfaceAtom &a : w.interface)
         this->interface.push_back(a);
-    }
 }
 
 void EulerInterface::operator=(const EulerInterface &w)
 {
     this->interface.clear();
-    for(InterfaceAtom a : w.interface) {
+    for(InterfaceAtom a : w.interface)
         this->interface.push_back(a);
-    }
 }
 
 void EulerInterface::print()
@@ -162,36 +160,28 @@ void EulerInterface::paramPrint()
         bool var3;
         string var4;
         if(a.min.getInt(var1)) {
-            if(optional == false) {
+            if(!optional) {
                 cout << i;
                 printedValid = true;
-            } else {
-                cout << '?';
-            }
+            } else { cout << '?'; }
             cout << " " << type << " -> " << var1;
         } else if(a.min.getFloat(var2)) {
-            if(optional == false) {
+            if(!optional) {
                 cout << i;
                 printedValid = true;
-            } else {
-                cout << '?';
-            }
+            } else { cout << '?'; }
             cout << " " << type << " -> " << var2;
         } else if(a.min.getBool(var3)) {
-            if(optional == false) {
+            if(!optional) {
                 cout << i;
                 printedValid = true;
-            } else {
-                cout << '?';
-            }
+            } else { cout << '?'; }
             cout << " " << type << " -> " << var3;
         } else if(a.min.getString(var4)) {
-            if(optional == false) {
+            if(!optional) {
                 cout << i;
                 printedValid = true;
-            } else {
-                cout << '?';
-            }
+            } else { cout << '?'; }
             cout << " " << type << " -> " << var4;
         }
         if(printedValid) { i++; }

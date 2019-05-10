@@ -1,18 +1,28 @@
+// library/App/read.cpp
+
+/** Unix family includes. **/
+#if (defined(__linux__) || (__unix__) || (__APPLE__))
+#include <unistd.h>
+extern int isDirectory(const char *path);
+
+/** Windows and such. **/
+#else
+// Windows
+#if (defined(_WIN32) || defined(_WIN64))
+// TO DO
+#endif
+#endif
+
 #include <iostream>
 #include <string>
 #include "./Parser/ParserObject.h"
 #include "./Parser/EulerInterface/EulerInterface.h"
 
-#if (defined(__linux__) || (__unix__) || (__APPLE__))
-#include <unistd.h>
-#endif
-
-extern int isDirectory(const char *path);
-
 using namespace std;
 
 short int read(ParsedCommand &cmd)
 {
+/** Unix family of operating systems. **/
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
     bool canView = false;
     string filename;
@@ -45,16 +55,21 @@ short int read(ParsedCommand &cmd)
             wait(&status);
             if(status < 0) { return EXIT_FAILURE;}
         }
+    } else { cout << "< Error: please enter a file.\n"; }
 
-    } else {
-        cout << "< Error: please enter a file.\n";
-    }
     return EXIT_SUCCESS;
+
+/** All other operating systems. **/
 #else
-    if(res.command == "pwd" || res.command == "cd" || res.command == "ls") {
-        cout << "< Erorr: your operating system is not supported!\n";
-        res.command = "parsed";
-    }
+    cout << "< Erorr: your operating system is not supported!\n";
+    res.command = "parsed";
+
+/** Windows and such. **/
+// Windows
+#if (defined(_WIN32) || defined(_WIN64))
+// TO DO
+#endif
+
     return EXIT_FAILURE;
 #endif
 }

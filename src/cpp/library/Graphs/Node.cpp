@@ -10,22 +10,26 @@ using std::to_string;
 // Node
 void Node::display()
 {
+    string type = this->data.getType();
     string str;
-    void* value = this->data.get();
-    if(this->data.getType() == "null") {
+    if(type == "null") {
         str = "null";
-    } else if(this->data.getType() == "int") {
+    } else if(type == "int") {
         str = "int      -> ";
-        str += to_string(*static_cast<int*>(value));
-    } else if (this->data.getType() == "float") {
+        int var;
+        if(this->data.getInt(var)) { str += to_string(var); }
+    } else if (type == "float") {
         str = "float    -> ";
-        str += to_string(*static_cast<float*>(value));
-    } else if (this->data.getType() == "bool") {
+        float var;
+        if(this->data.getFloat(var)) { str += to_string(var); }
+    } else if (type == "bool") {
         str = "bool     -> ";
-        str += to_string(*static_cast<int*>(value));
-    } else if (this->data.getType() == "std::string") {
+        bool var;
+        if(this->data.getBool(var)) { str += to_string(var); }
+    } else if (type == "std::string") {
         str = "std::str -> ";
-        str += *static_cast<string*>(value);
+        string var;
+        if(this->data.getString(var)) { str += var; }
     }
     cout << str << endl;
 }

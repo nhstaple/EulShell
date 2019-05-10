@@ -1,10 +1,12 @@
+// library/App/ls.cpp
+
+/** Unix family of operating systems. **/
+#if (defined(__linux__) || (__unix__) || (__APPLE__))
 #include <unistd.h>
-#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <string.h>
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -12,12 +14,7 @@
 #include <libgen.h>
 #include <ctype.h>
 #include <dirent.h>
-#include <iostream>
-#include "./Parser/Termcolor.h"
-
-#include "./Parser/Parser.h"
-
-using namespace std;
+#include <string>
 
 int isDirectory(const char *path) {
    struct stat statbuf;
@@ -33,6 +30,21 @@ int isRegFile(const char *path) {
    return S_ISREG(statbuf.st_mode);
 }
 
+/** Windows and such. **/
+#else
+// Windows
+#if (defined(_WIN32) || defined(_WIN64))
+// TO DO
+#endif
+
+#endif
+
+#include <iostream>
+#include "./Parser/Termcolor.h"
+#include "./Parser/Parser.h"
+
+using namespace std;
+
 // https://www.geeksforgeeks.org/c-program-list-files-sub-directories-directory/
 short int ls(string dir)
 {
@@ -46,12 +58,15 @@ short int ls(string dir)
         cout << "*\n";
         return EXIT_SUCCESS;
     }
+
+/** Unix family of operating systems. **/
+#if (defined(__linux__) || (__unix__) || (__APPLE__))
     struct dirent *de;  // Pointer for directory entry
 
     // opendir() returns a pointer of DIR type.
     DIR *dr;
     if(dir.size() == 0) {
-         dr = opendir(".");
+        dr = opendir(".");
     } else {
         dr = opendir(dir.c_str());
     }
@@ -59,7 +74,7 @@ short int ls(string dir)
     if (dr == NULL)  // opendir returns NULL if couldn't open directory
     {
         printf("< Error: not open current directory\n");
-        return 0;
+        return EXIT_FAILURE;
     }
 
     // Refer http://pubs.opengroup.org/onlinepubs/7990989775/xsh/readdir.html
@@ -86,5 +101,19 @@ short int ls(string dir)
     }
     cout << endl;
     closedir(dr);
-    return 0;
+    return EXIT_SUCCESS;
+
+/** All other operating systems. Ie, Windows. **/
+#else
+    cout << "< Erorr: your operating system is not supported!\n";
+    res.command = "parsed";
+
+/** Windows and such. **/
+// Windows
+#if (defined(_WIN32) || defined(_WIN64))
+// TO DO
+#endif
+
+    return EXIT_FAILURE;
+#endif
 }
