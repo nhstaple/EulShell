@@ -78,6 +78,7 @@ void App::run()
 
 void App::checkFunctions(ParsedCommand &cmd)
 {
+    // See Parser::Parser() for information about the input interface for these funcations.
  /** pwd **/
     if(cmd.command == "pwd") {
         pwd();
@@ -86,10 +87,13 @@ void App::checkFunctions(ParsedCommand &cmd)
 
 /** cd **/
     else if (cmd.command == "cd") {
-        string path = ".";
-        if(cmd.input->getInterfaceCopy().size() > 0)
+        string path = "";
+        if(cmd.input->getInterfaceCopy().size() > 0) {
             cmd.input->getInterfaceCopy()[0].data.getString(path);
-        cd(path);
+            cd(path);
+        } else {
+            cout << "< Error: please provide a directory.\n";
+        }
         cmd.command = "parsed";
     }
 
@@ -98,9 +102,12 @@ void App::checkFunctions(ParsedCommand &cmd)
         // The user supplied input.
         if(cmd.input->getInterfaceCopy().size() > 0) {
             string dir;
-            if(cmd.input->getInterfaceCopy()[0].data.getString(dir) && parser && parser->contains(dir))
-                dir = parser->simplifyCommand(dir);
-            ls(dir);
+            // If the parameter is a string,
+            if(cmd.input->getInterfaceCopy()[0].data.getString(dir)) {
+                ls(dir);
+            } else {
+                cout << "< Error: invalid input type. Try again with a string.\n";
+            }
             cmd.command = "parsed";
         } else {
             // Print the current directory.
