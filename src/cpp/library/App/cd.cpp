@@ -1,10 +1,12 @@
+// library/App/cd.cpp
+
+/** Unix family of operating systems. **/
+#if (defined(__linux__) || (__unix__) || (__APPLE__))
 #include <unistd.h>
-#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <string.h>
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -12,12 +14,25 @@
 #include <libgen.h>
 #include <ctype.h>
 #include <dirent.h>
+
+/** Windows and such. **/
+#else
+// Windows
+#if (defined(_WIN32) || defined(_WIN64))
+// TO DO
+#endif // Windows
+
+#endif // Unix
+
+#include <string>
 #include <iostream>
 
 using namespace std;
 
 short int cd(string path)
 {
+/** Unix family of operating systems. **/
+#if (defined(__linux__) || (__unix__) || (__APPLE__))
     // If there was no input.
     if(path.size() == 0) {
         cout << "< Error: Please include a directory as an argument.\n";
@@ -49,4 +64,20 @@ short int cd(string path)
         }
     }
     return EXIT_FAILURE;
+
+/** All other operating systems. **/
+#else
+
+    cout << "< Erorr: your operating system is not supported!\n";
+    res.command = "parsed";
+
+/** Windows and such. **/
+// Windows
+#if (defined(_WIN32) || defined(_WIN64))
+// TO DO
+#endif // Windows
+
+    return EXIT_FAILURE;
+
+#endif // Unix
 }

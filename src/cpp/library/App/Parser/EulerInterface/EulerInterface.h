@@ -1,8 +1,8 @@
+// library/App/Parser/EulerInterface/EulerInterface.h
 #ifndef _EULER_INTERFACE_H_
 #define _EULER_INTERFACE_H_
 
 /*
- * library/App/Parser/EulerInterface/EulerInterface.h
  * Euler Interface Object
  *
  * An interface in this context is used to link between the parser
@@ -23,6 +23,7 @@
  * If this value is within the min and max of the euler problem's interface then the solution is executed with those parameters.
  * Otherwise the default values of the euler problem's interface are used.
 */
+
 #include "../../../Graphs/Node.h"
 #include "../../../Utility/Typedata.h"
 #include "./InterfaceAtom.h"
@@ -37,26 +38,35 @@ using std::cout;
 class EulerInterface
 {
 public:
+/** Constructors. **/
     EulerInterface()  {}
     ~EulerInterface() {}
     EulerInterface(vector<InterfaceAtom> v);
-    // Sets the interface.
+
+/** Set functions. **/
     void set(vector<DataItem> &v);
     void set(vector<DataItem*> &v);
     void set(vector<InterfaceAtom> &v);
+    // Clears the interface. Should not ?
+    void reset() { interface.clear(); cout << "** WARNNING CLEARED AN EULER INTERFACE\n";}
+
+/** Get functions. **/
     // Returns a copy of the interface's list.
     std::vector<InterfaceAtom> getInterfaceCopy() { return interface; }
-    // Overloaded operators.
+
+/** Overloaded operators. **/
     bool operator==(EulerInterface& w);
     void operator=(EulerInterface& w);
     void operator=(const EulerInterface& w);
     EulerInterface* operator*() { return this; }
-    // Clears the interface. Should not ?
-    void reset() { interface.clear(); cout << "** WARNNING CLEARED AN EULER INTERFACE\n";}
-    // Prints each atom of the interface and its value.
+
+/** Print functions. **/
+    // Used to print in all other cases.
     void print();
+    // Used to print as a paramter list.
+    void paramPrint();
 private:
     vector<InterfaceAtom>  interface;
 };
 
-#endif
+#endif // _EULER_INTERFACE_H_

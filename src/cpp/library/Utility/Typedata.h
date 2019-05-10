@@ -1,7 +1,8 @@
-#ifndef _TYPE_DATA_H_
-#define _TYPE_DATA_H_
+// library/Graph/Typedata.h
 // Code taken from here
 // https://stackoverflow.com/a/20170989
+#ifndef _TYPE_DATA_H_
+#define _TYPE_DATA_H_
 
 #include <type_traits>
 #include <typeinfo>
@@ -38,11 +39,12 @@ type_name()
         r += "&&";
 
     // Special case for std::string.
-    if(r == "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >")
-    {
+    if(r == "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >") {
         r = "std::string";
+    } else if (r == "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&") {
+        r = "std::string const&";
     }
     return r;
 }
 
-#endif
+#endif // _TYPE_DATA_H_

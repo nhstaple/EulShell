@@ -1,25 +1,35 @@
+// library/App/read.cpp
+
+/** Unix family includes. **/
+#if (defined(__linux__) || (__unix__) || (__APPLE__))
+
+#include <unistd.h>
+extern int isDirectory(const char *path);
+
+/** Windows and such. **/
+#else
+// Windows
+#if (defined(_WIN32) || defined(_WIN64))
+// TO DO
+#endif // Windows
+
+#endif // Unix
+
 #include <iostream>
 #include <string>
 #include "./Parser/ParserObject.h"
 #include "./Parser/EulerInterface/EulerInterface.h"
 
-#if (defined(__linux__) || (__unix__) || (__APPLE__))
-#include <unistd.h>
-#endif
-
-extern int isDirectory(const char *path);
-
 using namespace std;
 
 short int read(ParsedCommand &cmd)
 {
+/** Unix family of operating systems. **/
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
-    string *file = nullptr;
     bool canView = false;
     string filename;
     if(cmd.input->getInterfaceCopy().size() > 0) {
-        file = cmd.input->getInterfaceCopy()[0].data.getString();
-        if(file) { filename = *file; }
+        cmd.input->getInterfaceCopy()[0].data.getString(filename);
 
         if(filename.find(".js") != string::npos) {
             canView = true;
@@ -35,11 +45,12 @@ short int read(ParsedCommand &cmd)
             }
         }
         if(fork() == 0) {
-            char *ptr = new char(filename.size());
-            for(int i = 0; i < filename.size(); i++)
+            char *ptr = new char[filename.size()];
+            for(unsigned int i = 0; i < filename.size(); i++)
                 ptr[i] = filename.c_str()[i];
-
-            char *args[] = { "cat", ptr, nullptr };
+            // Declaring new memory per C++11 standards.
+            char cmd[] = "cat";
+            char *args[] = { cmd, ptr, nullptr };
             execvp(args[0], args);
             exit(-1);
         } else {
@@ -47,17 +58,23 @@ short int read(ParsedCommand &cmd)
             wait(&status);
             if(status < 0) { return EXIT_FAILURE;}
         }
+    } else { cout << "< Error: please enter a file.\n"; }
 
-    } else {
-        cout << "< Error: please enter a file.\n";
-    }
-    if(file) { delete file; }
     return EXIT_SUCCESS;
+
+/** All other operating systems. **/
 #else
-    if(res.command == "pwd" || res.command == "cd" || res.command == "ls") {
-        cout << "< Erorr: your operating system is not supported!\n";
-        res.command = "parsed";
-    }
+
+    cout << "< Erorr: your operating system is not supported!\n";
+    res.command = "parsed";
+
+/** Windows and such. **/
+// Windows
+#if (defined(_WIN32) || defined(_WIN64))
+// TO DO
+#endif // Windows
+
     return EXIT_FAILURE;
-#endif
+
+#endif // Unix
 }

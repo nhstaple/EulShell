@@ -1,3 +1,5 @@
+// library/App/App.cpp
+
 #include "./App.h"
 #include <string>
 #include <vector>
@@ -33,12 +35,12 @@ void App::printAppObject()
 void App::help()
 {
     cout << "> github/nhstaple/Project-Euler C++ Help\n";
-    cout << "> Available commands:";
+    cout << "> Available commands";
     for(Command cmd : parser->utilCmds) {
         cmd.printObject();
         cout << "\n>";
     }
-    cout << " Available solutions:";
+    cout << " Available solutions";
     for(Command cmd : parser->eulerCmds) {
         cmd.printObject();
         cout << "\n>";
@@ -65,45 +67,41 @@ void App::run()
 
         /** Perform shell commands. **/
         checkFunctions(cmd);
+
+        /** Check for an euler problem. **/
         if(cmd.problem) {
             nanoseconds time = cmd.problem->run(cmd.input);
             cout << "* Time := " << time.count() << " nanoseconds.\n";
-        } else if (cmd.command == "help"){
-            help();
-        } else if(cmd.command == "read") {
-            read(cmd);
         }
-        /** **/
     } while(cmd.command != "exit");
 }
 
 void App::checkFunctions(ParsedCommand &cmd)
 {
-#if (defined(__linux__) || (__unix__) || (__APPLE__))
+ /** pwd **/
     if(cmd.command == "pwd") {
         pwd();
         cmd.command = "parsed";
-    } else if (cmd.command == "cd") {
-        string *path = nullptr;
-        if(cmd.input->getInterfaceCopy().size() > 0) {
-            path = cmd.input->getInterfaceCopy()[0].data.getString();
-        } else {
-            path = new string("");
-        }
-        if(path) { cd(*path); }
-        else { cd("@"); }
+    }
+
+/** cd **/
+    else if (cmd.command == "cd") {
+        string path = ".";
+        if(cmd.input->getInterfaceCopy().size() > 0)
+            cmd.input->getInterfaceCopy()[0].data.getString(path);
+        cd(path);
         cmd.command = "parsed";
-        delete path;
-    } else if(cmd.command == "ls") {
+    }
+
+/** ls **/
+    else if(cmd.command == "ls") {
         // The user supplied input.
         if(cmd.input->getInterfaceCopy().size() > 0) {
-            string *dir = cmd.input->getInterfaceCopy()[0].data.getString();
-            if(parser && parser->contains(*dir)) {
-                *dir = parser->simplifyCommand(*dir);
-            }
-            ls(*dir);
+            string dir;
+            if(cmd.input->getInterfaceCopy()[0].data.getString(dir) && parser && parser->contains(dir))
+                dir = parser->simplifyCommand(dir);
+            ls(dir);
             cmd.command = "parsed";
-            delete dir;
         } else {
             // Print the current directory.
             ls(".");
@@ -111,10 +109,15 @@ void App::checkFunctions(ParsedCommand &cmd)
         }
     }
 
-#else
-    if(res.command == "pwd" || res.command == "cd" || res.command == "ls") {
-        cout << "< Erorr: your operating system is not supported!\n";
-        res.command = "parsed";
+/** help **/
+    else if(cmd.command == "help") {
+        help();
+        cmd.command = "parsed";
     }
-#endif
+
+/** read **/
+    else if(cmd.command == "read") {
+        read(cmd);
+        cmd.command = "parsed";
+    }
 }

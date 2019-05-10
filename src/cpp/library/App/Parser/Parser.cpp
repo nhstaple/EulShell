@@ -1,3 +1,5 @@
+// library/App/Parser/Parser.cpp
+
 #include "./Parser.h"
 #include "../App.h"
 #include <string>
@@ -5,20 +7,12 @@
 #include <iostream>
 #include <locale>
 
-/** Note: need to verify on a linux distro. **/
-// #if defined(__linux__) || (__unix__) || (__APPLE__)
-#include <unistd.h>
-using std::endl;
-
-/** Do other platforms. **/
-//#else
-//#endif
-
 using namespace std;
 
 Parser::Parser(AppObject* app)
 {
     application = app;
+    vector<InterfaceAtom> data;
     /** Setup util commands. **/
     Command help("help");
     help.alts.push_back("halp");
@@ -27,16 +21,19 @@ Parser::Parser(AppObject* app)
 
     Command exit("exit");
     exit.alts.push_back("e");
-    exit.alts.push_back("exit");
     exit.alts.push_back("bye");
     exit.alts.push_back("q");
     exit.alts.push_back("quit");
+    exit.alts.push_back("I'm making my own shell with black jack and hookers.");
     exit.description = "Terminates the application.";
 
     Command cd("cd");
     cd.alts.push_back("changedir");
     cd.alts.push_back("change_directory");
-    cd.description = "(*NIX operating systems only. Runs cd.";
+    cd.description = "*NIX operating systems only. Runs cd.";
+    data.push_back(InterfaceAtom(string("std::string"), string("directory"), bool(false)));
+    cd.params->set(data);
+    data.clear();
 
     Command pwd("pwd");
     pwd.alts.push_back("printdir");
@@ -46,12 +43,18 @@ Parser::Parser(AppObject* app)
     Command ls("ls");
     ls.alts.push_back("list");
     ls.alts.push_back("show");
-    ls.description = "Prints all .js files and subdirectories.";
+    ls.description = "Prints all valid files and subdirectories.";
+    data.push_back(InterfaceAtom(string("std::string"), string("directory"), bool(true)));
+    ls.params->set(data);
+    data.clear();
 
     Command read("read");
     read.alts.push_back("cat");
     read.alts.push_back("open");
     read.description = "Displays the content of the file.";
+    data.push_back(InterfaceAtom(string("std::string"), string("file"), bool(false)));
+    read.params->set(data);
+    data.clear();
 
     utilCmds.push_back(help);
     utilCmds.push_back(exit);
@@ -64,41 +67,54 @@ Parser::Parser(AppObject* app)
     Command e001("e001");
     e001.alts.push_back("001");
     e001.description = "Multiples of 3 and 5.";
+    data.push_back(InterfaceAtom(string("int"), string("const1"), bool(false)));
+    data.push_back(InterfaceAtom(string("int"), string("const2"), bool(false)));
+    data.push_back(InterfaceAtom(string("int"), string("max"), bool(false)));
+    data.push_back(InterfaceAtom(string("std::string"), string("help"), bool(true)));
+    e001.params->set(data);
+    data.clear();
 
     eulerCmds.push_back(e001);
 }
 
+// True if str is a util or euelr command.
 bool Parser::contains(string &str){
     return isUtil(str) || isEulerCmd(str);
 }
 
+// True if str is a util command and simplifies it.
 bool Parser::isUtil(string &str)
 {
     for(Command cmd : utilCmds) {
         if(cmd.cmd == str)
             return true;
         for(string alt : cmd.alts) {
-            if(alt == str)
+            if(alt == str) {
+                str = cmd.cmd;
                 return true;
+            }
         }
     }
     return false;
 }
 
+// True if str is an euler command and simplifies it.
 bool Parser::isEulerCmd(string &str)
 {
     for(Command cmd : eulerCmds) {
         if(cmd.cmd == str)
             return true;
         for(string alt : cmd.alts) {
-            if(alt == str)
+            if(alt == str) {
+                str = cmd.cmd;
                 return true;
+            }
         }
     }
     return false;
 }
 
-std::string Parser::simplifyCommand(std::string str)
+string Parser::simplifyCommand(string str)
 {
     if(!contains(str)) { return ""; }
     // Check each command and it's alts for a match.
@@ -129,7 +145,7 @@ vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
     std::string token;
     int i = 0;
 
-    /** Tokenize. **/
+/** Tokenize each iteration. **/
     while (std::getline(iss, token, ' '))
     {
         { // Convert the token to lower case for easy parsing.
@@ -140,11 +156,9 @@ vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
             token = lowerCase;
         }
 
-        /** Structure the data into useful information. **/
+/** Structure the data into useful information. **/
         // If the the first command is valid then simplify it and set the field in the data structure.
         if(i == 0 && contains(token)) {
-            // Simplify turns any alt command into it's meta value.
-            token = simplifyCommand(token);
             res.command = token;
         } else if (i == 0) {
             // Else if the command is not valid.
@@ -164,16 +178,16 @@ vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
 
 ParsedCommand Parser::parse(std::string rawInput)
 {
+    // Return value.
     ParsedCommand res;
-    /** Tokenize the input. **/
+/** Tokenize the input. **/
     vector<DataItem*> data = tokenize(rawInput, res);
 
     // Set the input.
     res.input->set(data);
 
     // Check if command is valid then set the problem pointer.
-    if(res.command.length() > 0 &&
-            isEulerCmd(res.command)) {
+    if(res.command.length() > 0 && isEulerCmd(res.command)) {
         // Get the dictionary
         if(application)
         {
@@ -186,9 +200,11 @@ ParsedCommand Parser::parse(std::string rawInput)
         }
     }
 
-    /** Clean up the alloced memory. **/
-    for(auto d : data)
-        if(d) { delete d; }
+/** Clean up the alloced memory. **/
+    for(auto d : data) {
+        if(d)
+            delete d;
+    }
 
     return res;
 }

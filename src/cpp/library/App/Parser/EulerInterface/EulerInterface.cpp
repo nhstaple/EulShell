@@ -1,5 +1,6 @@
-#include "./EulerInterface.h"
+// library/Parser/EulerInterface/EulerInterface.cpp
 
+#include "./EulerInterface.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -25,19 +26,18 @@ void EulerInterface::set(std::vector<DataItem*> &v)
 {
     this->interface.clear();
     for(auto d : v) {
-        void* ptr = nullptr;
-        if((ptr = d->getInt())) {
-            this->interface.push_back(InterfaceAtom(*static_cast<int*>(ptr)));
-            delete static_cast<int*>(ptr);
-        } else if ((ptr = d->getFloat())) {
-            this->interface.push_back(InterfaceAtom(*static_cast<float*>(ptr)));
-            delete static_cast<float*>(ptr);
-        } else if ((ptr = d->getBool())) {
-            this->interface.push_back(InterfaceAtom(*static_cast<bool*>(ptr)));
-            delete static_cast<bool*>(ptr);
-        } else if ((ptr = d->getString())) {
-            this->interface.push_back(InterfaceAtom(*static_cast<string*>(ptr)));
-            delete static_cast<string*>(ptr);
+        int var1;
+        float var2;
+        bool var3;
+        string var4;
+        if(d->getInt(var1)) {
+            this->interface.push_back(InterfaceAtom(var1));
+        } else if (d->getFloat(var2)) {
+            this->interface.push_back(InterfaceAtom(var2));
+        } else if (d->getBool(var3)) {
+            this->interface.push_back(InterfaceAtom(var3));
+        } else if (d->getString(var4)) {
+            this->interface.push_back(InterfaceAtom(var4));
         }
     }
 }
@@ -73,47 +73,38 @@ bool EulerInterface::operator==(EulerInterface& w) {
     // If not, oooh noooooo.
     unsigned int i = 0;
     for(InterfaceAtom a : this->interface) {
-        void *val = nullptr;
-        void *min = nullptr;
-        void *max = nullptr;
-        if(a.data.getType() == "int") {
-            val = w.getInterfaceCopy()[i].data.getInt();
-            min = a.min.getInt();
-            max = a.max.getInt();
+        int int1;
+        float float1;
+        bool bool1;
+        string string1;
+        if(a.data.getType() == "int" || a.data.getType() == "int const&") {
+            int min, max;
             int x = 0, y = 0, z = 0;
-            if(val) { x = *static_cast<int*>(val); }
-            if(min) { y = *static_cast<int*>(min); } else { y = x; }
-            if(max) { z = *static_cast<int*>(max); } else { z = x; }
+            if(w.getInterfaceCopy()[i].data.getInt(int1)) { x = int1; }
+            if(a.min.getInt(min)) { y = min; } else { y = x; }
+            if(a.max.getInt(max)) { z = max; } else { z = x; }
             if(x > z || x < y) { return false; }
 
-        } else if(a.data.getType() == "float") {
-            val = w.getInterfaceCopy()[i].data.getFloat();
-            min = a.min.getInt();
-            max = a.max.getInt();
+        } else if(a.data.getType() == "float" || a.data.getType() == "float const&") {
+            float min, max;
             float x = 0.f, y = 0.f, z = 0.f;
-            if(val) { x = *static_cast<float*>(val); }
-            if(min) { y = *static_cast<float*>(min); } else { y = x; }
-            if(max) { z = *static_cast<float*>(max); } else { z = x; }
+            if(w.getInterfaceCopy()[i].data.getFloat(float1)) { x = float1; }
+            if(a.min.getFloat(min)) { y = min; } else { y = x; }
+            if(a.min.getFloat(max)) { z = max;} else { z = x; }
             if(x > z || x < y) { return false; }
 
-        } else if(a.data.getType() == "bool") {
+        } else if(a.data.getType() == "bool" || a.data.getType() == "bool const&") {
             // Empty
-
-        } else if(a.data.getType() == "std::string") {
-            val = w.getInterfaceCopy()[i].data.getInt();
-            min = a.min.getString();
-            max = a.max.getString();
-            int x = 0, y = 0, z = 0;
-            if(val) { x = static_cast<int>(static_cast<string*>(val)->length()); }
-            if(min) { y = static_cast<int>(static_cast<string*>(min)->length()); } else { y = x; }
-            if(max) { y = static_cast<int>(static_cast<string*>(max)->length()); } else { z = x; }
+            bool1 = false;
+        } else if(a.data.getType() == "std::string" || a.data.getType() == "std::string const&") {
+            string min, max;
+            unsigned long x = 0, y = 0, z = 0;
+            if(w.getInterfaceCopy()[i].data.getString(string1)) { x = string1.length(); }
+            if(a.min.getString(min)) { y = min.length(); } else { y = x; }
+            if(a.max.getString(max)) { y = max.length(); } else { z = x; }
             if(x > z || x < y) { return false; }
         }
 
-        // Free the alloced memory.
-        if(val) { freemem(val, w.getInterfaceCopy()[i].data.getType()); }
-        if(min) { freemem(min, a.min.getType());                        }
-        if(max) { freemem(max, a.max.getType());                        }
         i++;
     }
     return true;
@@ -140,17 +131,65 @@ void EulerInterface::print()
     int i = 0;
     for(InterfaceAtom a : interface) {
         cout << ".  " << i << " " << a.data.getType() << " -> ";
-        void *ptr = nullptr;
-        if((ptr = a.data.getInt())) {
-            cout << *static_cast<int*>(ptr) << endl;
-        } else if((ptr = a.data.getFloat())) {
-            cout << *static_cast<float*>(ptr) << endl;
-        } else if((ptr = a.data.getBool())) {
-            cout << *static_cast<bool*>(ptr) << endl;
-        } else if((ptr = a.data.getString())) {
-            cout << *static_cast<string*>(ptr) << endl;
+        int var1;
+        float var2;
+        bool var3;
+        string var4;
+        if(a.data.getInt(var1)) {
+            cout << var1 << endl;
+        } else if(a.data.getFloat(var2)) {
+            cout << var2 << endl;
+        } else if(a.data.getBool(var3)) {
+            cout << var3 << endl;
+        } else if(a.data.getString(var4)) {
+            cout << var4 << endl;
         }
-        if(ptr) { free(ptr); }
         i++;
+    }
+}
+
+// Prints the interface as a list of parameters.
+// If it's optional mark it with '?'s
+void EulerInterface::paramPrint()
+{
+    int i = 0;
+    for(InterfaceAtom a : interface) {
+        cout << "\n> \t " << "  - ";
+        string type = "";
+        a.data.getString(type);
+        bool optional = false;
+        a.max.getBool(optional);
+        bool printedValid = false;
+        int var1;
+        float var2;
+        bool var3;
+        string var4;
+        if(a.min.getInt(var1)) {
+            if(!optional) {
+                cout << i;
+                printedValid = true;
+            } else { cout << '?'; }
+            cout << " " << type << " -> " << var1;
+        } else if(a.min.getFloat(var2)) {
+            if(!optional) {
+                cout << i;
+                printedValid = true;
+            } else { cout << '?'; }
+            cout << " " << type << " -> " << var2;
+        } else if(a.min.getBool(var3)) {
+            if(!optional) {
+                cout << i;
+                printedValid = true;
+            } else { cout << '?'; }
+            cout << " " << type << " -> " << var3;
+        } else if(a.min.getString(var4)) {
+            if(!optional) {
+                cout << i;
+                printedValid = true;
+            } else { cout << '?'; }
+            cout << " " << type << " -> " << var4;
+        }
+        if(printedValid)
+            i++;
     }
 }

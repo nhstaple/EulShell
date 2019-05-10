@@ -1,24 +1,46 @@
+// library/App/Parser/ParserObject.cpp
+
 #include "./ParserObject.h"
 #include "./EulerInterface/EulerInterface.h"
 
 void Command::printObject()
 {
     cout << "\n> \t * ";
-    cout << this->cmd << "\t : ";
+    cout << this->cmd << "\t | ";
     for(string alt : this->alts) {
         cout << alt;
         if(alt != this->alts.back()) { cout << ", "; }
     }
-    if(description.size()) {
-        cout << "\n> \t -> " + description;
-    } else {
-        cout << "\n";
+    if(this->description.size()) {
+        cout << "\n> \t " << "  " + this->description;
     }
+    if(this->params && this->params->getInterfaceCopy().size() > 0) {
+        cout << "\n> \t " << "  " << "Parameters";
+        params->paramPrint();
+    }
+}
+
+Command::Command(string str)
+{
+    cmd = str;
+    params = new EulerInterface;
+}
+
+Command::Command()
+{
+    params = new EulerInterface;
+}
+
+Command::~Command()
+{
+    //if(params)
+      //  delete params;
 }
 
 ParsedCommand::ParsedCommand()
 {
     this->input = new EulerInterface;
+    this->problem = nullptr;
 }
 
 ParsedCommand::~ParsedCommand()

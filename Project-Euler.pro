@@ -16,7 +16,8 @@ SOURCES += \
     src/cpp/library/App/cd.cpp \
     src/cpp/library/App/ls.cpp \
     src/cpp/library/App/pwd.cpp \
-    src/cpp/library/App/read.cpp
+    src/cpp/library/App/read.cpp \
+    src/cpp/euler/Euler.cpp
 
 HEADERS += \
     src/cpp/euler/001/e001.h \
@@ -30,7 +31,8 @@ HEADERS += \
     src/cpp/library/Utility/Typedata.h \
     src/cpp/library/Graphs/DataItem.h \
     src/cpp/library/Graphs/Node.h \
-    src/cpp/library/App/Parser/Termcolor.h
+    src/cpp/library/App/Parser/Termcolor.h \
+    src/cpp/euler/e001/e001.h
 
 DISTFILES += \
     src/cpp/Makefile
