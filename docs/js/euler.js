@@ -9,4 +9,4 @@ var reset = setInterval(function() {
 		img.offsetHeight;
 		img.style.animation = null;
 	}
-}, 30000);
+}, 60000);
