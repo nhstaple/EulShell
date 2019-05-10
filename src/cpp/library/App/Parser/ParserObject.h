@@ -45,7 +45,7 @@ public:
     string description;
     // The set of alternatives commands. Shorthands, subs, etc.
     vector<string> alts;
-    // The parameters accepted by tis command.
+    // The parameters accepted by its command.
     EulerInterface *params;
 };
 
