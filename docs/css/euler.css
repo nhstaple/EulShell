@@ -55,9 +55,11 @@ body {
 }
 
 #titleLink {
-    text-decoration: none;
     font-weight: 800;
+<<<<<<< HEAD
     color: rgb(253,185,39);
+=======
+>>>>>>> 9ee77dbd8e6f892ab8a9d1b844a9f4d2cb1de45b
 }
 
 a, a:visited, a:valid, #titleLink, #repoLink {
