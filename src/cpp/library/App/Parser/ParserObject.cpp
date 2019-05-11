@@ -2,11 +2,17 @@
 
 #include "./ParserObject.h"
 #include "./EulerInterface/EulerInterface.h"
+#include "./Termcolor.h"
 
 void Command::printObject()
 {
     cout << "\n> \t * ";
-    cout << this->cmd << "\t | ";
+    if(this->cmd.size() > 0 && (this->cmd[0] != 'e' || this->cmd == "exit")) {
+        cout << COMMAND << this->cmd << termcolor::reset << "\t | ";
+
+    } else {
+        cout << EULER_PROBLEM << this->cmd << termcolor::reset << "\t | ";
+    }
     for(string alt : this->alts) {
         cout << alt;
         if(alt != this->alts.back()) { cout << ", "; }

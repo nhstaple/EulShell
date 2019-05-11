@@ -554,4 +554,16 @@ namespace termcolor
 #undef TERMCOLOR_OS_MACOS
 #undef TERMCOLOR_OS_LINUX
 
+/** Used for parsing files. **/
+#define JAVASCRIPT termcolor::red
+#define C_CPP termcolor::green
+#define README termcolor::white
+#define FILE termcolor::yellow
+#define DIRECTORY termcolor::bold << termcolor::cyan
+
+/** Used for printing meta information. **/
+
+#define COMMAND termcolor::on_white << termcolor::red
+#define EULER_PROBLEM termcolor::on_white << termcolor::blue
+
 #endif // TERMCOLOR_H_

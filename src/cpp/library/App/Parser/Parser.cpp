@@ -27,7 +27,6 @@ Parser::Parser(AppObject* app)
     exit.alts.push_back("bye");
     exit.alts.push_back("q");
     exit.alts.push_back("quit");
-    exit.alts.push_back("I'm making my own shell with black jack and hookers.");
     exit.description = "Terminates the application.";
 
     Command cd("cd");
@@ -59,12 +58,27 @@ Parser::Parser(AppObject* app)
     read.params->set(data);
     data.clear();
 
+    Command test("test");
+    test.alts.push_back("sample");
+    test.alts.push_back("experiment");
+    test.alts.push_back("exper");
+    test.description = "Runs an Euler problem.";
+    data.push_back(InterfaceAtom(string("std::string"), string("euler problem"), bool(false)));
+    data.push_back(InterfaceAtom(string("int"), string("num of iterations"), bool(false)));
+    data.push_back(InterfaceAtom(string("std::string"), string("display flag"), bool(true)));
+    data.push_back(InterfaceAtom(string("std::string"), string("all flag"), bool(true)));
+    data.push_back(InterfaceAtom(string("std::string"), string("js flag"), bool(true)));
+    data.push_back(InterfaceAtom(string("std::string"), string("python flag"), bool(true)));
+    test.params->set(data);
+    data.clear();
+
     utilCmds.push_back(help);
     utilCmds.push_back(exit);
     utilCmds.push_back(pwd);
     utilCmds.push_back(cd);
     utilCmds.push_back(ls);
     utilCmds.push_back(read);
+    utilCmds.push_back(test);
 
     /** Setup Euler commands. **/
     Command e001("e001");

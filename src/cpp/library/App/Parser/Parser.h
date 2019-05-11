@@ -28,12 +28,6 @@ using std::string;
 using std::vector;
 
 #include "./Termcolor.h"
-/** Colors defs print files. **/
-#define JAVASCRIPT termcolor::red
-#define C_CPP termcolor::green
-#define README termcolor::white
-#define FILE termcolor::yellow
-#define DIRECTORY termcolor::bold << termcolor::cyan
 
 class AppObject;
 
