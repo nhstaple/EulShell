@@ -1,4 +1,4 @@
-# EulShell
+# [EulShell](https://nhstaple.github.io/EulShell/)
 
 This repo holds all of my [Project Euler](https://projecteuler.net/) solutions wrapped in a Shell written in C/C++. [Project Euler](https://projecteuler.net/) is a site where you solve mathematical problems with a really big calculator. The goal of this project is to integrate a limited Shell with my solutions, and support case testing to measure the efficiency of solutions written in various languages.
 
