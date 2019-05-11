@@ -34,17 +34,36 @@
                                 <a id="titleLink" href="https://projecteuler.net/">Project Euler</a>
                         </div>
                         <div id="description">
-                                <a id="repoLink" class="link" href="https://github.com/nhstaple/Project-Euler">This repo</a>
-                                holds all of my Project Euler solutions, most of them in C/C++.<br>
-                                Project Euler is a site where you solve mathematical problems with a really big calculator.<br>
-                                The goal of this project is to create a shell in C/C++ that will run solutions with custom input.
-                                I want to expand this to include reading and interpreting <span class="file">.js</span> files, and
-                                writting my own <span class="keyword">Determinstic Finite State Automotan</span>.
+                                <a id="repoLink" class="link" href="https://github.com/nhstaple/Project-Euler">
+                                        This repo
+                                </a>
+                                holds all of my Project Euler solutions wrapped in a shell written in C/C++.<br><br>
+                                Project Euler is a site where you solve mathematical problems with a really big calculator.<br><br>
+                                The goal of this project is to have a fully functional <span class="keyword">Shell</span> that
+                                hosts all of my solutions to Project Euler problems to be used to an academic setting. Instructors
+                                can remove pieces of the shell for students to implment, or, have student implement their own
+                                solutions to Project Euler problems using this code as a framework.<br><br>
+                                Future expansions include interpreting <span class="file">.js</span> files, writting my own
+                                <span class="keyword"> Determinstic Finite State Automotan</span>, implementing
+                                <span class="keyword">Autocomplete</span>, and <span class="keyword">Previous Commands</span>.
                         </div>
                 </div>
                 <div id="roadWrapper">
                         <div id="roadMap">
                                 <span class="bottomtext" id="roadmapTitle">Road Map</span>
+                                <div class="versionWrapper">
+                                        <div class="version">
+                                                <p class="roadmapVersion">vA.B.C</p>
+                                                <div>
+                                                        Version Legend
+                                                        <ul class="list">
+                                                                <li>A - major version.</li>
+                                                                <li>B - minor version.</li>
+                                                                <li>C - Project Euler solution. For A > 0 only.</li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
                                 <div class="versionWrapper">
                                         <div class="version" id="firstversion">
                                                 <p class="roadmapVersion">v0.2.*</p>
@@ -65,31 +84,7 @@
                                         <div class="version">
                                                 <p class="roadmapVersion">v1.0.0</p>
                                                 <div>
-                                                        Shell fully functional.
-                                                </div>
-                                        </div>
-                                </div>
-                                <div class="versionWrapper">
-                                        <div class="version">
-                                                <p class="roadmapVersion">v1.0._</p>
-                                                <div>
-                                                        Work on Project Euler solutions.
-                                                </div>
-                                        </div>
-                                </div>
-                                <div class="versionWrapper">
-                                        <div class="version">
-                                                <p class="roadmapVersion">v1._.0</p>
-                                                <div>
-                                                        Add a new feature. For example, <span class="command">test</span>.
-                                                </div>
-                                        </div>
-                                </div>
-                                <div class="versionWrapper">
-                                        <div class="version">
-                                                <p class="roadmapVersion">v_.0.0</p>
-                                                <div>
-                                                        Add a major feature. For example, a <p class="keyword">DFA</p> written in C/C++.
+                                                        <span class="keyword">Shell</span> fully functional.
                                                 </div>
                                         </div>
                                 </div>
@@ -107,23 +102,24 @@
                         <div id="changelog">
                                 <span class="bottomtext">Change Log</span>    
                                 <div id="mostRecentUpdate" class="updateWrapper">
-                                        <div class="updateTab">
-
-                                        </div>
                                         <div class="update">
                                                 <p class="changelogVersion">v0.2.2</p>
                                                 <p class="date">May 10th, 2019</p>
                                                 <ul class="list">
                                                         <li> Fixed bug with <span class="command">ls</span>.</li>
-                                                        <li> Updated <span class="code">read(ParsedCommand&)</span> -> <span class="code">read(string&)</span>.</li>
+                                                        <li> Updated <span class="code">read(ParsedCommand &)</span> -> <span class="code">read(string &)</span>.</li>
                                                         <li> Update webiste. </li>
                                                 </ul>
                                         </div>
                                 </div>  
-                                <div class="updateWrapper">
-                                        <div class="updateTab">
 
-                                        </div>
+                                <button onclick="toggleReadMore()" id="readMore" class="readBtn">
+                                       <div id="readMoreText">Read More</div>
+                                </button>
+                                <div id="readMoreWrapper">
+
+                                
+                                <div class="updateWrapper">
                                         <div class="update">
                                                 <p class="changelogVersion">v0.2.1</p>
                                                 <p class="date">May 9th, 2019</p>
@@ -136,14 +132,11 @@
                                                                         <li>Tweaked function output formatting.</li>
                                                                 </ul>
                                                         </li>
-                                                        <li> Removed dealing with <span class="code">void*</span>. <span class="code">DataItem.get()</span> now returns a <span class="code">bool</span> and sets a var by reference to return it's value.</li>
+                                                        <li> Removed dealing with <span class="code">void *</span>. <span class="code">DataItem.get()</span> now returns a <span class="code">bool</span> and sets a var by reference to return it's value.</li>
                                                 </ul>
                                         </div>
                                 </div>
                                 <div class="updateWrapper">
-                                        <div class="updateTab">
-
-                                        </div>
                                         <div class="update">
                                                 <p class="changelogVersion">v0.2.0</p>
                                                 <p class="date">May 8th, 2019</p>
@@ -169,6 +162,10 @@
                                                 </ul>
                                         </div>
                                 </div>  
+                                <button onclick="toggleReadMore()" id="readLess" class="readBtn">
+                                       <div id="readMoreText">Read Less</div>
+                                </button>
+                                </div>
                         </div>
                 </div>
         </body>

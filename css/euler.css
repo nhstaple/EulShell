@@ -56,10 +56,7 @@ body {
 
 #titleLink {
     font-weight: 800;
-<<<<<<< HEAD
     color: rgb(253,185,39);
-=======
->>>>>>> 9ee77dbd8e6f892ab8a9d1b844a9f4d2cb1de45b
 }
 
 a, a:visited, a:valid, #titleLink, #repoLink {
@@ -69,23 +66,23 @@ a, a:visited, a:valid, #titleLink, #repoLink {
 
 #description {
     word-wrap: break-word;
-    line-height: 175%;
+    line-height: 125%;
+    font-size: 1.25em;
 }
 
 #changelog, #roadMap, #bugs {
-    padding-top: 5vh;
-    padding-left: 5vh;
-    padding-bottom: 5vh;
-    margin-bottom: 5vh;
+    font-size: 1.15em;
+    padding-top: 5vw;
+    padding-left: 5vw;
+    padding-bottom: 5vw;
+    margin-bottom: 5vw;
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-#roadMap {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding-left: 0;
+#changelog {
     padding-bottom: 0;
 }
 
@@ -93,20 +90,21 @@ a, a:visited, a:valid, #titleLink, #repoLink {
     font-size: 1.5em;
 }
 
-.update, .version {
-    padding: 1vh 0vw 1vh 3vw;
-    background-color: rgba(0, 0, 0, 0.25);
+.update {
+    padding: 5vh 0vw 5vh 3vw;
     display: flex;
     flex-direction: column;
-    margin-bottom: 5vh;
+    /* margin-bottom: 5vh; */
     flex: 1 1 auto;
+    border-style: solid;
+    border-width: 0 0 0 3vw;
 }
 
-
 .version {
-    margin-bottom: 0;
-    padding-bottom: 2vh;
-    padding-left: 5vw;
+    padding: 3vh 0 3vh 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
 }
 
 .link {
@@ -187,12 +185,9 @@ a, a:visited, a:valid, #titleLink, #repoLink {
     flex: 0 1 auto;
 }
 
-.updateTab {
-    width: 3vw;
-    background-color: rgba(255, 255, 255, 0.9);
-    display: flex;
-    flex: 0 0 auto;
-    margin-bottom: 5vh;
+.updateWrapper {
+    margin-bottom: 5vw;
+    background-color: rgba(0, 0, 0, 0.25);
 }
 
 .bottomtext {
@@ -201,7 +196,7 @@ a, a:visited, a:valid, #titleLink, #repoLink {
 }
 
 #mostRecentUpdate {
-    padding-top: 2.5vh;
+    margin-top: 2.5vh;
 }
 
 .listWrapper {
@@ -211,10 +206,23 @@ a, a:visited, a:valid, #titleLink, #repoLink {
     height: fit-content;
 }
 
-#roadmapTitle {
-    padding-left: 5vw;
-}
 
 #firstversion {
     padding-top: 2vh;
+}
+
+#readMoreWrapper {
+    display: none;
+    flex-direction: column;
+}
+
+.readBtn {
+    font-size: 2em;
+    padding: 5vw 0 5vw 0;
+    margin: 0 0 5vw 0;
+    background-color: rgba(0, 0, 0, 0.25);
+    color: white;
+    border-width: 0 3vw 0 0;
+    border-color: rgba(255, 255, 255, 0.9);
+    font-family: 'Varela Round', sans-serif;
 }
