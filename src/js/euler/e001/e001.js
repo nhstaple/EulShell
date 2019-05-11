@@ -1,14 +1,14 @@
-// 001/e001.js
+// euler/e001/e001.js
 function euler1(const1, const2, max) {
 	// Validated input data.
 	if(const1 <= 0 || const2 <= 0 || max >= 1000) {
-		console.log("bad data!"); 
-		return; 
+		console.log("bad data!");
+		return;
 	}
-	
+
 	// Perform the caluculation.
 	var sum = 0;
-	
+
 	for(var i = 0; i*const1 < max; i++) { sum += i*const1; }
 	for(var i = 0; i*const2 < max; i++) { sum += i*const2; }
 	for(var i = 0; i*const1*const2 < max; i++) { sum -= i*const1*const2; }
