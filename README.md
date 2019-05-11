@@ -21,7 +21,7 @@ g++ -std++11
 
 #### Option 1 - Clone this repo
 
-1. `clone https://github.com/nhstaple/EulShell`
+1. `git clone https://github.com/nhstaple/EulShell`
 2. `cd EulShell/src/cpp`
 3. `make`
 4. On success `./Euler.out`
