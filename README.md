@@ -28,7 +28,7 @@ g++ -std++11
 
 #### Option 2 - Download [release](https://github.com/nhstaple/EulShell/releases)
 
-Grab the latest release and do what you will!
+Grab the latest release and open with Qt Creator.
 
 ## Built With
 
