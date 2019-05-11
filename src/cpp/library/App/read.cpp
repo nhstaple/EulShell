@@ -32,6 +32,8 @@ short int read(string filepath)
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
     bool canView = false;
     string filename = filepath;
+
+/** Check file extensions then set canView flag to true. **/
     if(filename.find(".js") != string::npos) {
         canView = true;
     } else if (filename.find(".cpp") != string::npos || filename.find(".c") != string::npos || filename.find(".h") != string::npos || filename.find(".hpp") != string::npos) {
@@ -41,24 +43,53 @@ short int read(string filepath)
     }
     // Check it doesn't contain a period then print it.
     else if((filename.find_first_of("." ) == string::npos)) {
-        if(filename == "Makefile") {
+        if(filename == "Makefile" || filename == "makefile") {
+            filename = "makefile";
             canView = true;
         }
     }
-    if(fork() == 0) {
-        char *ptr = new char[filename.size()];
+
+    char *ptr = nullptr;
+    if(canView) {
+        // Copy the filename into a c string for execvp.
+        ptr = new char[filename.size() + 1];
         for(unsigned int i = 0; i < filename.size(); i++)
             ptr[i] = filename.c_str()[i];
-        // Declaring new memory per C++11 standards.
-        char cmd[] = "cat";
-        char *args[] = { cmd, ptr, nullptr };
-        execvp(args[0], args);
-        exit(-1);
+        ptr[filename.size()] = '\0';
+        // If you're the child process.
+        if(fork() == 0) {
+            // Declaring new memory per C++11 standards.
+            char cmd[] = "cat";
+            char *args[] = { cmd, ptr, nullptr };
+            execvp(args[0], args);
+            exit(-1);
+        } else {
+            // Else you're the parent.
+            int status = 0;
+            // Wait for the child process.
+            wait(&status);
+            // If there was an error.
+            if(status < 0) {
+                if(ptr)
+                    delete ptr;
+                return EXIT_FAILURE;
+            }
+        }
+
+    // Else you can't view the file.
     } else {
-        int status = 0;
-        wait(&status);
-        if(status < 0) { return EXIT_FAILURE;}
+        // If it's a directory.
+        if(isDirectory(filepath.c_str())) {
+            cout << "< Error: cannot read a directory! \"" << filepath << "\"\n";
+        } else {
+            // Else it's a file.
+            cout << "< Error: cannot find: " << filepath
+                 << ". Is this a legal file extension for EulShell?\n< Type \"read help\" for more info.\n";
+        }
+        return EXIT_FAILURE;
     }
+    if(ptr)
+        delete ptr;
     return EXIT_SUCCESS;
 
 /** All other operating systems. **/

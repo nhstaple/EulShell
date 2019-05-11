@@ -87,6 +87,7 @@ void App::run()
             cout << "* Time := " << time.count() << " nanoseconds.\n";
         }
     } while(cmd.command != "exit");
+    cout << "> Closing the shell... goodbye.\n";
 }
 
 void App::checkFunctions(ParsedCommand &cmd)
@@ -97,13 +98,13 @@ void App::checkFunctions(ParsedCommand &cmd)
         input[0].data.getString(param1);
         param1 = parser->simplifyCommand(param1);
     }
+
     // See Parser::Parser() for information about the input interface for these functions.
  /** pwd **/
     if(cmd.command == "pwd") {
         pwd(param1);
         cmd.command = "parsed";
     }
-
 /** cd **/
     else if (cmd.command == "cd") {
         if (param1.size() > 0) {
@@ -113,7 +114,6 @@ void App::checkFunctions(ParsedCommand &cmd)
         }
         cmd.command = "parsed";
     }
-
 /** ls **/
     else if(cmd.command == "ls") {
         // The user supplied input.
@@ -126,13 +126,11 @@ void App::checkFunctions(ParsedCommand &cmd)
         }
         cmd.command = "parsed";
     }
-
 /** help **/
     else if(cmd.command == "help") {
         help(param1);
         cmd.command = "parsed";
     }
-
 /** read **/
     else if(cmd.command == "read") {
         // The user supplied input.
