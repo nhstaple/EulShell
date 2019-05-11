@@ -18,6 +18,9 @@ Parser::Parser(AppObject* app)
     help.alts.push_back("halp");
     help.alts.push_back("h");
     help.description = "Displays the help information.";
+    data.push_back(InterfaceAtom(string("std::string"), string("command"), bool(true)));
+    help.params->set(data);
+    data.clear();
 
     Command exit("exit");
     exit.alts.push_back("e");
