@@ -22,8 +22,12 @@ extern int isDirectory(const char *path);
 
 using namespace std;
 
-short int read(string &filepath)
+short int read(string filepath)
 {
+    if(filepath == "help") {
+        cout << "* read - Help\n";
+        return EXIT_SUCCESS;
+    }
 /** Unix family of operating systems. **/
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
     bool canView = false;

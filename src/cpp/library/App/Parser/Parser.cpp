@@ -116,7 +116,7 @@ bool Parser::isEulerCmd(string &str)
 
 string Parser::simplifyCommand(string str)
 {
-    if(!contains(str)) { return ""; }
+    if(!contains(str)) { return str; }
     // Check each command and it's alts for a match.
     for(Command cmd : utilCmds) {
         if(cmd.cmd == str)
@@ -134,7 +134,7 @@ string Parser::simplifyCommand(string str)
                 return cmd.cmd;
         }
     }
-    return "";
+    return str;
 }
 
 vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)

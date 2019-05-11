@@ -31,6 +31,10 @@ using namespace std;
 
 short int cd(string path)
 {
+    if(path == "help") {
+        cout << "* cd - Help\n";
+        return EXIT_SUCCESS;
+    }
 /** Unix family of operating systems. **/
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
     // If there was no input.

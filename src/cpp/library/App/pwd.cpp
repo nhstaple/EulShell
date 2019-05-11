@@ -27,8 +27,12 @@
 #include <iostream>
 
 using namespace std;
-short int pwd()
+short int pwd(string command)
 {
+    if(command.size() > 0) {
+        cout << "* pwd - Help\n";
+        return EXIT_SUCCESS;
+    }
 /** Unix systems. **/
 #if (defined(__linux__) || (__unix__) || (__APPLE__))
     // If you're the child then exec!

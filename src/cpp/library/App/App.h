@@ -38,7 +38,7 @@ private:
     // Prints the prompt, for example "BASH$ "
     void prompt();
     // Prints the help information of all available commands.
-    void help();
+    void help(string &cmd);
     // Performs the functions based off the input command.
     void checkFunctions(ParsedCommand &cmd);
 

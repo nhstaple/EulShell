@@ -8,8 +8,8 @@
 
 extern short int cd(string path);
 extern short int ls(string dir);
-extern short int pwd();
-extern short int read(string &filepath);
+extern short int pwd(string command);
+extern short int read(string filepath);
 
 using namespace std;
 using namespace std::chrono;
@@ -32,20 +32,33 @@ void App::printAppObject()
     }
 }
 
-void App::help()
+// Assumed that the cmd is valid.
+void App::help(string &cmd)
 {
-    cout << "> github/nhstaple/Project-Euler C++ Help\n";
-    cout << "> Available commands";
-    for(Command cmd : parser->utilCmds) {
-        cmd.printObject();
-        cout << "\n>";
+    if(cmd.size() == 0) {
+        cout << "> github/nhstaple/Project-Euler C++ Help\n";
+        cout << "> Available commands";
+        for(Command cmd : parser->utilCmds) {
+            cmd.printObject();
+            cout << "\n>";
+        }
+        cout << " Available solutions";
+        for(Command cmd : parser->eulerCmds) {
+            cmd.printObject();
+            cout << "\n>";
+        }
+        cout << endl;
+    } else {
+        // Perform checkfunctions with the new command
+        // with the parameters set to help.
+        ParsedCommand newCmd;
+        newCmd.command = cmd;
+        newCmd.input = new EulerInterface();
+        vector<InterfaceAtom> newInput;
+        newInput.push_back(InterfaceAtom(string("help")));
+        newCmd.input->set(newInput);
+        checkFunctions(newCmd);
     }
-    cout << " Available solutions";
-    for(Command cmd : parser->eulerCmds) {
-        cmd.printObject();
-        cout << "\n>";
-    }
-    cout << endl;
 }
 
 void App::welcome()
@@ -78,20 +91,23 @@ void App::run()
 
 void App::checkFunctions(ParsedCommand &cmd)
 {
+    auto input = cmd.input->getInterfaceCopy();
+    string param1 = "";
+    if(input.size() > 0) {
+        input[0].data.getString(param1);
+        param1 = parser->simplifyCommand(param1);
+    }
     // See Parser::Parser() for information about the input interface for these functions.
  /** pwd **/
     if(cmd.command == "pwd") {
-        pwd();
+        pwd(param1);
         cmd.command = "parsed";
     }
 
 /** cd **/
     else if (cmd.command == "cd") {
-        string path = "";
-        // Validated input to parameter type.
-        if(cmd.input->getInterfaceCopy().size() > 0) {
-            cmd.input->getInterfaceCopy()[0].data.getString(path);
-            cd(path);
+        if (param1.size() > 0) {
+            cd(param1);
         } else {
             cout << "< Error: please provide a directory.\n";
         }
@@ -101,25 +117,19 @@ void App::checkFunctions(ParsedCommand &cmd)
 /** ls **/
     else if(cmd.command == "ls") {
         // The user supplied input.
-        if(cmd.input->getInterfaceCopy().size() > 0) {
-            string dir;
-            // Validated input to parameter type.
-            if(cmd.input->getInterfaceCopy()[0].data.getString(dir)) {
-                ls(dir);
-            } else {
-                cout << "< Error: invalid input type. Try again with a string.\n";
-            }
-            cmd.command = "parsed";
-        } else {
-            // Print the current directory.
+        if(param1.size() > 0) {
+            ls(param1);
+        } else if(input.size() == 0) {
             ls(".");
-            cmd.command = "parsed";
+        } else {
+           cout << "< Error: invalid input type. Try again with a string.\n";
         }
+        cmd.command = "parsed";
     }
 
 /** help **/
     else if(cmd.command == "help") {
-        help();
+        help(param1);
         cmd.command = "parsed";
     }
 
