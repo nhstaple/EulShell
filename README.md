@@ -44,7 +44,7 @@ A.B.C
 
 ## Authors
 
-* [**Nick Stapleton**](nhstaple.github.io)
+* [**Nick Stapleton**](https://nhstaple.github.io)
 
 ## License
 
