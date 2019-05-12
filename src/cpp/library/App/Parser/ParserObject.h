@@ -10,8 +10,11 @@
 
 #include <string>
 #include <vector>
+#include <map>
+
 using std::string;
 using std::vector;
+using std::map;
 
 class Euler;
 class EulerInterface;
@@ -50,14 +53,14 @@ public:
 };
 
 // ParsedCommand - returned by the parser to App::App. The interface is used to exec programs.
-class ParsedCommand : public Command {
+class ParsedCommand {
 public:
 /** Constructors. **/
     ParsedCommand();
-    ~ParsedCommand() override;
+    ~ParsedCommand();
 
 /** Prints functions. **/
-    void printObject() override;
+    void printObject();
 
 /** Overloaded operators. **/
     void operator=(const ParsedCommand& cmd);
@@ -66,6 +69,13 @@ public:
     string command;
     Euler *problem;
     EulerInterface *input;
+};
+
+class TestCommand : public ParsedCommand {
+public:
+    TestCommand() {}
+    map<string, bool> flags;
+    int numTestIterations = 0;
 };
 
 #endif // _PARSEROBJECT_H

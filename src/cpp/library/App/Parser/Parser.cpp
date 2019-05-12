@@ -44,7 +44,6 @@ Parser::Parser(AppObject* app)
 
     Command ls("ls");
     ls.alts.push_back("list");
-    ls.alts.push_back("show");
     ls.description = "Prints all valid files and subdirectories.";
     data.push_back(InterfaceAtom(string("std::string"), string("directory"), bool(true)));
     ls.params->set(data);
@@ -154,7 +153,7 @@ string Parser::simplifyCommand(string str)
     return str;
 }
 
-vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
+vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand *res)
 {
     vector<DataItem*> in;
     DataItem* data;
@@ -175,13 +174,13 @@ vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
 
 /** Structure the data into useful information. **/
         // If the the first command is valid then simplify it and set the field in the data structure.
-        if(i == 0 && contains(token)) {
-            res.command = token;
+        if(contains(token) && i == 0) {
+            res->command = token;
         } else if (i == 0) {
             // Else if the command is not valid.
             cout << "< Error: invalid command \"" + token + "\".\n";
-            res.command = "error";
-            res.problem = nullptr;
+            res->command = "error";
+            res->problem = nullptr;
             return vector<DataItem*>();
         } else {
             // Else set a new atom and push it to the input list.
@@ -193,27 +192,87 @@ vector<DataItem*> Parser::tokenize(string &rawInput, ParsedCommand &res)
     return in;
 }
 
-ParsedCommand Parser::parse(std::string rawInput)
+TestCommand* Parser::parseTestCmd(ParsedCommand* cmd)
+{
+/** Validate input. **/
+    if(cmd == nullptr) { return nullptr; }
+
+/** Seed return data. **/
+    TestCommand *test = new TestCommand();
+    string problem;
+    if(cmd->input->getInterfaceCopy().size() > 0 && application) {
+        cmd->input->getInterfaceCopy()[0].data.getString(problem);
+    } else {
+        return nullptr;
+    }
+    test->command = cmd->command;
+    test->problem = static_cast<App*>(application)->eulerDictionary[problem];
+
+    // Validate the user input matches the type of the problem's interface.
+    vector<InterfaceAtom> input = cmd->input->getInterfaceCopy();
+    vector<InterfaceAtom> dataCopy;
+    // 1 to skip the problem name.
+    for(unsigned long i = 0; i < test->problem->interface.getInterfaceCopy().size(); i++) {
+        if(i + 1 < input.size())
+            dataCopy.push_back(input[i+1]);
+    }
+    Input inputCopy(dataCopy);
+
+/** Check if the input is valid to the problem's interface. **/
+    if(inputCopy == test->problem->interface) {
+        test->input->set(dataCopy);
+        // + 1 for euler problem.
+        // + 1 for num of times.
+        input[test->problem->interface.getInterfaceCopy().size()].data.getInt(test->numTestIterations);
+        for(unsigned long i = 1 + 1 + test->problem->interface.getInterfaceCopy().size(); i < input.size(); i++) {
+            string res;
+            input[i].data.getString(res);
+            test->flags[res] = true;
+        }
+/** The input is not valid to the problem, so check for input to the test function. **/
+    } else {
+        // The input does not match the interface.
+        // Check if the first input parameter is number of iterations
+        if(dataCopy.size() > 0) {
+            if(dataCopy[0].data.getInt(test->numTestIterations)) {
+                string str;
+                for(unsigned int i = 1; i < dataCopy.size(); i++) {
+                    if(dataCopy[i].data.getString(str)) {
+                        test->flags[str] = true;
+                    } else {
+                        // It's not a string so it's not a flag. Error!
+                        cout << "< Error: bad input!\n";
+                        test->flags["error"] = true;
+                    }
+                }
+            }
+        } else {
+            cout << "< Error: bad input!\n";
+        }
+    }
+    // Cleanup the original data.
+    delete cmd;
+    // Return the parsed Test Command.
+    return test;
+}
+
+ParsedCommand* Parser::parse(std::string rawInput)
 {
     // Return value.
-    ParsedCommand res;
+    ParsedCommand* res = new ParsedCommand;
 /** Tokenize the input. **/
     vector<DataItem*> data = tokenize(rawInput, res);
 
     // Set the input.
-    res.input->set(data);
+    res->input->set(data);
 
     // Check if command is valid then set the problem pointer.
-    if(res.command.length() > 0 && isEulerCmd(res.command)) {
-        // Get the dictionary
-        if(application)
-        {
-            res.problem = static_cast<App*>(application)->eulerDictionary[res.command];
-            if(res.problem == nullptr) {
-                res.command = "error";
-                res.problem = nullptr;
-                res.input->reset();
-            }
+    if(application) {
+        res->problem = static_cast<App*>(application)->eulerDictionary[res->command];
+        if(res->problem == nullptr && res->command != "test") {
+            // cout << "< Error: please enter a valid problem number.\n";
+        } else if(res->command == "test") {
+            res = static_cast<ParsedCommand*>(parseTestCmd(res));
         }
     }
 

@@ -41,18 +41,20 @@ public:
     // Binds the parser to the app that is passed.
     void bindAppObject(AppObject* app) { application = app; }
     // Converts the raw input into a Parsed Command. See ParserObject.h.
-    ParsedCommand parse(string rawInput);
+    ParsedCommand* parse(string rawInput);
     // Simplifies a command. ie, reduce a command's alt to it's meta value.
     string simplifyCommand(string str);
 private:
     // Tokenize the input.
-    vector<DataItem*> tokenize(string &rawInput, ParsedCommand &res);
+    vector<DataItem*> tokenize(string &rawInput, ParsedCommand *res);
     // Returns true if str is a utility command.
     bool isUtil(string &str);
     // Returns true if str is an euler command.
     bool isEulerCmd(string &str);
     // Returns true if str is a util or euler command.
     bool contains(string &str);
+    // Parses the command as a test command.
+    TestCommand* parseTestCmd(ParsedCommand *cmd);
 
 /** Private data members. **/
     AppObject* application;

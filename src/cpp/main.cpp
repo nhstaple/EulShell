@@ -9,8 +9,8 @@ using namespace std;
 
 int main()
 {
-    App application;
-    application.run();
+    App EulShell;
+    EulShell.run();
     return 0;
 }
 

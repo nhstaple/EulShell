@@ -30,8 +30,8 @@ public:
     Euler() { }
 
 /** Run functions. Performs the calculation. **/
-    virtual nanoseconds run(Input &i)=0;
-    nanoseconds run(Input* in);
+    virtual nanoseconds run(Input &i, const bool &display = false)=0;
+    nanoseconds run(Input* in, const bool &display = false);
     nanoseconds run() { return run(interface); }
 
 /** Meta print functions. **/

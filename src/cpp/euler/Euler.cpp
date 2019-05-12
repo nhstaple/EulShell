@@ -3,7 +3,7 @@
 #include "./Euler.h"
 
 // Converts the input to new data and runs the program.
-nanoseconds Euler::run(Input *in)
+nanoseconds Euler::run(Input *in, const bool &display)
 {
     vector<InterfaceAtom> data;
     vector<InterfaceAtom> copy = in->getInterfaceCopy();
@@ -11,6 +11,6 @@ nanoseconds Euler::run(Input *in)
         data.push_back(*a);
     }
     Input newInput(data);
-    return this->run(newInput);
+    return this->run(newInput, display);
 }
 

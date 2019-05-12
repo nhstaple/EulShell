@@ -20,7 +20,7 @@ public:
     e001(EulerInterface e);
 
 /** Run functions. Performs the calculation. **/
-    nanoseconds run(Input &input) override;
+    nanoseconds run(Input &input, const bool &display = false) override;
 
 /** Print functions. **/
     // Prints the program name.

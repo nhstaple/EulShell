@@ -40,7 +40,9 @@ private:
     // Prints the help information of all available commands.
     void help(string &cmd);
     // Performs the functions based off the input command.
-    void checkFunctions(ParsedCommand &cmd);
+    void checkFunctions(ParsedCommand *cmd);
+    // Performs n tests on Euler solutions.
+    void test(TestCommand *cmd);
 
 /** Private data members. **/
 /** Parsing Stuff **/

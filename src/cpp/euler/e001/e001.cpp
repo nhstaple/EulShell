@@ -54,8 +54,35 @@ void e001::help()
     cout << "*\n";
 }
 
+// Performs the actual calculation.
+nanoseconds compute(const int &const1, const int &const2, const int &cap, bool display = false) {
+    high_resolution_clock::time_point t0, t1;
+    int sum = 0;
+
+    t0 = high_resolution_clock::now();
+    for(int i = 1; i*const1 < cap; i++)
+        sum += i*const1;
+
+    // Add constant 2.
+    for(int i = 1; i*const2 < cap; i++)
+        sum += i*const2;
+
+    // Const1 and const2 overlap. Remove duplicates.
+    for(int i = 1; i*const1*const2 < cap; i++)
+        sum -= i*const1*const2;
+
+    t1 = high_resolution_clock::now();
+
+    // Print the solution.
+    if(display) {
+        cout << "= " << sum << endl;
+        cout << "t " << duration_cast<nanoseconds>(t1 - t0).count() << endl;
+   }
+   return duration_cast<nanoseconds>(t1 - t0);
+}
+
 // The main program.
-nanoseconds e001::run(Input &input)
+nanoseconds e001::run(Input &input, const bool &display)
 {
     auto data = input.getInterfaceCopy();
     if(data.size() > 0) {
@@ -65,19 +92,18 @@ nanoseconds e001::run(Input &input)
              return nanoseconds(0);
          }
     }
-    name();
+    if(display)
+        name();
 
-    /** Local variables. **/
+/** Local variables. **/
     // The first number to multiply.
     int const1;
     // The second number to multiply.
     int const2;
     // The maximum value of the product to be summed.
     int cap = 0;
-    // The total sum to be returned.
-    int sum = 0;
 
-    /** Data validation. **/
+/** Data validation. **/
     if(this->interface == input && ENABLE) {
         // Set vars based off interface. See the header for me details.
         data[0].data.getInt(const1);
@@ -95,26 +121,5 @@ nanoseconds e001::run(Input &input)
         data[2].data.getInt(cap);
     }
 
-/** Program Start **/
-    t0 = high_resolution_clock::now();
-
-    // Add constant 1.
-    for(int i = 1; i*const1 < cap; i++)
-        sum += i*const1;
-
-    // Add constant 2.
-    for(int i = 1; i*const2 < cap; i++)
-        sum += i*const2;
-
-    // Const1 and const2 overlap. Remove duplicates.
-    for(int i = 1; i*const1*const2 < cap; i++)
-        sum -= i*const1*const2;
-
-/** Program end. **/
-    t1 = high_resolution_clock::now();
-
-    // Print the solution.
-    cout << "= " << sum << "\n";
-
-    return duration_cast<nanoseconds>(t1 - t0);
+    return compute(const1, const2, cap, display);
 }

@@ -57,7 +57,7 @@ void App::help(string &cmd)
         vector<InterfaceAtom> newInput;
         newInput.push_back(InterfaceAtom(string("help")));
         newCmd.input->set(newInput);
-        checkFunctions(newCmd);
+        checkFunctions(&newCmd);
     }
 }
 
@@ -71,9 +71,10 @@ void App::welcome()
 void App::run()
 {
     welcome();
-    ParsedCommand cmd;
+    ParsedCommand* cmd = nullptr;
     char buf[MAX_CMD_LENGTH];
     do {
+        if(cmd) { delete cmd; }
         prompt();
         cin.getline(buf, MAX_CMD_LENGTH);
         cmd = parser->parse(string(buf));
@@ -81,18 +82,13 @@ void App::run()
         /** Perform shell commands. **/
         checkFunctions(cmd);
 
-        /** Check for an euler problem. **/
-        if(cmd.problem) {
-            nanoseconds time = cmd.problem->run(cmd.input);
-            cout << "* Time := " << time.count() << " nanoseconds.\n";
-        }
-    } while(cmd.command != "exit");
+    } while(cmd->command != "exit");
     cout << "> Closing the shell... goodbye.\n";
 }
 
-void App::checkFunctions(ParsedCommand &cmd)
+void App::checkFunctions(ParsedCommand *cmd)
 {
-    auto input = cmd.input->getInterfaceCopy();
+    auto input = cmd->input->getInterfaceCopy();
     string param1 = "";
     if(input.size() > 0) {
         input[0].data.getString(param1);
@@ -101,21 +97,21 @@ void App::checkFunctions(ParsedCommand &cmd)
 
     // See Parser::Parser() for information about the input interface for these functions.
  /** pwd **/
-    if(cmd.command == "pwd") {
+    if(cmd->command == "pwd") {
         pwd(param1);
-        cmd.command = "parsed";
+        cmd->command = "parsed";
     }
 /** cd **/
-    else if (cmd.command == "cd") {
+    else if (cmd->command == "cd") {
         if (param1.size() > 0) {
             cd(param1);
         } else {
             cout << "< Error: please provide a directory.\n";
         }
-        cmd.command = "parsed";
+        cmd->command = "parsed";
     }
 /** ls **/
-    else if(cmd.command == "ls") {
+    else if(cmd->command == "ls") {
         // The user supplied input.
         if(param1.size() > 0) {
             ls(param1);
@@ -124,25 +120,34 @@ void App::checkFunctions(ParsedCommand &cmd)
         } else {
            cout << "< Error: invalid input type. Try again with a string.\n";
         }
-        cmd.command = "parsed";
+        cmd->command = "parsed";
     }
 /** help **/
-    else if(cmd.command == "help") {
+    else if(cmd->command == "help") {
         help(param1);
-        cmd.command = "parsed";
+        cmd->command = "parsed";
     }
 /** read **/
-    else if(cmd.command == "read") {
+    else if(cmd->command == "read") {
         // The user supplied input.
-        if(cmd.input->getInterfaceCopy().size() > 0) {
+        if(cmd->input->getInterfaceCopy().size() > 0) {
             string filepath;
             // Validated input to parameter type.
-            if(cmd.input->getInterfaceCopy()[0].data.getString(filepath)) {
+            if(cmd->input->getInterfaceCopy()[0].data.getString(filepath)) {
                 read(filepath);
-                cmd.command = "parsed";
+                cmd->command = "parsed";
             }
         } else {
             cout << "< Error: please provide a filename or path to a file!\n";
         }
+    }
+/** test **/
+    else if(cmd->command == "test") {
+        test(static_cast<TestCommand*>(cmd));
+    }
+/** Check for an euler problem. **/
+    else if(cmd->problem) {
+        nanoseconds time = cmd->problem->run(cmd->input, true);
+        cout << "* Time := " << time.count() << " nanoseconds.\n";
     }
 }
