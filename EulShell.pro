@@ -17,7 +17,8 @@ SOURCES += \
     src/cpp/library/App/ls.cpp \
     src/cpp/library/App/pwd.cpp \
     src/cpp/library/App/read.cpp \
-    src/cpp/euler/Euler.cpp
+    src/cpp/euler/Euler.cpp \
+    src/cpp/library/App/AppTest.cpp
 
 HEADERS += \
     src/cpp/euler/001/e001.h \
