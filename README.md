@@ -7,6 +7,7 @@ This is an aggregated repository of that one is expected to learn during their u
 The name comes from the Swiss mathemtician [**Leonhard Euler**](http://www-history.mcs.st-and.ac.uk/Biographies/Euler.html). See the [**Wiki**](https://github.com/nhstaple/EulShell/wiki) and [**release**](https://github.com/nhstaple/EulShell/releases) for the development history.
 
 ### List of Topics
+
 | Topic | Module |
 | :--:  | :--:   |
 | **_discrete mathematics_** | [`Project Euler`](https://github.com/nhstaple/EulShell/wiki/ProjectEuler) | 
