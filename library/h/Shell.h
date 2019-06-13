@@ -29,7 +29,7 @@ public:
 
 protected:
 /** Methods **/
-    // Sets up all the interal data for the shell.
+    // Sets up all the internal data for the shell.
     virtual int initialize();
     // Prints the welcome info on the entry.
     virtual void welcome();
@@ -39,11 +39,17 @@ protected:
     virtual int unitiliaze();
 
 /** Variables **/
+    // The name of the shell.
     string appName;
+    // The prompt printed before user input. For example, BASH.token = "$"
     string token;
+    // Used for buffering the console output.
+    // Default buffer.
     const string DEF_BUFF = "* ";
+    // Output buffer. Used for descriptions, process messages, etc.
     const string OUT_BUFF = "< ";
-    const string DBG_BUFF = "% ";
+    // Used to pad debugging statements.
+    const string DBG_BUFF = "@ ";
 };
 
 #endif // _SHELL_H_

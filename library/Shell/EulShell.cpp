@@ -1,5 +1,7 @@
-// EulShell.cpp
-// Nick S.
+/*
+ * EulShell.cpp
+ * Nick S.
+*/
 
 #include "../h/EulShell.h"
 #include <iostream>
@@ -21,9 +23,19 @@ int EulShell::execute()
         prompt();
         if(DEBUG_INPUT) { cout << endl << DEF_BUFF << endl; }
 
-    /* 1. Get input from the user.
-     * 2. Parse it.
-     * 3. Execute the command.
+    /* TODO
+     * v0.1.0 Get input from the user.
+     * v0.2.0 Parse it.
+     *.... v0.2.1 Tokeneize.
+     *.... v0.2.2 First Set.
+     *.... v0.2.3 Follow Set.
+     *.... v0.2.4 Parse Table.
+     *.... v0.2.5 Parse Algorithm.
+     * v0.3.0 Execute the command.
+     *.... v0.3.1 ls
+     *.... v0.3.2 pwd
+     *.... v0.3.3 read
+     *.... v0.3.4 cd
     */
 
     } while(false); // While input != Command.exit

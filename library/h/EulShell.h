@@ -4,7 +4,7 @@
  *
 \* EulShell - The application interface for EulShell.
  *
-\* This is
+\* This is shell is an implementation of the abstract Shell Class.
 */
 
 #ifndef _EULSHELL_H_
@@ -15,7 +15,7 @@
 class EulShell : public Shell
 {
 public:
-    // Constructs the shell and initalizes the shell.
+    // Constructs the shell and initializes the shell.
     EulShell(const std::string &n, const std::string &t)
     : Shell(n, t) { initialize(); }
 
@@ -26,7 +26,7 @@ public:
 
 private:
 /** Methods **/
-    // Sets up all the interal data for the shell.
+    // Sets up all the internal data for the shell.
     int initialize() override;
     // Prints the welcome info on the entry.
     // void welcome() override;

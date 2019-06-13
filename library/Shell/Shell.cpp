@@ -1,5 +1,7 @@
-// Shell.cpp
-// Nick S.
+/*
+ * Shell.cpp
+ * Nick S.
+*/
 
 #include "../h/Shell.h"
 #include <iostream>
