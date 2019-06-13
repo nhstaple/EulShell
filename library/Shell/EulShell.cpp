@@ -1,6 +1,6 @@
 /*
- * EulShell.cpp
- * Nick S.
+\* EulShell.cpp
+\* Nick S.
 */
 
 #include "../h/EulShell.h"
@@ -16,16 +16,19 @@ int EulShell::execute()
     // Welcome's the user to the shell.
     welcome();
 
-    // The main loop.
-    do
-    {
+    do{ // The main loop.
         // Prompt the user for input.
         prompt();
-        if(DEBUG_INPUT) { cout << endl << DEF_BUFF << endl; }
+        // Get the user's input.
+        string input = readInput();
+
+        if(DEBUG_INPUT) {
+            cout << DBG_BUFF << "Read:\n" << OUT_BUFF << input << endl\
+                 << DEF_BUFF << endl;
+        }
 
     /* TODO
-     * v0.1.0 Get input from the user.
-     * v0.2.0 Parse it.
+     * v0.2.0 Parse the user's input.
      *.... v0.2.1 Tokeneize.
      *.... v0.2.2 First Set.
      *.... v0.2.3 Follow Set.
@@ -43,7 +46,7 @@ int EulShell::execute()
     return exit();
 }
 
-/** TODO **/
+// TODO
 int EulShell::initialize()
 {
     Shell::initialize();
@@ -51,7 +54,7 @@ int EulShell::initialize()
     return EXIT_SUCCESS;
 }
 
-/** TODO **/
+// TODO
 int EulShell::unitiliaze()
 {
     Shell::unitiliaze();

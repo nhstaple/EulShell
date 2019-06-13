@@ -16,22 +16,16 @@ class EulShell : public Shell
 {
 public:
     // Constructs the shell and initializes the shell.
-    EulShell(const std::string &n, const std::string &t)
-    : Shell(n, t) { initialize(); }
+    EulShell(const std::string &name, const std::string &tok)
+    : Shell(name, tok) { initialize(); }
 
     // Runs the program infinitely until the user notifies an exit.
     int execute() override;
-    // Exits the shell.
-    // int exit() override;
 
 private:
-/** Methods **/
+// Methods
     // Sets up all the internal data for the shell.
     int initialize() override;
-    // Prints the welcome info on the entry.
-    // void welcome() override;
-    // Prints the prompt, ie token followed by the input.
-    // void prompt() override;
     // Frees all allocated data.
     int unitiliaze() override;
 

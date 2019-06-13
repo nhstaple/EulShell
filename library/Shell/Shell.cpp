@@ -1,6 +1,6 @@
 /*
- * Shell.cpp
- * Nick S.
+\* Shell.cpp
+\* Nick S.
 */
 
 #include "../h/Shell.h"
@@ -20,7 +20,7 @@ void Shell::prompt()
     cout << token;
 }
 
-/** TODO **/
+// TODO
 int Shell::exit()
 {
     cout << DBG_BUFF << "TODO: Shell::exit()\n";
@@ -31,16 +31,25 @@ int Shell::exit()
     return unitiliaze();
 }
 
-/** TODO **/
+// TODO
 int Shell::initialize()
 {
     cout << DBG_BUFF << "TODO: Shell::initialize()\n";
     return EXIT_SUCCESS;
 }
 
-/** TODO **/
+// TODO
 int Shell::unitiliaze()
 {
     cout << DBG_BUFF << "TODO: Shell::unitiliaze()\n";
     return EXIT_SUCCESS;
 }
+
+// New in v0.0.1
+string Shell::readInput()
+{
+    char buffer[MAX_CMD_LENGTH];
+    cin.getline(buffer, MAX_CMD_LENGTH);
+    return string(buffer);
+}
+// ..

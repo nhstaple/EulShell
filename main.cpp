@@ -5,8 +5,7 @@
  * Nick S.
  *
  * TODO
- * v0.1.0 Get input from the user.
- * v0.2.0 Parse it.
+ * v0.2.0 Parse user input.
  *.... v0.2.1 Tokeneize.
  *.... v0.2.2 First Set.
  *.... v0.2.3 Follow Set.

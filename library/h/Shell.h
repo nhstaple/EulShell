@@ -10,7 +10,8 @@
 #ifndef _SHELL_H_
 #define _SHELL_H_
 
-#include <string>
+#include "SystemFiles.h"
+
 using std::string;
 
 const bool DEBUG_INPUT = true;
@@ -19,8 +20,8 @@ class Shell
 {
 public:
     // Constructs the shell.
-    Shell(const string &n, const string &t)
-    : appName(n), token(t) { }
+    Shell(const string &name, const string &tok)
+    : appName(name), token(tok) { }
 
     // Runs the program infinitely until the user notifies an exit.
     virtual int execute() = 0;
@@ -28,7 +29,7 @@ public:
     virtual int exit();
 
 protected:
-/** Methods **/
+// Methods
     // Sets up all the internal data for the shell.
     virtual int initialize();
     // Prints the welcome info on the entry.
@@ -37,8 +38,12 @@ protected:
     virtual void prompt();
     // Unitiliaze.
     virtual int unitiliaze();
+// New in v0.0.1
+    // Gets raw input from the user, @this.MAX_CMD_LENGTH long.
+    string readInput();
+// ..
 
-/** Variables **/
+// Variables
     // The name of the shell.
     string appName;
     // The prompt printed before user input. For example, BASH.token = "$"
@@ -50,6 +55,10 @@ protected:
     const string OUT_BUFF = "< ";
     // Used to pad debugging statements.
     const string DBG_BUFF = "@ ";
+// New in v0.0.1
+    // The maximum amount of characters the user can enter, 128 bytes in size.
+    const int MAX_CMD_LENGTH = BYTE * 128;
+// ..
 };
 
 #endif // _SHELL_H_
