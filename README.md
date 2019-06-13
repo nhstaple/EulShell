@@ -15,3 +15,5 @@ The name comes from the Swiss mathemtician [**Leonhard Euler**](http://www-histo
 | **_theoretical computer science_** | [`DFA`](https://github.com/nhstaple/EulShell/wiki/DFA) |
 | **_programming languages_** | [`Parser`](https://github.com/nhstaple/EulShell/wiki/Parser) |
 | **_operating systems_** | [`EulShell`](https://github.com/nhstaple/EulShell/wiki/EulShell) |
+
+### [Link](https://github.com/nhstaple/EulShell/tree/develop) to development branch.
