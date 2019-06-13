@@ -10,7 +10,7 @@ The name comes from the Swiss mathemtician [**Leonhard Euler**](http://www-histo
 | Topic | Module |
 | :--:  | :--:   |
 | **_discrete mathematics_** | [`Project Euler`](https://github.com/nhstaple/EulShell/wiki/ProjectEuler) | 
-| **_data structures_** | [`Data Structures`]https://github.com/nhstaple/EulShell/wiki/DataStructures) |
+| **_data structures_** | [`Data Structures`](https://github.com/nhstaple/EulShell/wiki/DataStructures) |
 | **_theoretical computer science_** | [`DFA`](https://github.com/nhstaple/EulShell/wiki/DFA) |
 | **_programming languages_** | [`Parser`](https://github.com/nhstaple/EulShell/wiki/Parser) |
 | **_operating systems_** | [`EulShell`](https://github.com/nhstaple/EulShell/wiki/EulShell) |
