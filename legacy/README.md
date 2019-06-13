@@ -45,7 +45,3 @@ A.B.C
 ## Authors
 
 * [**Nick Stapleton**](https://nhstaple.github.io)
-
-## License
-
-Open to everyone.
