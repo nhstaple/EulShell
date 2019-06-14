@@ -45,11 +45,9 @@ int Shell::unitiliaze()
     return EXIT_SUCCESS;
 }
 
-// New in v0.0.1
 string Shell::readInput()
 {
     char buffer[MAX_CMD_LENGTH];
     cin.getline(buffer, MAX_CMD_LENGTH);
     return string(buffer);
 }
-// ..

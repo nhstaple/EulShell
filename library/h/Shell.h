@@ -55,10 +55,8 @@ protected:
     const string OUT_BUFF = "< ";
     // Used to pad debugging statements.
     const string DBG_BUFF = "@ ";
-// New in v0.0.1
     // The maximum amount of characters the user can enter, 128 bytes in size.
     const int MAX_CMD_LENGTH = BYTE * 128;
-// ..
 };
 
 #endif // _SHELL_H_

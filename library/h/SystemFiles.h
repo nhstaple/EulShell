@@ -7,7 +7,6 @@
 #ifndef _SYSTEMFILES_H_
 #define _SYSTEMFILES_H_
 
-// New in v0.0.1
 #include <string>
 using std::string;
 // Constants
@@ -15,7 +14,6 @@ using std::string;
 #define NIBBLE 4
 #define BYTE 8
 #define KILOBYTE 1024*BYTE
-// ..
 
 // Unix family of operating systems.
 #if (defined(__linux__) || (__unix__) || (__APPLE__))

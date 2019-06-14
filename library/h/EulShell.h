@@ -28,15 +28,6 @@ private:
     int initialize() override;
     // Frees all allocated data.
     int unitiliaze() override;
-
-/* Inherited variables
-protected:
-    string appName;
-    string token;
-    const string DEF_BUFF;
-    const string OUT_BUFF;
-    const string DBG_BUFF;
-*/
 };
 
 #endif // _EULSHELL_H_
